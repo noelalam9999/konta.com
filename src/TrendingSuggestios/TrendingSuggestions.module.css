@@ -1,0 +1,18 @@
+.font {
+    display: flex;
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+}
+
+.pic {
+    width: 180px;
+    height: 80px;
+    margin-left: 4px;
+    margin-right: 2.5rem;
+}
+
+.suggestions {
+    display: flex;
+    margin-top: 4rem;
+}
