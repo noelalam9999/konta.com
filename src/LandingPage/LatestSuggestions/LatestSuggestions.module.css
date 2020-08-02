@@ -1,0 +1,26 @@
+.font {
+    display: flex;
+    font-size: 2rem;
+    margin-left: 4px;
+    margin-right: 2.5rem;
+    font-weight: bold;
+    color: black;
+    align-items: center;
+    justify-content: center;
+}
+
+.pic {
+    width: 180px;
+    height: 80px;
+    margin-left: 4px;
+    margin-right: 2.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.suggestions {
+    display: flex;
+    margin-top: 4rem;
+    align-items: center;
+    justify-content: center;
+}

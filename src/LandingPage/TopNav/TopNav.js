@@ -15,24 +15,25 @@ export function TopNav() {
     return(
        
 
-            <Row className="styles.ml-auto">
+            // <Row className="ml-auto">
 
 
         
             <Nav>
-            <Navbar>
-            <span> &nbsp;|&nbsp; </span>
+            <Navbar   className={styles['top-nav']} >
+           
             <NavLink className = "d-inline p-2 bg-dark text-white" to="/">
             Home
             </NavLink>
             
-            <span> &nbsp;|&nbsp; </span>
+            
 
             {!isAuthenticated && (
               <>
                 <Button
                   //className="auth-button"
-                  variant="primary" size="lg"
+                  className={styles.right}
+                  variant="primary" 
                   onClick={() => loginWithRedirect({})}
                 >
                   Log in
@@ -42,18 +43,18 @@ export function TopNav() {
 
             {isAuthenticated && (
               <>
-               <NavLink className = "d-inline p-2 bg-dark text-white" to="/product_upload">
+               <NavLink className={styles.left} to="/product_upload">
             Post a new product
             </NavLink>
-                <span> &nbsp;|&nbsp; </span>
-                <span className="anchor">
+                
+                <span className={styles.left}>
                   user :
-                  <Link className="anchor" to={"/user/" + user.sub}>
+                  <Link className={styles.left} to={"/user/" + user.sub}>
                     {user.nickname}
                   </Link>
                 </span>
-                <span> &nbsp;|&nbsp; </span>
-                <Button variant="danger" onClick={() => logout()}>
+                
+                <Button className={styles.right} variant="danger" onClick={() => logout()}>
                   Log out
                 </Button>
               </>
@@ -62,7 +63,7 @@ export function TopNav() {
               </Nav>
           
        
-          </Row>
+          // </Row>
 
              
     );

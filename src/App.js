@@ -1,14 +1,15 @@
 import React from 'react';
 import { LandingPage } from './LandingPage/LandingPage';
 import "./App.css";
-import { TopNav } from './LandingPage/TopNav/TopNav';
+
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient, HttpLink, InMemoryCache } from "apollo-boost";
 import { setContext } from "apollo-link-context";
 import Form from "./Products/Product_upload";
 import Switch from 'react-bootstrap/esm/Switch';
 import { Route, BrowserRouter } from 'react-router-dom';
-
+import PostList from "./Products/Product_list"
+import {Search} from './Search/Search';
 
 function App() {
   const httpLink = new HttpLink({
@@ -23,11 +24,12 @@ function App() {
   return (
     <BrowserRouter>
     <ApolloProvider client={client}>
-          <TopNav/>
+        
            <Switch>
              <Route exact path='/' component={LandingPage}/>
-<Route  path='/product_upload' component={Form} />
-
+<Route exact path='/product_upload' component={Form} />
+<Route exact path='/products' component={PostList} />
+<Route path='/search' component={Search}/>
 
 </Switch>
            

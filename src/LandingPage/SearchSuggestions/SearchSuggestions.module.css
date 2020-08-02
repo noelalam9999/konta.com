@@ -1,10 +1,14 @@
 .suggestions {
     display: flex;
     margin-top: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
 }
 
 .suggestion {
     font-size: .75rem;
     margin-left: 4px;
     margin-right: 2.5rem;
+    color: white;
+    font: inherit;
 }

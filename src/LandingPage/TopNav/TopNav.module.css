@@ -12,16 +12,19 @@
 
 .left > * {
     margin-right: var(--element-spacing);
+    font-weight: bold;
+    color: black;
 }
 
 .right {
     display: flex;
     align-items: center;
+    font-weight: bold;
+    color: black;
 }
-
 .right > * {
     margin-left: var(--element-spacing);
 }
 .ml-auto{
-
+text-align: right;
 }
