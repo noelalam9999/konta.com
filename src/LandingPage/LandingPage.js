@@ -4,7 +4,7 @@ import logo from '../assets/logo.png';
 import styles from './LandingPage.module.css';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { SearchSuggestions } from './SearchSuggestions/SearchSuggestions';
-import { TrendingSuggestions } from '../TrendingSuggestios/TrendingSuggestions';
+import { TrendingSuggestions } from './TrendingSuggestios/TrendingSuggestions';
 import Switch from 'react-bootstrap/esm/Switch';
 import { Route } from 'react-router-dom';
 import Form from '../Products/Product_upload';
