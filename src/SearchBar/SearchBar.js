@@ -1,48 +1,59 @@
 import React, {useState}  from 'react';
 import styles from './SearchBar.module.css';
+import {setInputVal} from '../Search/Search';
+import {search} from '../Search/Search';
+import { Link } from 'react-router-dom';
 
-export function SearchBar(props) {
-    const [term, setTerm] = useState(props.term || '');
-    const [location, setLocation] = useState(props.location || '');
+export const SearchBar = ({inputVal, onChange, onSubmit}) => {
+    // const [term, setTerm] = useState(props.term || '');
+    // const [location, setLocation] = useState(props.location || '');
+   
+   
+   
+   
+    // function submit(e) {
+    //     if(typeof props.search === 'function') {
+    //         props.search(term, location);
+    //     }
+    //     console.log(term, location);
+    //     e.preventDefault();
+    // }
     
-    function submit(e) {
-        if(typeof props.search === 'function') {
-            props.search(term, location);
-        }
-        console.log(term, location);
-        e.preventDefault();
-    }
-    
-        const sizeClass = props.small ? '' : 'is-medium';
+       //const sizeClass = props.small ? '' : 'is-medium';
         return(
-            <form onSubmit={submit}>
+            <form onSubmit={onSubmit}>
                 <div className="field has-addons">
                     <p className="control">
-                        <button className={`button is-static ${sizeClass}`}>Search</button>
+                        <button className={`button is-static `}>Search</button>
                     </p>
                     <p className="control">
-                        <input className={`input ${sizeClass} ${styles['input-control']}`} 
-                            onChange={(e) => setTerm(e.target.value)}
+                        <input className={`input ${styles['input-control']}`} 
+                             value={inputVal}
+                            onChange={onChange}
                             type="text" 
-                            value={term}
+                            //onSubmit={() => search({ variables: { match: `%${inputVal}%` } })}
                             placeholder="barbers, spas, handymen"
                         />
                     </p>
                     <div className="control">
-                        <div className={`button is-static ${sizeClass}`}>NEAR</div>
+                        <div className={`button is-static`}>NEAR</div>
                     </div>
                     <p className="control">
-                        <input className={`input ${sizeClass} ${styles['input-control']}`} 
-                            onChange={(e) => setLocation(e.target.value)}
+                        <input className={`input ${styles['input-control']}`} 
+                            
                             type="text" 
-                            value={location}
+                            
                             placeholder="Where"
                         />
                     </p>
-                    <div className={`button ${sizeClass} ${styles['search-button']}`} onClick={submit}>
+                    <Link to="/search">
+                    <div className={`button  ${styles['search-button']}`} to="/search" onClick={onSubmit}>
                         <span className={`icon is-small ${styles['search-icon']}`}><i className="fas fa-search"></i></span>
                     </div>
+                    </Link>
                 </div>
             </form>
         );
     }
+
+    export default SearchBar;

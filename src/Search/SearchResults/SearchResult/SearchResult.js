@@ -73,7 +73,7 @@ export function SearchResult(props) {
         <div className={styles['search-result']}>
             <img src='http://via.placeholder.com/210' alt='business' className={styles['business-image']}/>
             <div className={styles['business-info']}>
-                <h2 className="subtitle">{props.post.description}</h2>
+                <h2 className="subtitle">{props.post.Description}</h2>
                 <BusinessRating/>
                 <p>$$ <span className="tag">Burgers</span> <span className="tag">{props.post.user.name}</span></p>
             </div>

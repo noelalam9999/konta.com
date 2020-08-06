@@ -7,7 +7,7 @@ export function BrowseContent() {
              <div className={styles['browseContent']}>
                     <div>
                         <button className={`button ${styles['browseContect-button']} ${styles['omit-right-border']}`}>
-                        <span class="icon is-medium"><i className="fas fa-shopping-bag"/></span>
+                        <span className="icon is-medium"><i className="fas fa-shopping-bag"/></span>
                             <span>SHOPPING</span>
                         </button>
                         <button className={`button ${styles['browseContect-button']} ${styles['omit-right-border']}`}>

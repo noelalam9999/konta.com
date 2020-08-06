@@ -7,39 +7,49 @@ import { withApollo } from "@apollo/react-hoc";
 import Post from "./SearchResult/SearchResult";
 import { SearchResult } from './SearchResult/SearchResult';
 
-export const POSTS_LIST = gql`
-  {
-    post(order_by: { created_at: desc }) {
-      id
-      created_at
-      url
-      description
-      user {
-        id
-        name
-      }
+// export const POSTS_LIST = gql`
+//   {
+//       products(order_by: { created_at: desc }) {
+//       Product_id
+//       created_at
+      
+      
+//       Description
+//       user {
+//         id
+//         name
+//       }
      
-    }
-  }
-`;
+//     }
+//   }
+// `;
 
-export function SearchResults() {
-    const { loading, error, data } = useQuery(POSTS_LIST);
+export const SearchResults = ({newProducts}) => {
+  //  const { loading, error, data } = useQuery(POSTS_LIST);
   
-    if (loading) return "Loading...";
-    if (error) return `Error! ${error.message}`;
+    // if (loading) return "Loading...";
+    // if (error) return `Error! ${error.message}`;
+  // console.log(newProducts);
   
-    return (
+    
+
+  
+  
+  
+  
+  
+  return (
       <Container className="postlist">
         <ol>
-          {data.post.map((post, index) => (
+          {newProducts.map((post, index) => (
             <SearchResult key={index} post={post} />
           ))}
         </ol>
       </Container>
     );
-  }
-
+  
+  
+  }  
   export default  withApollo(SearchResults);
 
 

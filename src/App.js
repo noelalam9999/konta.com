@@ -29,7 +29,7 @@ function App() {
              <Route exact path='/' component={LandingPage}/>
 <Route exact path='/product_upload' component={Form} />
 <Route exact path='/products' component={PostList} />
-<Route path='/search' component={Search}/>
+<Route exact path='/search' component={Search}/>
 
 </Switch>
            
