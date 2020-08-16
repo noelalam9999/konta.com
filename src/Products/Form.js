@@ -1,20 +1,33 @@
 import styled from "@emotion/styled";
 
-export const Input = styled.input`
-  height: calc(1.5em + 1rem + 2px);
+export const Input_title = styled.input`
+  height: calc(0.5em + 1rem + 2px);
   padding: 0.5rem 1rem;
-  margin: 2rem 0;
-  font-size: 2.4rem;
+  margin: 1rem 0;
+  font-size: 1rem;
   line-height: 1.5;
   border-radius: 0.3rem;
   display: block;
-  width: 100%;
+  width: 70%;
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
 `;
-
+export const Input_price = styled.input`
+  height: calc(0.5em + 1rem + 2px);
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+  display: block;
+  width: 40%;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+`;
 export const Button = styled.button`
   color: #fff;
   background-color: #007bff;
@@ -26,7 +39,7 @@ export const Button = styled.button`
   padding: 0.5rem 1rem;
   font-size: 2rem;
   line-height: 1.5;
-  height: calc(1.5em + 1rem + 8px);
+  height: calc(1.5em + 1rem + 0px);
   border-radius: 0.25rem;
   user-select: none;
   &:hover {
@@ -38,4 +51,21 @@ export const Button = styled.button`
     background-color: #0062cc;
     border-color: #005cbf;
   }
+`;
+export const TextArea = styled.textarea`
+  height: calc(4em + 4rem + 2px);
+  padding: 0.5rem 1rem;
+  margin: 2rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+  display: block;
+  width: 100%;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+`;
+export const Label = styled.label`
+  font-size: 3rem;
 `;

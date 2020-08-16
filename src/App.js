@@ -5,7 +5,7 @@ import "./App.css";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient, HttpLink, InMemoryCache } from "apollo-boost";
 import { setContext } from "apollo-link-context";
-import Form from "./Products/Product_upload";
+import Form, { Product_upload } from "./Products/Product_upload";
 import Switch from 'react-bootstrap/esm/Switch';
 import { Route, BrowserRouter } from 'react-router-dom';
 import PostList from "./Products/Product_list"
@@ -27,7 +27,7 @@ function App() {
         
            <Switch>
              <Route exact path='/' component={LandingPage}/>
-<Route exact path='/product_upload' component={Form} />
+<Route exact path='/product_upload' component={Product_upload} />
 <Route exact path='/products' component={PostList} />
 <Route path='/search' component={Search}/>
 
