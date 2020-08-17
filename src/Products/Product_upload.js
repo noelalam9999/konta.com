@@ -17,6 +17,14 @@ const Continents = [
     { key: 6, value: "Rajshahi" },
     { key: 7, value: "Rangpur" }
 ]
+
+const ADD_REVIEW = gql`
+  mutation($body: String!, $id: uuid!) {
+    AddFearlessReview(body: $body, id: $id) {
+      affected_rows
+    }
+  }
+`;
 export function Product_upload(props){
 
     // const [Images, setImages] = useState([])
@@ -105,12 +113,14 @@ export function Product_upload(props){
                 {/* <FileUpload refreshFunction={updateImages} /> */}
                 <div style={{display:'flex', alignItems: 'center' }}>
                 {/* <FontAwesomeIcon icon="plus-circle" style={{fontSize: "5rem"}} onClick={uploadImage}/> */}
-                <span> <input style={{}}
+                <span> 
+                    <input style={{}}
                     type="file"
                     name="file"
                     placeholder="Upload an image"
                     onChange={uploadImage}
-                /></span>
+                />
+                </span>
                 {loading ? (
                     <h3>Loading...</h3>
                 ) : (
