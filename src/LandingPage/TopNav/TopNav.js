@@ -8,6 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { NavLink,Link } from "react-router-dom";
 
 
+
 export function TopNav() {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
  
@@ -26,8 +27,6 @@ export function TopNav() {
             Home
             </NavLink>
             
-            
-
             {!isAuthenticated && (
               <>
                 <Button
@@ -46,12 +45,14 @@ export function TopNav() {
                <NavLink className={styles.left} to="/product_upload">
             Post a new product
             </NavLink>
-                
                 <span className={styles.left}>
                   user :
-                  <Link className={styles.left} to={"/user/" + user.sub}>
+                  {/* <Link className={styles.left} exact to={"/User/" + user.sub} >
                     {user.nickname}
-                  </Link>
+                  </Link>  */}
+                  <Link className={styles.left} to="/User/userprofile" >
+                    {user.nickname}
+                  </Link> 
                 </span>
                 
                 <Button className={styles.right} variant="danger" onClick={() => logout()}>
