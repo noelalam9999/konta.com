@@ -6,7 +6,7 @@ import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import FileUpload from './Fileupload'
 import Axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Continents = [
     { key: 1, value: "Dhaka" },
