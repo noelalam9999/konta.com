@@ -60,7 +60,7 @@ function FileUpload(props) {
                         {console.log('getRootProps', { ...getRootProps() })}
                         {console.log('getInputProps', { ...getInputProps() })}
                         <input {...getInputProps()} />
-                        <FontAwesomeIcon icon="plus-circle" style={{fontSize: "5rem"}} />
+                        {/* <FontAwesomeIcon icon="plus-circle" style={{fontSize: "5rem"}} /> */}
 
                     </div>
                 )}

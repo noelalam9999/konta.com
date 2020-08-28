@@ -52,10 +52,37 @@ export const Button = styled.button`
     border-color: #005cbf;
   }
 `;
+//E50000
+//C40000
+//B40000
+export const ReviewPostButton = styled.button`
+  color: #fff;
+  background-color: #E50000;
+  border-color: #E50000;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  height: calc(1.5em + 1.0rem + 0px);
+  border-radius: 0.25rem;
+  user-select: none;
+  &:hover {
+    cursor: pointer;
+    background-color: #C40000;
+    border-color: #C40000;
+  }
+  &:active {
+    background-color: #B40000;
+    border-color: #B40000;
+  }
+`;
 export const TextArea = styled.textarea`
   height: calc(4em + 4rem + 2px);
   padding: 0.5rem 1rem;
-  margin: 2rem 0;
+  margin: .5rem 0;
   font-size: 1rem;
   line-height: 1.5;
   border-radius: 0.3rem;

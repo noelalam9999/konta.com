@@ -8,10 +8,13 @@ import { setContext } from "apollo-link-context";
 import Product_upload from "./Products/Product_upload";
 import Switch from 'react-bootstrap/esm/Switch';
 import { Route, BrowserRouter } from 'react-router-dom';
-import PostList from "./Products/Product_list"
+import PostList from "./Products/Product_list";
+import product from "./Products/product";
 import {Search} from './Search/Search';
 import userprofile from './User/userprofile';
-
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {faStar} from '@fortawesome/free-solid-svg-icons';
+library.add(faStar);
 
 function App() {
   const httpLink = new HttpLink({
@@ -34,6 +37,7 @@ function App() {
               <Route exact path='/products' component={PostList} />
               <Route path='/search' component={Search}/>
               <Route path='/User/userprofile' component={userprofile}/>
+              <Route path='/Products/product' component={product}/>
 
             </Switch>
            
