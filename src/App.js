@@ -13,8 +13,8 @@ import product from "./Products/product";
 import {Search} from './Search/Search';
 import userprofile from './User/userprofile';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import {faStar} from '@fortawesome/free-solid-svg-icons';
-library.add(faStar);
+import {faStar, faHeart} from '@fortawesome/free-solid-svg-icons';
+library.add(faStar,faHeart);
 
 function App() {
   const httpLink = new HttpLink({

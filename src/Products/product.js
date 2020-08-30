@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { TopNav } from '../LandingPage/TopNav/TopNav';
 import { SubNav } from '../NavBar/SubNav/SubNav';
 import { SearchBar } from '../SearchBar/SearchBar';
-import { SubNavItem } from '../NavBar/SubNav/SubNavItem/SubNavItem';
 import styles1 from './product.module.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {ReviewPostButton,TextArea} from './Form';
 import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
+import LikeButtonDemo from "./reactButton";  
+import StarRatingDemo from "./starRating";       
+
+
 
 export function product() {
 return (
@@ -25,7 +28,7 @@ return (
             <div className={styles1.styleinfo_productinfo}>
                 <ul className={styles1.styleinfo_productname}>Bi-Rite Creamery </ul>
                 <ul className={styles1.styleinfo_productlocation}>205/1 Manhattan, New York, NY </ul>
-                <ul className={styles1.styleinfo_productrating}><FontAwesomeIcon icon="star" color='orange' /></ul> 
+                <ul><StarRatingDemo/></ul> 
                 <ul className={styles1.styleinfo_producttime}> Open 10:00 AM-10:00 PM </ul>
             </div> 
             <div className={styles1.styleinfo_productinfo2}>
@@ -63,6 +66,7 @@ return (
                         </div>
                     </div>
                     <div className={styles1.userReviewBox}>
+                        <ul><StarRatingDemo/></ul>
                         <ul className={styles1.reviewDate}>7/7/2020</ul>
                         <ul> Seriously the BEST ice cream- even better than Salt & Straw, and I LOVE all the "adult" flavors, 
                             like Honey Lavender and Balsamic Strawberry. A little hack for you- if you were in it for the tastings,
@@ -70,6 +74,7 @@ return (
                             the street to the Bi-Rite grocery and get that pint for cheaper.  Don't forget your spoon, and go eat it 
                             while hanging out in Dolores Park- socially-distanced, of course!
                         </ul>
+                        <div><LikeButtonDemo/></div>
                     </div>
                 </div>
                 <div className={styles1.ReviewBox}>
@@ -83,13 +88,15 @@ return (
                         </div>
                     </div>
                     <div className={styles1.userReviewBox}>
-                        <ul className={styles1.reviewDate}>28/6/2020</ul>
+                            <ul><StarRatingDemo/></ul>
+                            <ul className={styles1.reviewDate}>28/6/2020</ul>
                         <ul> 
                             HANDS DOWN BEST ICE CREAM IN THE CITY-- really my boyfriend and I came here for the second time after 
                             our little picnic at Mission Dolores Park. The first time we came here before COVID-19, we were able to 
                             try samples and we enjoyed every flavor that we sampled. The second time we went, they do only allow 4 people 
                             in the store at a time and they do have outdoor seating for customers to enjoy their sweet treats. 
                         </ul>
+                        <div><LikeButtonDemo/></div>
                     </div>
                 </div>                
             </div>
@@ -105,6 +112,9 @@ return (
                         </div>
                         <div className={styles1.reviewerDetail}>
                             <ul>White Canary</ul>
+                            <div>
+                                <ul><StarRatingDemo/></ul>
+                            </div>
                         </div>        
                     </div>
                 </div>
@@ -115,6 +125,9 @@ return (
                         </div>
                         <div className={styles1.reviewerDetail}>
                             <ul>Cheese Cake Factory</ul>
+                            <div>
+                                <ul><StarRatingDemo/></ul>
+                            </div>
                         </div>        
                     </div>
                 </div>
