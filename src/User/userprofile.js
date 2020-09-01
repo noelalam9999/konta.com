@@ -4,32 +4,81 @@ import { SubNav } from '../NavBar/SubNav/SubNav';
 import { SearchBar } from '../SearchBar/SearchBar';
 //import { NavBar } from '../NavBar/NavBar';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useLazyQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/react-hooks";
 import stylos from './userprofile.module.css';
 import { NavLink,Link } from "react-router-dom";
 import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import { SubNavItem } from '../NavBar/SubNav/SubNavItem/SubNavItem';
+import { Container, Row, Col, Button } from "react-bootstrap";
 
-export function userprofile() {
-     //const { isAuthenticated, user } = useAuth0();
+const GET_USER = gql`
+query MyQuery($id: String) {
+  user(where: {id: {_eq: $id}}) {
+    name
+    location
+  }
+}
+`;
+
+function Userprofile(props){
+     const { isAuthenticated, user } = useAuth0();
+     const isLoggedUser = () => {
+      if (user.sub === props.match.params.id) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    const { loading, error, data } = useQuery(GET_USER, {
+      variables: { id: props.match.params.id}
+    });
+     if (loading) return "Loading...";
+     if (error) return `Error! ${error.message}`;
+    
       return(
+
+       
+
         <>
-        <div style={{ display: 'flex', displayDirection: 'row', maxWidth: '1800px', paddingLeft: '300px', paddingTop:'40px' }}>
-          <SearchBar/><TopNav/>
-        </div>
-        <SubNav/>
+       
+          <TopNav/>
+        
+        
+
         <br/>
+        
+        {!isAuthenticated && (
+              <div>Please signin to see this page</div>
+            )}
+
+{isAuthenticated && (  
+ 
+
+<>
+
         <div style={{backgroundColor: '#F5F5F5', height: '250px'}}>
+       
           <div style={{display: 'flex', displayDirection: 'row', maxWidth: '1800px', paddingLeft: '300px'}}>
 
             <img src="" className={stylos.userImage}/>
-
+            
             <div className={stylos.styleinfo_userinfo}>
-              <ul className={stylos.styleinfo_username}>Fahim Fayaz </ul>
-              <ul className={stylos.styleinfo_userlocation}>Manhattan, New York, NY </ul>
-              <ul className={stylos.styleinfo_usercred}>20 Review 10 Photo </ul>
-            </div>
+           
 
+            <div >
+      <ul    className={stylos.styleinfo_username}>{user.nickname}</ul>
+      
+      {data.user.map((user,index)=>(
+      
+<ul key={index}  className={stylos.styleinfo_userlocation}>{user.location}</ul>
+        ))} 
+             <ul className={stylos.styleinfo_usercred}>20 Review 10 Photo </ul>
+             </div>
+            
+            </div>
+         
             <div className={stylos.info_update}>
               <div style={{display: 'flex', flexDirection: 'row'}}>
                 <Link>
@@ -44,14 +93,15 @@ export function userprofile() {
                 </Link>
               </div>
             </div>
-            
+           
           </div>
+           
         </div>
-
+     
         <div className={stylos.super_container}>
 
           <div className={stylos.nav_menu_sidebar}>
-            <div className={stylos.menu_header}>Fahim's Profile</div>
+            <div className={stylos.menu_header}>Noel's Profile</div>
           <ul className={stylos.menu_itemlist}>
             <li className={stylos.menuitem}>Profile Overview</li>
             <li className={stylos.menuitem}>Reviews</li>
@@ -73,9 +123,11 @@ export function userprofile() {
           <div className={stylos.aboutuser_panel}>
             
             <div className={stylos.aboutuser_container}>
-              <div className={stylos.about_header}>About Fahim Fayaz</div>
+              <div className={stylos.about_header}>About Noel Alam</div>
               <ul className={stylos.aboutdetail_header}> Location
-                <li className={stylos.aboutdetail_style}>Manhattan</li>
+              {data.user.map((user,index)=>(
+      <li className={stylos.aboutdetail_style}>{user.location}</li>
+      ))} 
               </ul>  
               <ul className={stylos.aboutdetail_header}> User Since
                 <li className={stylos.aboutdetail_style}>September, 2019</li>
@@ -95,9 +147,10 @@ export function userprofile() {
             </div>
 
           </div>
-
+         
         </div>
-
+        
+        </>)}
         <div className={styles.landing3}>
                         <div className={styles['font']}>
                             <p>Browse By Content</p>
@@ -113,13 +166,10 @@ export function userprofile() {
                             <p>Footer</p>
                         </div>
         </div>
-
-        {/* {isAuthenticated && (
-              <>
-               <h1> {user.nickname}'s profile </h1>
-              </>
-            )} */}
+        
+        
         </>
-      );
+        
+        );
   }
-  export default userprofile
+  export default Userprofile;

@@ -9,35 +9,46 @@ import { SearchResult } from './SearchResult/SearchResult';
 
 export const POSTS_LIST = gql`
   {
-    post(order_by: { created_at: desc }) {
-      id
-      created_at
-      url
-      description
+    products(order_by: { Name:asc }) {
+      Name
+      Description
       user {
         id
-        name
+        
       }
      
     }
   }
 `;
 
-export function SearchResults() {
+export const SearchResults = ({newProducts}) => {
     const { loading, error, data } = useQuery(POSTS_LIST);
   
     if (loading) return "Loading...";
     if (error) return `Error! ${error.message}`;
-  
+    if (newProducts!=null){
     return (
       <Container className="postlist">
         <ol>
-          {data.post.map((post, index) => (
-            <SearchResult key={index} post={post} />
+          {newProducts.map(({Name, Description,user_id}) => (
+            <SearchResult Name={Name} Description={Description} user_id ={user_id} />
           ))}
         </ol>
       </Container>
-    );
+    );}
+    else 
+    {
+      return (
+        <Container className="postlist">
+          <ol>
+            {data.products.map(({Name, Description,user_id}) => (
+              <SearchResult Name={Name} Description={Description} user_id ={user_id} />
+            ))}
+          </ol>
+        </Container>
+      );
+    }
+
   }
 
   export default  withApollo(SearchResults);

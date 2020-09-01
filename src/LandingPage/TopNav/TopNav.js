@@ -50,7 +50,7 @@ export function TopNav() {
                   {/* <Link className={styles.left} exact to={"/User/" + user.sub} >
                     {user.nickname}
                   </Link>  */}
-                  <Link className={styles.left} to="/User/userprofile" >
+                  <Link className={styles.left} to={"/user/" + user.sub} >
                     {user.nickname}
                   </Link> 
                 </span>
