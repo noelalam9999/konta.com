@@ -1,0 +1,165 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  .header {
+    justify-self: center;
+  }
+  .userImage {
+    width: 400px; 
+    height:300px; 
+    border-radius: .3rem;
+  }
+  .productInfoContainer{
+    padding-top: 40px;
+    height: 330px;
+  }
+  .styleinfo_productinfo {
+    margin-top: 20px;
+    margin-left: 40px;
+    width: 30%;
+  }
+  .styleinfo_productname {
+    font-size: 50px;
+    color: #000000;
+    font-weight: bold;
+  }
+  .styleinfo_productlocation {
+    font-size: larger;
+    color: rgb(0, 0, 0);
+  }
+  .styleinfo_productrating {
+    font-size: larger;
+    width: 20%;
+    height: 20%;
+    color: rgb(0, 0, 0);
+  }
+  .styleinfo_producttime {
+    font-size: large;
+    color: black;
+  }
+  .styleinfo_productinfo2{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    margin-left: 40px;
+    border-left-style: ridge;
+    border-left-width: 0.01rem;
+    border-left-color: rgb(207, 202, 202);
+  }
+  .menu_itemlist{
+    padding-left: 40px;
+  }
+  .menuitem {
+    font-family: sans-serif;
+    font-size: 15px;
+    color: navy;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+  }
+  .menuitem:hover {
+    color: lightblue;
+  }
+  .productInfoContainer2{
+    padding-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 1400px;
+
+  }
+  .reviewPostBox{
+    margin-left: 300px;
+    padding-top: 40px;
+    padding-right: 40px;
+    height: 100%;
+    width: 100%;
+  }
+  .boxTitle{
+    font-weight: bold;
+    font-size: 20px;
+    color: rgb(0, 0, 0); 
+  }
+  .PostBox{
+    padding-bottom: 80px;
+    margin-bottom:40px;
+    height: 250px;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+  }
+  .reviewPanel{
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .ReviewBox{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    display: flex;
+    flex-direction: row;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+  }
+  .reviewerDetailBox{
+    width: 250px;
+  }
+  .userReviewBox{
+    width: 420px;
+  }
+  .reviewerDetailBox{
+    padding-left: 20px;
+    display: flex;
+    flex-direction: row;
+  }
+  .reviewerImage{
+    width : 60px;
+  }
+  .userImageSmall {
+    width: 60px; 
+    height:60px; 
+    border-radius: .3rem;
+  }
+  .reviewerDetail{
+    width: auto;
+    padding-left: 15px;
+  }
+  .suggestionContainer{
+    margin-right: 200px;
+    padding-top: 40px;
+    padding-left: 60px;
+    height :100%;
+    width: 100%;
+  }
+  .productSuggestionBox{
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    padding-right: 20px;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+  }
+  .SuggestionDetailBox{
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+  }
+  .sugg_starRatingbox{
+    width: 50%;
+    height: 10%;
+  }

@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { POSTS_LIST } from "./Product_list";
 import { useAuth0 } from "@auth0/auth0-react";
 
+
 const UPVOTE_POST = gql`
   mutation($postId: Int!, $userId: String!) {
     insert_point(objects: [{ post_id: $postId, user_id: $userId }]) {

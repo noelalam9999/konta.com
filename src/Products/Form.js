@@ -69,3 +69,27 @@ export const TextArea = styled.textarea`
 export const Label = styled.label`
   font-size: 3rem;
 `;
+export const ReviewPostButton = styled.button`
+  color: #fff;
+  background-color: #E50000;
+  border-color: #E50000;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  height: calc(1.5em + 1.0rem + 0px);
+  border-radius: 0.25rem;
+  user-select: none;
+  &:hover {
+    cursor: pointer;
+    background-color: #C40000;
+    border-color: #C40000;
+  }
+  &:active {
+    background-color: #B40000;
+    border-color: #B40000;
+  }
+`;

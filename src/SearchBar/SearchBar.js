@@ -1,5 +1,6 @@
 import React, {useState}  from 'react';
 import styles from './SearchBar.module.css';
+import { NavLink,Link } from "react-router-dom";
 
 export const SearchBar = ({inputVal, onChange, onSubmit}) => {
     // const [term, setTerm] = useState(props.term || '');
@@ -14,6 +15,7 @@ export const SearchBar = ({inputVal, onChange, onSubmit}) => {
     // }
     
         // const sizeClass = props.small ? '' : 'is-medium';
+      
         var searchPlaceholder = "barbers,spa,handymen";
         if({inputVal}!=null){
 
@@ -39,15 +41,15 @@ export const SearchBar = ({inputVal, onChange, onSubmit}) => {
                     </div>
                     <p className="control">
                         <input className={`input  ${styles['input-control']}`} 
-                            onChange={onChange}
-                            type="text" 
-                            value={inputVal}
+                           
                             placeholder="Where"
                         />
                     </p>
-                    <div className={`button  ${styles['search-button']}`} type="submit" onClick={onSubmit}>
+                    <Link to="/search">
+                    <div to="/search" className={`button  ${styles['search-button']}`} type="submit" onClick={onSubmit}>
                         <span className={`icon is-small ${styles['search-icon']}`}><i className="fas fa-search"></i></span>
                     </div>
+                    </Link>
                 </div>
             </form>
         );

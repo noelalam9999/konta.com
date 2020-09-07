@@ -36,7 +36,8 @@ export function Search() {
 
     return (
         <div>
-            <NavBar inputVal={inputVal}
+            <NavBar 
+            inputVal={inputVal}
             onChange = {(e) => setInputVal(e.target.value)}
             onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}
             />

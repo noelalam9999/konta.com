@@ -5,14 +5,33 @@ import styles from './LandingPage.module.css';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { SearchSuggestions } from './SearchSuggestions/SearchSuggestions';
 import { TrendingSuggestions } from './TrendingSuggestios/TrendingSuggestions';
-import Switch from 'react-bootstrap/esm/Switch';
-import { Route } from 'react-router-dom';
-import Form from '../Products/Product_upload';
+import  { useState } from 'react';
+import { useLazyQuery, gql } from "@apollo/client";
+
 import { LatestSuggestions } from './LatestSuggestions/LatestSuggestions';
 import { BrowseContent } from './BrowseContent/BrowseContent';
 
 
+const SEARCH = gql`
+query Search($match: String) {
+    products(order_by:{Name:asc}, where : {Name:{_ilike: $match}}) {
+      Name
+      Description
+      user {
+        id
+      }
+    }
+  }
+  
+`;
+
 export function LandingPage(){
+    const [inputVal, setInputVal] = useState("");
+    const [Search, { loading, error, data }] = useLazyQuery(SEARCH);
+
+
+    if (loading) return <p>Loading ...</p>;
+    if (error) return <p>Error :(</p>;
     return(
         <div className={styles.landing1}>
             
@@ -20,7 +39,11 @@ export function LandingPage(){
             <div className={styles['search-area']}>
             
             <img src={logo} className={styles.logo} alt='logo'/>
-            <SearchBar/>
+            <SearchBar 
+            
+            inputVal={inputVal}
+            onChange = {(e) => setInputVal(e.target.value)}
+            onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
             <SearchSuggestions/>
             
             <span className={styles.font1} >Find the Best Businesses in Town</span>

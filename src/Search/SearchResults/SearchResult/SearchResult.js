@@ -73,7 +73,9 @@ export const SearchResult = ({Name, Description, user_id}) => {
         <div className={styles['search-result']}>
             <img src='http://via.placeholder.com/210' alt='business' className={styles['business-image']}/>
             <div className={styles['business-info']}>
-                <h2 className="subtitle">{Name}</h2>
+                <Link to="/product">
+                <h2  className="subtitle">{Name}</h2>
+                </Link>
                 <BusinessRating/>
                 <p>$$ <span className="tag">{Description}</span> <span className="tag">{user_id}</span></p>
             </div>

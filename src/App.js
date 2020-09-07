@@ -11,6 +11,12 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import PostList from "./Products/Product_list"
 import {Search} from './Search/Search';
 import Userprofile from './User/userprofile';
+import {product} from "./Products/product"
+import {Admin} from "./Admin/admin"
+import {Admin_moderators} from "./Admin/admin_moderators"
+import {Admin_product} from "./Admin/admin_product"
+import {Admin_users} from "./Admin/admin_users"
+import {Admin_permissions} from "./Admin/admin_permissions"
 
 
 function App() {
@@ -28,15 +34,21 @@ function App() {
     <BrowserRouter>
     <ApolloProvider client={client}>
         
-           <Switch>
+          <Switch>
 
               <Route exact path='/' component={LandingPage}/>
               <Route exact path='/product_upload' component={Product_upload} />
               <Route exact path='/products' component={PostList} />
               <Route path='/search' component={Search}/>
               <Route path={'/user/:id'} component={Userprofile}/>
-
-            </Switch>
+              <Route path='/product' component={product}/>
+              <Route path='/admin' component={Admin}/>
+              <Route path='/admin_moderators' component={Admin_moderators}/>
+              <Route path='/admin_product' component={Admin_product}/>
+              <Route path='/admin_users' component={Admin_users}/>
+              <Route path='/admin_permissions' component={Admin_permissions}/>
+              
+          </Switch>
            
     </ApolloProvider>
     </BrowserRouter>
