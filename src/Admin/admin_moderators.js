@@ -19,8 +19,28 @@ import people from '../assets/people.svg';
 import permission from '../assets/permission.svg';
 import Table from 'react-bootstrap/Table'
 import {Link} from 'react-router-dom';
+import { useLazyQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/react-hooks";
+import styles from './admin.modules.css';
+import check from '../assets/check.svg';
+import remove from '../assets/remove.svg';
+import Button from 'react-bootstrap/Button'
+
 const drawerWidth = 240;
 
+const GET_MODS = gql`
+{
+  user(where: {user_type: {_eq: "moderator"}}) {
+    id
+    name
+    karma_points
+    salaries {
+      bonus
+      salary
+    }
+  }
+}
+`;
 const listItem = {
     height:"30px",
     width:"30px",
@@ -29,6 +49,9 @@ const listItem = {
 };
 const highlighted = {
     backgroundColor:"#E0E0E0"
+};
+const danger_button = {
+backgroundColor:"#d32323"
 };
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,7 +79,12 @@ const useStyles = makeStyles((theme) => ({
 
 export  function Admin_moderators() {
   const classes = useStyles();
+  
 
+
+  const { loading, error, data } = useQuery(GET_MODS);
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -132,23 +160,26 @@ export  function Admin_moderators() {
       <th>Mod ID</th>
       <th>Mod Name</th>
       <th>Performance Score</th>
-      <th>Bonus</th>
-      <th>Add bonus</th>
+      <th>salary</th>
+      <th>bonus</th>
       <th>Flag</th>
 
     </tr>
   </thead>
-  <tbody>
+  {data.user.map((user,index)=>(
+  <tbody key={index}>
     <tr>
-      <td>Number</td>
-      <td>Text</td>
-      <td>Number</td>
-      <td>Number</td>
-      <td>Button</td>
-      <td>Button</td>
+      <td>{user.id}</td>
+  <td>{user.name}</td>
+  <td>{user.karma_points}</td>
+  <td>{user.salaries.salary} <button className={`button ${styles['nav-button']}`}>+</button></td>
+  <td>{user.salaries.bonus}<button className={`button ${styles['nav-button']}`}>+</button></td>
+      <td><button style={danger_button} className={`button ${styles['danger-button']}`}>Flag</button> </td>
       
     </tr>
     </tbody>
+
+))} 
     </Table>
       </main>
     </div>

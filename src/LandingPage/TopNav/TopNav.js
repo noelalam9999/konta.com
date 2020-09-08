@@ -13,6 +13,7 @@ export function TopNav() {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
  
   
+  
     return(
        
 

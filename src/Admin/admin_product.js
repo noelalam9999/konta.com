@@ -19,8 +19,34 @@ import people from '../assets/people.svg';
 import permission from '../assets/permission.svg';
 import Table from 'react-bootstrap/Table'
 import {Link} from 'react-router-dom';
+import { useLazyQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/react-hooks";
+import check from '../assets/check.svg';
+import remove from '../assets/remove.svg';
+import styles from './admin.modules.css';
 const drawerWidth = 240;
 
+const GET_PRODUCTS = gql`
+{
+  products {
+    user {
+      name
+    }
+    Name
+    price
+    Description
+    store_location_link
+    Product_picture_link
+  }
+}
+`
+
+const buttonIcon = {
+  height:"20px",
+  width:"20px"
+
+
+}
 const listItem = {
     height:"30px",
     width:"30px"
@@ -56,6 +82,10 @@ const useStyles = makeStyles((theme) => ({
 
 export  function Admin_product() {
   const classes = useStyles();
+  const { loading, error, data } = useQuery(GET_PRODUCTS);
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+ 
 
   return (
     <div className={classes.root}>
@@ -136,17 +166,20 @@ export  function Admin_product() {
       
     </tr>
   </thead>
+  {data.products.map((product,index)=>(
   <tbody>
     <tr>
-      <td>Noel Alam</td>
-      <td>Text</td>
-      <td>Price</td>
-      <td>Text</td>
-      <td>Text</td>
-      <td>tick/cross</td>
+  <td>{product.user.name}</td>
+      <td>{product.Name}</td>
+  <td>{product.price}</td>
+  <td>{product.Description}</td>
+  <td>{product.store_location_link}</td>
+      <td><button className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button><button className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button></td>
       
     </tr>
     </tbody>
+
+))} 
     </Table>
       </main>
     </div>

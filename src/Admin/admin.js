@@ -20,13 +20,19 @@ import permission from '../assets/permission.svg';
 import Table from 'react-bootstrap/Table'
 import {Link} from 'react-router-dom';
 import { useLazyQuery, gql } from "@apollo/client";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery,useMutation } from "@apollo/react-hooks";
+import styles from './admin.modules.css';
+import check from '../assets/check.svg';
+import remove from '../assets/remove.svg';
+import {Reviews} from './show_reviews';
 const drawerWidth = 240;
 
 const GET_REVIEWS = gql`
 {
   review {
+    id
     body
+    status
     user {
       id
       name
@@ -36,6 +42,12 @@ const GET_REVIEWS = gql`
 }
 `;
 
+const buttonIcon = {
+  height:"20px",
+  width:"20px"
+
+
+}
 
 const listItem = {
     height:"30px",
@@ -154,18 +166,7 @@ export  function Admin() {
     </tr>
   </thead>
   {data.review.map((review,index)=>(
-  <tbody key={index} >
-    <tr>
-      <td>{review.user.name}</td>
-      <td>123454</td>
-      <td>Text</td>
-      <td>View</td>
-      <td>Positive/Negative</td>
-      <td>tick/cross</td>
-      
-    </tr>
-    </tbody>
-
+  <Reviews review = {review} index = {index}/>
 ))} 
     </Table>
       </main>

@@ -1,0 +1,10 @@
+.nav-bar{
+    display: flex;
+    background: #d32323;
+    padding: 1rem 0;
+    align-items: center;
+    justify-content: center;
+}
+.danger-button{
+    background-color: #d32323;
+}
