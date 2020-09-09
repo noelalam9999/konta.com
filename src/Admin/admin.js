@@ -33,6 +33,7 @@ const GET_REVIEWS = gql`
     id
     body
     status
+    type
     user {
       id
       name

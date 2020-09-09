@@ -25,7 +25,7 @@ import styles from './admin.modules.css';
 import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
 import Button from 'react-bootstrap/Button'
-
+import {Users} from "./show_mods";
 const drawerWidth = 240;
 
 const GET_MODS = gql`
@@ -38,6 +38,7 @@ const GET_MODS = gql`
       bonus
       salary
     }
+    status
   }
 }
 `;
@@ -167,18 +168,7 @@ export  function Admin_moderators() {
     </tr>
   </thead>
   {data.user.map((user,index)=>(
-  <tbody key={index}>
-    <tr>
-      <td>{user.id}</td>
-  <td>{user.name}</td>
-  <td>{user.karma_points}</td>
-  <td>{user.salaries.salary} <button className={`button ${styles['nav-button']}`}>+</button></td>
-  <td>{user.salaries.bonus}<button className={`button ${styles['nav-button']}`}>+</button></td>
-      <td><button style={danger_button} className={`button ${styles['danger-button']}`}>Flag</button> </td>
-      
-    </tr>
-    </tbody>
-
+ <Users user = {user} index = {index}/>
 ))} 
     </Table>
       </main>

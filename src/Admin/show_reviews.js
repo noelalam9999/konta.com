@@ -32,7 +32,9 @@ const GET_REVIEWS = gql`
   review {
     id
     body
+    type
     status
+   
     user {
       id
       name
@@ -41,8 +43,20 @@ const GET_REVIEWS = gql`
   }
 }
 `;
+const POS_NEG = gql`
+mutation MyMutation($id:uuid!,$type:Boolean!) {
+  update_review(where: {id: {_eq: $id}}, _set: {type: $type}) {
+    returning {
+      id
+      status
+    }
+    affected_rows
+  }
+}
+`
+
 const APP_DEC = gql`
-mutation MyMutation($id:uuid!,$status:Boolean!) {
+mutation MyMutation2($id:uuid!,$status:Boolean!) {
   update_review(where: {id: {_eq: $id}}, _set: {status: $status}) {
     returning {
       id
@@ -52,6 +66,7 @@ mutation MyMutation($id:uuid!,$status:Boolean!) {
   }
 }
 `
+
 
 const buttonIcon = {
     height:"20px",
@@ -67,6 +82,20 @@ const [approve_review] = useMutation(APP_DEC,{
     refetchQueries:[{query:GET_REVIEWS}]
   });
 
+  const [decline_review] = useMutation(APP_DEC,{
+    variables:{id:props.review.id, status:false},
+    refetchQueries:[{query:GET_REVIEWS}]
+  });
+
+  const [make_positive] = useMutation(POS_NEG,{
+    variables:{id:props.review.id, type:true},
+    refetchQueries:[{query:GET_REVIEWS}]
+  });
+
+  const [make_negative] = useMutation(POS_NEG,{
+    variables:{id:props.review.id, type:false},
+    refetchQueries:[{query:GET_REVIEWS}]
+  });
 return(
     <tbody key={props.index} >
     <tr>
@@ -74,10 +103,30 @@ return(
   <td>{props.review.product_id}</td>
   <td>{props.review.body}</td>
       <td><button className={`button ${styles['nav-button']}`}>View</button></td>
-      <td><button className={`button ${styles['nav-button']}`}>+</button><button className={`button ${styles['nav-button']}`}>-</button></td>
+
+
+      {props.review.type==null &&
+      <td>
+        <button onClick = {make_positive} className={`button ${styles['nav-button']}`}>+</button>
+        <button onClick = {make_negative} className={`button ${styles['nav-button']}`}>-</button>
+      </td>
+      }
+
+      {props.review.type==true &&
       
+      <td>Positive</td>
+      }
+
+      {props.review.type==false &&
+      
+      <td>Negative</td>
+      }
+
       {props.review.status==null &&
-      <td><button onClick = {approve_review} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button><button className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button></td>
+      <td>
+        <button onClick = {approve_review} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button>
+        <button onClick = {decline_review} className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button>
+      </td>
       
       }
       {props.review.status==true &&

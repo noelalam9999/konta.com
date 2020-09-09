@@ -19,7 +19,31 @@ import people from '../assets/people.svg';
 import permission from '../assets/permission.svg';
 import Table from 'react-bootstrap/Table'
 import {Link} from 'react-router-dom';
+import { useLazyQuery, gql } from "@apollo/client";
+import { useQuery,useMutation } from "@apollo/react-hooks";
+import {Users} from "./show_users";
 const drawerWidth = 240;
+
+
+
+const GET_USERS = gql`
+{
+    user {
+      products {
+        Product_id
+      }
+      reviews {
+        id
+        body
+      }
+      id
+      location
+      name
+      karma_points
+      status
+    }
+  }
+`;
 
 const listItem = {
     height:"30px",
@@ -57,6 +81,9 @@ const useStyles = makeStyles((theme) => ({
 
 export  function Admin_users() {
   const classes = useStyles();
+  const { loading, error, data } = useQuery(GET_USERS);
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
 
   return (
     <div className={classes.root}>
@@ -135,22 +162,15 @@ export  function Admin_users() {
       <th>User Name</th>
       <th>User location</th>
       <th>Products published</th>
-      <th>Reveiews Published</th>
+      <th>Reviews Published</th>
       <th>Karma points</th>
       <th>Ban</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td>Number</td>
-      <td>Text</td>
-      <td>Text</td>
-      <td>Button</td>
-      <td>Number</td>
-      <td>Button</td>
-      
-    </tr>
-    </tbody>
+
+  {data.user.map((user,index)=>(
+  <Users user = {user} index = {index}/>
+))} 
     </Table>
       </main>
     </div>

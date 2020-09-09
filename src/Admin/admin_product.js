@@ -24,15 +24,18 @@ import { useQuery } from "@apollo/react-hooks";
 import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
 import styles from './admin.modules.css';
+import {Products} from './show_products';
 const drawerWidth = 240;
 
 const GET_PRODUCTS = gql`
 {
   products {
+    Product_id
     user {
       name
     }
     Name
+    status
     price
     Description
     store_location_link
@@ -51,6 +54,9 @@ const listItem = {
     height:"30px",
     width:"30px"
 
+};
+const tableHeader = {
+paddingLeft:"50px",
 };
 
 const highlighted = {
@@ -161,24 +167,13 @@ export  function Admin_product() {
       <th>Product name</th>
       <th>Product price</th>
       <th>Description</th>
-      <th>Retailer</th>
+      <th >Retailer</th>
       <th>Approve/Decline</th>
       
     </tr>
   </thead>
   {data.products.map((product,index)=>(
-  <tbody>
-    <tr>
-  <td>{product.user.name}</td>
-      <td>{product.Name}</td>
-  <td>{product.price}</td>
-  <td>{product.Description}</td>
-  <td>{product.store_location_link}</td>
-      <td><button className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button><button className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button></td>
-      
-    </tr>
-    </tbody>
-
+ <Products products = {product} index = {index}/>
 ))} 
     </Table>
       </main>
