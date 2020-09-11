@@ -31,12 +31,13 @@ function Userprofile(props){
         return false;
       }
     };
+    console.log(props.match.params.id);
     const { loading, error, data } = useQuery(GET_USER, {
       variables: { id: props.match.params.id}
     });
      if (loading) return "Loading...";
      if (error) return `Error! ${error.message}`;
-    
+    console.log(typeof data)
       return(
 
        

@@ -21,7 +21,7 @@ query Search($match: String) {
 `;
 
 
-export function Search() {
+export function Search(props) {
 
     // const {location} = useReactRouter();
     // const params = new URLSearchParams(location.search);
@@ -33,7 +33,7 @@ export function Search() {
 
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error :(</p>;
-
+console.log(typeof inputVal)
     return (
         <div>
             <NavBar 
@@ -43,7 +43,12 @@ export function Search() {
             />
             <SubNav/>
             <SearchResultsSummary />
-            <SearchResults newProducts={data ? data.products : null} />
+            
+            
+              {/* <SearchResults newProducts={data ? data.products : null} /> */}
+              <SearchResults newProducts={props.match.params.products ? props.match.params.products : null} />
+            
+            
         </div>
     );
 }

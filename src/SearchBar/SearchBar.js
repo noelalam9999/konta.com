@@ -33,7 +33,7 @@ export const SearchBar = ({inputVal, onChange, onSubmit}) => {
                             onChange={onChange}
                             type="text" 
                             value={inputVal}
-                            placeholder={searchPlaceholder}
+                            placeholder="search"
                         />
                     </p>
                     <div className="control">
@@ -45,7 +45,7 @@ export const SearchBar = ({inputVal, onChange, onSubmit}) => {
                             placeholder="Where"
                         />
                     </p>
-                    <Link to="/search">
+                    <Link to={"/search/"+`${inputVal}`}>
                     <div to="/search" className={`button  ${styles['search-button']}`} type="submit" onClick={onSubmit}>
                         <span className={`icon is-small ${styles['search-icon']}`}><i className="fas fa-search"></i></span>
                     </div>

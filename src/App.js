@@ -39,7 +39,7 @@ function App() {
               <Route exact path='/' component={LandingPage}/>
               <Route exact path='/product_upload' component={Product_upload} />
               <Route exact path='/products' component={PostList} />
-              <Route path='/search' component={Search}/>
+              <Route path={'/search/:products'} component={Search}/>
               <Route path={'/user/:id'} component={Userprofile}/>
               <Route path='/product' component={product}/>
               <Route path='/admin' component={Admin}/>

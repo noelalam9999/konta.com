@@ -20,12 +20,40 @@ export const POSTS_LIST = gql`
     }
   }
 `;
+const SEARCH_RESULT = gql`
+query MyQuery ($name:String){
+  products(where: {Name: {_ilike: $name}}) {
+    Name
+    Description
+    user {
+      id
+    }
+  }
+}
+
+`
+
 
 export const SearchResults = ({newProducts}) => {
-    const { loading, error, data } = useQuery(POSTS_LIST);
-  
+    // const { loading, error, data } = useQuery(POSTS_LIST);
+    // if (loading) return "Loading...";
+    // if (error) return `Error! ${error.message}`;
+
+    const { loading, error, data } = useQuery(SEARCH_RESULT,{
+      variables : {name: `%${newProducts}%`}
+    });
     if (loading) return "Loading...";
     if (error) return `Error! ${error.message}`;
+    return (
+      <Container className="postlist">
+        <ol>
+          {data.products.map(({Name, Description,user_id}) => (
+            <SearchResult Name={Name} Description={Description} user_id ={user_id} />
+          ))}
+        </ol>
+      </Container>
+    )
+          
     if (newProducts!=null){
     return (
       <Container className="postlist">
@@ -38,15 +66,15 @@ export const SearchResults = ({newProducts}) => {
     );}
     else 
     {
-      return (
-        <Container className="postlist">
-          <ol>
-            {data.products.map(({Name, Description,user_id}) => (
-              <SearchResult Name={Name} Description={Description} user_id ={user_id} />
-            ))}
-          </ol>
-        </Container>
-      );
+      // return (
+      //   <Container className="postlist">
+      //     <ol>
+      //       {data.products.map(({Name, Description,user_id}) => (
+      //         <SearchResult Name={Name} Description={Description} user_id ={user_id} />
+      //       ))}
+      //     </ol>
+      //   </Container>
+      // );
     }
 
   }
