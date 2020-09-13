@@ -44,38 +44,47 @@ export const SearchResults = ({newProducts}) => {
     });
     if (loading) return "Loading...";
     if (error) return `Error! ${error.message}`;
-    return (
+return(
+  <div>
+    {data==null &&
       <Container className="postlist">
-        <ol>
-          {data.products.map(({Name, Description,user_id}) => (
-            <SearchResult Name={Name} Description={Description} user_id ={user_id} />
-          ))}
-        </ol>
-      </Container>
-    )
-          
-    if (newProducts!=null){
-    return (
-      <Container className="postlist">
-        <ol>
-          {newProducts.map(({Name, Description,user_id}) => (
-            <SearchResult Name={Name} Description={Description} user_id ={user_id} />
-          ))}
-        </ol>
-      </Container>
-    );}
-    else 
-    {
-      // return (
-      //   <Container className="postlist">
-      //     <ol>
-      //       {data.products.map(({Name, Description,user_id}) => (
-      //         <SearchResult Name={Name} Description={Description} user_id ={user_id} />
-      //       ))}
-      //     </ol>
-      //   </Container>
-      // );
+      <ol>
+        {newProducts.map(({Name, Description,user_id}) => (
+          <SearchResult Name={Name} Description={Description} user_id ={user_id} />
+        ))}
+      </ol>
+    </Container>
+      
     }
+    {data!=null &&
+    <Container className="postlist">
+    <ol>
+      {data.products.map(({Name, Description,user_id}) => (
+        <SearchResult Name={Name} Description={Description} user_id ={user_id} />
+      ))}
+    </ol>
+  </Container>
+    
+    }
+
+    </div>
+)
+    
+data=null;
+          
+    
+    // else 
+    // {
+    //   // return (
+    //   //   <Container className="postlist">
+    //   //     <ol>
+    //   //       {data.products.map(({Name, Description,user_id}) => (
+    //   //         <SearchResult Name={Name} Description={Description} user_id ={user_id} />
+    //   //       ))}
+    //   //     </ol>
+    //   //   </Container>
+    //   // );
+    // }
 
   }
 

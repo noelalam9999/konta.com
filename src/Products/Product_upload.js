@@ -32,11 +32,11 @@ const Continents = [
     { key: 7, value: "Rangpur" }
 ]
 export function Product_upload(props){
-
+    const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
     // const [Images, setImages] = useState([])
     const [image, setImage] = useState('')
     const [loading, setLoading] = useState(false);
-    const {user} = useAuth0();
+    // const {user} = useAuth0();
     const [TitleValue, setTitleValue] = useState("");
     const [DescriptionValue, setDescriptionValue] = useState("");
     const [PriceValue, setPriceValue] = useState(0);
@@ -63,21 +63,25 @@ export function Product_upload(props){
         setImage(file.secure_url)
         setLoading(false)
     }
-    const onTitleChange = (event)=> {
-        setTitleValue(event.currentTarget.value)
+    const onTitleChange = (e)=> {
+        setTitleValue(e.target.value)
     }
-    const onDescriptionChange = (event)=> {
-        setDescriptionValue(event.currentTarget.value)
+    const onDescriptionChange = (e)=> {
+        setDescriptionValue(e.target.value)
     }
-    const onPriceChange = (event)=> {
-        setPriceValue(event.currentTarget.value)
+    const onPriceChange = (e)=> {
+        setPriceValue(e.target.value)
     }
-    const onContinentsSelectChange = (event) => {
-        setContinentValue(event.currentTarget.value)
+    const onContinentsSelectChange = (e) => {
+        setContinentValue(e.currentTarget.value)
     }
-    const [insert_product] = useMutation(INSERT_PRODUCT);
-    const onSubmit = (event) => {
-        event.preventDefault();
+    
+    const [insert_product] = useMutation(INSERT_PRODUCT,{
+        variables:{name:TitleValue, description:DescriptionValue, userId:props.match.params.id}
+        
+      });
+    const onSubmit = (e) => {
+        e.preventDefault();
         
 
         if (!TitleValue || !DescriptionValue || !PriceValue ||
@@ -85,26 +89,26 @@ export function Product_upload(props){
             return alert('fill all the fields first!')
         }
         
-        const variables = {
-            writer: user.sub,
-            title: TitleValue,
-            description: DescriptionValue,
-            price: PriceValue,
-            images: image,
-            continents: ContinentValue,
-        }
+        // const variables = {
+        //     writer: user.sub,
+        //     title: TitleValue,
+        //     description: DescriptionValue,
+        //     price: PriceValue,
+        //     images: image,
+        //     continents: ContinentValue,
+        // }
 
-        Axios.post('/api/product/uploadProduct', variables)
-            .then(response => {
-                if (response.data.success) {
-                    alert('Product Successfully Uploaded')
-                    props.history.push('/')
-                } else {
-                    alert('Failed to upload Product')
-                }
-            })
+        // Axios.post('/api/product/uploadProduct', variables)
+        //     .then(response => {
+        //         if (response.data.success) {
+        //             alert('Product Successfully Uploaded')
+        //             props.history.push('/')
+        //         } else {
+        //             alert('Failed to upload Product')
+        //         }
+        //     })
             insert_product({
-                variables : {TitleValue, DescriptionValue, userId:user.sub }
+                variables : {TitleValue, DescriptionValue, userId:props.match.params.id }
     
             }).catch(function(error){
                 console.log(error);
@@ -117,7 +121,7 @@ export function Product_upload(props){
     return (
         <>
     <div> <TopNav/></div>
-   
+   {isAuthenticated &&   (
     <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                 <Label > Upload Product</Label>
@@ -165,12 +169,14 @@ export function Product_upload(props){
 
                
                 <br/>
-                <Button onClick={onSubmit}>
+                <Button onClick={
+                    onSubmit
+                }>
                     Submit
                 </Button>
             </form>
-        </div>
-
+        </div>)
+}
         <div className={styles.landing3}>
                         <div className={styles['font']}>
                             <p>Browse By Content</p>

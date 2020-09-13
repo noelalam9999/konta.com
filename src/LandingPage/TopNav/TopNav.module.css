@@ -1,30 +1,54 @@
 :root {
     --element-spacing: 1.5rem;
-}
-
-.top-nav {
+  }
+  
+  .top-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: var(--element-spacing);
     width: 100%;
-}
-
-.left > * {
+  }
+  
+  .left > * {
     margin-right: var(--element-spacing);
     font-weight: bold;
     color: black;
-}
-
-.right {
+  }
+  
+  .right {
     display: flex;
     align-items: center;
     font-weight: bold;
     color: black;
-}
-.right > * {
+  }
+  .right > * {
     margin-left: var(--element-spacing);
-}
-.ml-auto{
-text-align: right;
-}
+  }
+  .ml-auto {
+    text-align: right;
+  }
+  .item_style {
+    display: flex;
+    padding: 8px 20px 8px 20px;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    border-radius: 0.5rem;
+  }
+  .item_style:hover {
+    background-color: white;
+    color: black;
+    transition: 0.8s;
+  }
+  .menuitem_style {
+    font-weight: bold;
+    color: rgb(10, 109, 167);
+  }
+  .username_style {
+    font-weight: bold;
+    color: rgb(10, 109, 167);
+    align-self: center;
+    font-size: large;
+  }
+  

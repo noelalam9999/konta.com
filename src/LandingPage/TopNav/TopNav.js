@@ -1,73 +1,111 @@
-import React, { Component } from 'react';
-import styles from './TopNav.module.css';
-
-import { withRouter } from "react-router";
-import { Nav,Navbar, Container, Row } from "react-bootstrap";
-import Button from 'react-bootstrap/Button'
+import React, { Component } from "react";
+import styles from "./TopNav.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { NavLink,Link } from "react-router-dom";
-
-
+import { Link } from "react-router-dom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 
 export function TopNav() {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
- 
-  
-  
-    return(
-       
 
-            // <Row className="ml-auto">
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    // <Row className="ml-auto">
 
-        
-            <Nav>
-            <Navbar   className={styles['top-nav']} >
-           
-            <NavLink className = "d-inline p-2 bg-dark text-white" to="/">
+    <AppBar position="static" style={{ background: "Black" }}>
+      <Toolbar style={{ justifyContent: "center" }}>
+        <Link to="/">
+          <Typography className={styles.item_style} variant="primary">
             Home
-            </NavLink>
-            
-            {!isAuthenticated && (
-              <>
-                <Button
-                  //className="auth-button"
-                  className={styles.right}
-                  variant="primary" 
-                  onClick={() => loginWithRedirect({})}
-                >
-                  Log in
-                </Button>
-              </>
-            )}
+          </Typography>
+        </Link>
 
-            {isAuthenticated && (
-              <>
-               <NavLink className={styles.left} to="/product_upload">
-            Post a new product
-            </NavLink>
-                <span className={styles.left}>
-                  user :
-                  {/* <Link className={styles.left} exact to={"/User/" + user.sub} >
-                    {user.nickname}
-                  </Link>  */}
-                  <Link className={styles.left} to={"/user/" + user.sub} >
-                    {user.nickname}
-                  </Link> 
-                </span>
-                
-                <Button className={styles.right} variant="danger" onClick={() => logout()}>
-                  Log out
-                </Button>
-              </>
-            )}
-            </Navbar>
-              </Nav>
-          
-       
-          // </Row>
+        {!isAuthenticated && (
+          <>
+            <Link>
+              <Typography
+                className={styles.item_style}
+                variant="primary"
+                onClick={() => loginWithRedirect({})}
+              >
+                {" "}
+                Log In / Sign Up
+              </Typography>
+            </Link>
+          </>
+        )}
 
-             
-    );
+        {isAuthenticated && (
+          <>
+            <Link className={styles.item_style} to={"/product_upload/" + user.sub}>
+              Post a new product
+            </Link>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleMenu}
+              >
+                <AccountCircle />
+              </IconButton>
+
+              <Typography className={styles.username_style} variant="primary">
+                Hi, {user.nickname} !{" "}
+              </Typography>
+
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem>
+                  <Link to={"/user/" + user.sub}>
+                    <Typography
+                      className={styles.menuitem_style}
+                      variant="primary"
+                    >
+                      {user.nickname}
+                    </Typography>
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={() => logout()} variant="danger">
+                  <Typography
+                    className={styles.menuitem_style}
+                    variant="primary"
+                  >
+                    Logout
+                  </Typography>
+                </MenuItem>
+              </Menu>
+            </div>
+          </>
+        )}
+      </Toolbar>
+    </AppBar>
+  );
 }
-

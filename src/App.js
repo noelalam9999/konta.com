@@ -37,7 +37,7 @@ function App() {
           <Switch>
 
               <Route exact path='/' component={LandingPage}/>
-              <Route exact path='/product_upload' component={Product_upload} />
+              <Route exact path={'/product_upload/:id'} component={Product_upload} />
               <Route exact path='/products' component={PostList} />
               <Route path={'/search/:products'} component={Search}/>
               <Route path={'/user/:id'} component={Userprofile}/>

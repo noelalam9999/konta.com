@@ -8,6 +8,7 @@ import { TrendingSuggestions } from './TrendingSuggestios/TrendingSuggestions';
 import  { useState } from 'react';
 import { useLazyQuery, gql } from "@apollo/client";
 
+
 import { LatestSuggestions } from './LatestSuggestions/LatestSuggestions';
 import { BrowseContent } from './BrowseContent/BrowseContent';
 
@@ -24,6 +25,7 @@ query Search($match: String) {
   }
   
 `;
+
 
 export function LandingPage(){
     const [inputVal, setInputVal] = useState("");

@@ -37,7 +37,7 @@ export const SearchBar = ({inputVal, onChange, onSubmit}) => {
                         />
                     </p>
                     <div className="control">
-                        <div className={`button is-static `}>NEAR</div>
+                        <div className={`button is-static `}>Location</div>
                     </div>
                     <p className="control">
                         <input className={`input  ${styles['input-control']}`} 

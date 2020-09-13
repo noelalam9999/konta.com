@@ -5,8 +5,8 @@ import { SubNav } from '../NavBar/SubNav/SubNav';
 import { SearchResultsSummary } from './SearchResultsSummary/SearchResultsSummary';
 import { SearchResults } from './SearchResults/SearchResults';
 import useReactRouter from 'use-react-router';
-
-
+import { SearchBar } from '../SearchBar/SearchBar';
+import styles from './Search.module.css'
 const SEARCH = gql`
 query Search($match: String) {
     products(order_by:{Name:asc}, where : {Name:{_ilike: $match}}) {
@@ -36,18 +36,26 @@ export function Search(props) {
 console.log(typeof inputVal)
     return (
         <div>
-            <NavBar 
+          <div className={styles['nav-bar']}>
+             <SearchBar 
+            
             inputVal={inputVal}
             onChange = {(e) => setInputVal(e.target.value)}
-            onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}
-            />
+            onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
+            </div>
             <SubNav/>
             <SearchResultsSummary />
             
+          
+           <SearchResults newProducts={props.match.params.products ? props.match.params.products : null} />
             
-              {/* <SearchResults newProducts={data ? data.products : null} /> */}
-              <SearchResults newProducts={props.match.params.products ? props.match.params.products : null} />
-            
+           
+           
+           {/* {data!=null && 
+           <SearchResults newProducts={data ? data.products : null} />
+              
+           } */}
+              
             
         </div>
     );
