@@ -11,7 +11,7 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import PostList from "./Products/Product_list"
 import {Search} from './Search/Search';
 import Userprofile from './User/userprofile';
-import {product} from "./Products/product"
+import {Product} from "./Products/product"
 import {Admin} from "./Admin/admin"
 import {Admin_moderators} from "./Admin/admin_moderators"
 import {Admin_product} from "./Admin/admin_product"
@@ -41,7 +41,7 @@ function App() {
               <Route exact path='/products' component={PostList} />
               <Route path={'/search/:products'} component={Search}/>
               <Route path={'/user/:id'} component={Userprofile}/>
-              <Route path='/product' component={product}/>
+              <Route path={'/product/:Product_id'} component={Product}/>
               <Route path='/admin' component={Admin}/>
               <Route path='/admin_moderators' component={Admin_moderators}/>
               <Route path='/admin_product' component={Admin_product}/>

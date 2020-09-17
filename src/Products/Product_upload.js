@@ -9,6 +9,7 @@ import styles from '../LandingPage/LandingPage.module.css';
 import FileUpload from './Fileupload'
 import Axios from 'axios';
 import { useAuth0 } from "@auth0/auth0-react";
+import { withApollo } from "@apollo/react-hoc";
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -37,8 +38,8 @@ export function Product_upload(props){
     const [image, setImage] = useState('')
     const [loading, setLoading] = useState(false);
     // const {user} = useAuth0();
-    const [TitleValue, setTitleValue] = useState("");
-    const [DescriptionValue, setDescriptionValue] = useState("");
+    const [name, setTitleValue] = useState("");
+    const [description, setDescriptionValue] = useState("");
     const [PriceValue, setPriceValue] = useState(0);
     const [ContinentValue, setContinentValue] = useState(1);
     const [error, setError] = useState("");
@@ -63,6 +64,10 @@ export function Product_upload(props){
         setImage(file.secure_url)
         setLoading(false)
     }
+
+
+
+
     const onTitleChange = (e)=> {
         setTitleValue(e.target.value)
     }
@@ -76,15 +81,12 @@ export function Product_upload(props){
         setContinentValue(e.currentTarget.value)
     }
     
-    const [insert_product] = useMutation(INSERT_PRODUCT,{
-        variables:{name:TitleValue, description:DescriptionValue, userId:props.match.params.id}
-        
-      });
+    const [insert_product] = useMutation(INSERT_PRODUCT);
     const onSubmit = (e) => {
         e.preventDefault();
         
 
-        if (!TitleValue || !DescriptionValue || !PriceValue ||
+        if (!name || !description || !PriceValue ||
             !ContinentValue || !image) {
             return alert('fill all the fields first!')
         }
@@ -108,7 +110,7 @@ export function Product_upload(props){
         //         }
         //     })
             insert_product({
-                variables : {TitleValue, DescriptionValue, userId:props.match.params.id }
+                variables : {name, description, userId:props.match.params.id }
     
             }).catch(function(error){
                 console.log(error);
@@ -148,12 +150,12 @@ export function Product_upload(props){
                 
                 <br />
                 <label style={{fontSize: "20px" }}>Title of your post</label>
-                    <Input_title onChange={onTitleChange}
-                    value={TitleValue} type='text' />
+                    <Input_title onChange={e=> setTitleValue(e.target.value)}
+                    value={name} type='text' />
 
                 <label  style={{fontSize: "20px" }}>Description</label>
-                    <TextArea style={{margin: "1rem 0"}} onChange={onDescriptionChange}
-                    value={DescriptionValue} type='text'/>
+                    <TextArea style={{margin: "1rem 0"}} onChange={e=> setDescriptionValue(e.target.value)}
+                    value={description} type='text'/>
 
                 <div className={styles.temp}>
                 <span style={{marginRight: "15rem",fontSize: "20px"}}>Price(Tk)</span>
@@ -169,11 +171,7 @@ export function Product_upload(props){
 
                
                 <br/>
-                <Button onClick={
-                    onSubmit
-                }>
-                    Submit
-                </Button>
+                <input type="submit" value="Submit"/>
             </form>
         </div>)
 }
@@ -196,4 +194,4 @@ export function Product_upload(props){
     )
 }
 
-export default Product_upload;
+export default withApollo(Product_upload);

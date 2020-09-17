@@ -23,6 +23,7 @@ export const POSTS_LIST = gql`
 const SEARCH_RESULT = gql`
 query MyQuery ($name:String){
   products(where: {Name: {_ilike: $name}}) {
+    Product_id
     Name
     Description
     user {
@@ -49,8 +50,8 @@ return(
     {data==null &&
       <Container className="postlist">
       <ol>
-        {newProducts.map(({Name, Description,user_id}) => (
-          <SearchResult Name={Name} Description={Description} user_id ={user_id} />
+        {newProducts.map(({Product_id,Name, Description,user_id}) => (
+          <SearchResult Product_id={Product_id} Name={Name} Description={Description} user_id ={user_id} />
         ))}
       </ol>
     </Container>
@@ -59,8 +60,8 @@ return(
     {data!=null &&
     <Container className="postlist">
     <ol>
-      {data.products.map(({Name, Description,user_id}) => (
-        <SearchResult Name={Name} Description={Description} user_id ={user_id} />
+      {data.products.map(({Product_id,Name, Description,user_id}) => (
+        <SearchResult Product_id={Product_id} Name={Name} Description={Description} user_id ={user_id} />
       ))}
     </ol>
   </Container>

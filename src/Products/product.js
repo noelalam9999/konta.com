@@ -9,16 +9,34 @@ import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import LikeButtonDemo from "./reactButton";  
 import StarRatingDemo from "./starRating";       
+import { useLazyQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/react-hooks";
 
+const GET_PRODUCT = gql`
+query MyQuery($id: Int) {
+  products(where: {Product_id: {_eq: $id}}) {
+    Name
+    Description
+    user {
+        id
+      }
+  }
+}
+`;
 
+export function Product(props) {
 
-export function product() {
+    const { loading, error, data } = useQuery(GET_PRODUCT, {
+        variables: { id: props.match.params.Product_id}
+      });
+       if (loading) return "Loading...";
+       if (error) return `Error! ${error.message}`;  
 return (
 <>
-<div style={{ display: 'flex', flexDirection: 'row', maxWidth: '1800px', paddingLeft: '300px', paddingTop:'40px' }}>
-    <SearchBar/><TopNav/>
-</div>
-    <SubNav/>
+
+   <TopNav/>
+
+   
 <br/>
     <div className={styles1.productInfoContainer}>
         <div style={{display: 'flex', flexDirection: 'row', maxWidth: '1800px', paddingLeft: '300px'}}>
@@ -26,7 +44,9 @@ return (
             <img src="" className={styles1.userImage}/>
 
             <div className={styles1.styleinfo_productinfo}>
-                <ul className={styles1.styleinfo_productname}>Bi-Rite Creamery </ul>
+            {data.products.map((product,index)=>(
+                <ul className={styles1.styleinfo_productname}>{product.Name} </ul>
+                ))} 
                 <ul className={styles1.styleinfo_productlocation}>205/1 Manhattan, New York, NY </ul>
                 <ul><StarRatingDemo/></ul> 
                 <ul className={styles1.styleinfo_producttime}> Open 10:00 AM-10:00 PM </ul>
@@ -152,4 +172,4 @@ return (
 </>
 );
 }
-export default product ;
+export default Product;

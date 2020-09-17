@@ -10,6 +10,7 @@ import styles from './Search.module.css'
 const SEARCH = gql`
 query Search($match: String) {
     products(order_by:{Name:asc}, where : {Name:{_ilike: $match}}) {
+      Product_id
       Name
       Description
       user {

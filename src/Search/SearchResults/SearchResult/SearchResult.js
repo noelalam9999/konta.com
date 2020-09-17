@@ -68,12 +68,12 @@ const UPVOTE_POST = gql`
 // export default Post;
 //-------------------mine----------------------
 
-export const SearchResult = ({Name, Description, user_id}) => {
+export const SearchResult = ({Product_id,Name, Description, user_id}) => {
     return (
         <div className={styles['search-result']}>
             <img src='http://via.placeholder.com/210' alt='business' className={styles['business-image']}/>
             <div className={styles['business-info']}>
-                <Link to="/product">
+                <Link to={"/product/" + Product_id}>
                 <h2  className="subtitle">{Name}</h2>
                 </Link>
                 <BusinessRating/>
