@@ -27,8 +27,8 @@ import remove from '../assets/remove.svg';
 
 
 const GET_PRODUCTS = gql`
-{
-  products {
+query MyQuery($id:String!) {
+  products(where: {moderator_id: {_eq: $id}}){
     Product_id
     user {
       name
@@ -41,6 +41,7 @@ const GET_PRODUCTS = gql`
     Product_picture_link
   }
 }
+
 `
 
 const APP_DEC = gql`
@@ -64,32 +65,43 @@ const buttonIcon = {
   
   }
 export function Products(props){
+  console.log(typeof props.id)
+  //let mod_id = props.id;
+  let mod_id = props.id ? props.id : props.match.params.id;
+  console.log(mod_id)
 
-
+  const { loading, error, data } = useQuery(GET_PRODUCTS,
+    {
+      variables: { id: mod_id}
+    });
+    
 const [approve_product] = useMutation(APP_DEC,{
-    variables:{id:props.products.Product_id, status:true},
+    variables:{id:data.products.Product_id, status:true},
     refetchQueries:[{query:GET_PRODUCTS}]
   });
 
   const [decline_product] = useMutation(APP_DEC,{
-    variables:{id:props.products.Product_id, status:false},
+    variables:{id:data.products.Product_id, status:false},
     refetchQueries:[{query:GET_PRODUCTS}]
   });
-
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
   
 return(
-    <tbody key={props.index} >
+  <>
+ {data.products.map((product,index)=>(
+    <tbody key={data.index} >
     <tr>
-        <td>{props.products.user.name}</td>
-        <td>{props.products.Name}</td>
-        <td>{props.products.price}</td>
-        <td>{props.products.Description}</td>
-        <td>{props.products.store_location_link}</td>
+        <td>{data.products.user.name}</td>
+        <td>{data.products.Name}</td>
+        <td>{data.products.price}</td>
+        <td>{data.products.Description}</td>
+        <td>{data.products.store_location_link}</td>
         <td><button className={`button `}>View</button></td>
 
 
 
-      {props.products.status==null &&
+      {data.products.status==null &&
       <td>
         <button onClick = {approve_product} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button>
         <button onClick = {decline_product} className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button>
@@ -109,7 +121,8 @@ return(
     </tr>
     </tbody>
 
-
+))} 
+</>
 )
 
 }

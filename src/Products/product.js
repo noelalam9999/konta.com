@@ -11,6 +11,8 @@ import LikeButtonDemo from "./reactButton";
 import StarRatingDemo from "./starRating";       
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const GET_PRODUCT = gql`
 query MyQuery($id: Int) {
@@ -19,18 +21,55 @@ query MyQuery($id: Int) {
     Description
     user {
         id
+        name
       }
-  }
+      reviews {
+        body
+        user {
+          id
+          name
+        }
+      }
+    }
 }
 `;
 
-export function Product(props) {
+const INSERT_REVIEW = gql
+`
+mutation MyMutation($body: String!, $product_id: Int, $user_id: String!) {
+    insert_review(objects: {body: $body, product_id: $product_id, user_id: $user_id}) {
+      affected_rows
+    }
+  }
+  
+ ` 
 
+
+export function Product(props) {
+    const [body, setReviewBody] = useState("");
+    
+    
+    const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+    const [insert_review] = useMutation(INSERT_REVIEW);
+    const [error2, setError] = useState("");
     const { loading, error, data } = useQuery(GET_PRODUCT, {
         variables: { id: props.match.params.Product_id}
       });
        if (loading) return "Loading...";
        if (error) return `Error! ${error.message}`;  
+    const onSubmit = (e) => {
+        e.preventDefault();
+        insert_review({
+            variables : {body, product_id:props.match.params.Product_id, user_id:user.sub },
+            refetchQueries:[{query:GET_PRODUCT}]
+        }).catch(function(error){
+            console.log(error);
+            setError(error.toString());
+        });
+        setReviewBody('');
+       
+    }
+   
 return (
 <>
 
@@ -49,11 +88,13 @@ return (
                 ))} 
                 <ul className={styles1.styleinfo_productlocation}>205/1 Manhattan, New York, NY </ul>
                 <ul><StarRatingDemo/></ul> 
-                <ul className={styles1.styleinfo_producttime}> Open 10:00 AM-10:00 PM </ul>
+               
             </div> 
             <div className={styles1.styleinfo_productinfo2}>
                 <ul className={styles1.menu_itemlist}>
-                    <li className={styles1.menuitem}>www.bitcreamery.com/creamery </li>
+                {data.products.map((product,index)=>(
+            <li className={styles1.menuitem}>Posted By {product.user.name} </li>
+            ))} 
                 </ul>
                 <ul className={styles1.menu_itemlist}>
                     <li className={styles1.menuitem}>+01770347361</li>
@@ -68,56 +109,34 @@ return (
         <div className={styles1.reviewPostBox}>
             <div className={styles1.PostBox}>
                 <ul className={styles1.boxTitle}>Write a Review </ul>
-                <TextArea type='text' placeholder='Share your experience with us.'/>
-                <ReviewPostButton> Post Review </ReviewPostButton>
+                <TextArea onChange={e=> setReviewBody(e.target.value)} type='text' placeholder='Share your experience with us.'/>
+                <ReviewPostButton onClick = {onSubmit}> Post Review </ReviewPostButton>
             </div>
-            <ul className={styles1.boxTitle}>Recommended Reviews</ul>
+            <ul className={styles1.boxTitle}>Reviews</ul>
             <div className={styles1.reviewPanel}>  {/* start for each loop from here for every individual review */}
-
-                <div className={styles1.ReviewBox}>
+            {data.products.map((product,index)=>(
+                <div key={index} className={styles1.ReviewBox}>
                     <div className={styles1.reviewerDetailBox}>
                         <div className={styles1.reviewerImage}>
                             <img src="" className={styles1.userImageSmall}/>
                         </div>
                         <div className={styles1.reviewerDetail}>
-                            <ul>Fahim Fayaz</ul>
+                            <ul>{product.reviews[index].user.name}</ul>
                             <ul>San Fancisco,CA</ul>
                         </div>
                     </div>
-                    <div className={styles1.userReviewBox}>
+                    {data.products.map((product,index1)=>(
+                    <div key ={index1} className={styles1.userReviewBox}>
                         <ul><StarRatingDemo/></ul>
                         <ul className={styles1.reviewDate}>7/7/2020</ul>
-                        <ul> Seriously the BEST ice cream- even better than Salt & Straw, and I LOVE all the "adult" flavors, 
-                            like Honey Lavender and Balsamic Strawberry. A little hack for you- if you were in it for the tastings,
-                            we are in the middle of a pandemic, and they won't have them anyways, so you may as well just go across
-                            the street to the Bi-Rite grocery and get that pint for cheaper.  Don't forget your spoon, and go eat it 
-                            while hanging out in Dolores Park- socially-distanced, of course!
+                        <ul>{product.reviews.body}
                         </ul>
                         <div><LikeButtonDemo/></div>
                     </div>
+                     ))}
                 </div>
-                <div className={styles1.ReviewBox}>
-                    <div className={styles1.reviewerDetailBox}>
-                        <div className={styles1.reviewerImage}>
-                            <img src="" className={styles1.userImageSmall}/>
-                        </div>
-                        <div className={styles1.reviewerDetail}>
-                            <ul>Noel Alam</ul>
-                            <ul>Fort Lauderdale, FL</ul>
-                        </div>
-                    </div>
-                    <div className={styles1.userReviewBox}>
-                            <ul><StarRatingDemo/></ul>
-                            <ul className={styles1.reviewDate}>28/6/2020</ul>
-                        <ul> 
-                            HANDS DOWN BEST ICE CREAM IN THE CITY-- really my boyfriend and I came here for the second time after 
-                            our little picnic at Mission Dolores Park. The first time we came here before COVID-19, we were able to 
-                            try samples and we enjoyed every flavor that we sampled. The second time we went, they do only allow 4 people 
-                            in the store at a time and they do have outdoor seating for customers to enjoy their sweet treats. 
-                        </ul>
-                        <div><LikeButtonDemo/></div>
-                    </div>
-                </div>                
+            ))}   
+                        
             </div>
         </div>
         <div className={styles1.suggestionContainer}>

@@ -26,7 +26,7 @@ export function TrendingSuggestions() {
 
         <div className={styles.suggestions}>
 
-{data.products.map(({category}) => (
+{data.products.slice(0,4).map(({category}) => (
        
        <span><img src={pic} className={styles.pic} alt='laundry'/>
        <h2 className={styles.font}>{category}</h2></span>

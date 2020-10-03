@@ -42,11 +42,11 @@ function App() {
               <Route path={'/search/:products'} component={Search}/>
               <Route path={'/user/:id'} component={Userprofile}/>
               <Route path={'/product/:Product_id'} component={Product}/>
-              <Route path='/admin' component={Admin}/>
-              <Route path='/admin_moderators' component={Admin_moderators}/>
-              <Route path='/admin_product' component={Admin_product}/>
-              <Route path='/admin_users' component={Admin_users}/>
-              <Route path='/admin_permissions' component={Admin_permissions}/>
+              <Route path={'/admin/:id'} component={Admin}/>
+              <Route path={'/admin/moderators/:id'} component={Admin_moderators}/>
+              <Route path={'/admin_product/:id'} component={Admin_product}/>
+              <Route path={'/admin_users/:id'} component={Admin_users}/>
+              <Route path={'/admin_permissions/:id'} component={Admin_permissions}/>
               
           </Switch>
            

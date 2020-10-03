@@ -18,9 +18,13 @@ query MyQuery($id: String) {
   user(where: {id: {_eq: $id}}) {
     name
     location
+    user_type
   }
 }
 `;
+
+
+
 
 function Userprofile(props){
      const { isAuthenticated, user } = useAuth0();
@@ -37,7 +41,11 @@ function Userprofile(props){
     });
      if (loading) return "Loading...";
      if (error) return `Error! ${error.message}`;
-    console.log(typeof data)
+    console.log(data.user.user_type)
+let user_type 
+    {data.user.map((user,index)=>(
+user_type = user.user_type
+     ) )}
       return(
 
        
@@ -86,7 +94,23 @@ function Userprofile(props){
                   <SubNavItem icon='fas fa-camera'></SubNavItem>
                   <ul>Update Profile Photo </ul>
                 </Link>
-              </div>
+                </div>
+      
+                  {user_type=="admin"  &&(
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                <Link to={"/admin/" + user.sub}>
+                  <SubNavItem icon='fas fa-camera'></SubNavItem>
+                  <ul>Enter Admin Panel </ul>
+                </Link>
+                </div>
+                )}
+            {user_type=="moderator"  &&(
+                <Link to={"/admin/" + user.sub}>
+                  <SubNavItem icon='fas fa-camera'></SubNavItem>
+                  <ul>Enter Moderator Panel</ul>
+                </Link>
+                )}
+             
               <div style={{display: 'flex', flexDirection: 'row'}}>
                 <Link>
                   <SubNavItem icon='fas fa-edit'></SubNavItem>

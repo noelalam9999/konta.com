@@ -93,6 +93,7 @@ export function TopNav() {
                     </Typography>
                   </Link>
                 </MenuItem>
+               
                 <MenuItem onClick={() => logout()} variant="danger">
                   <Typography
                     className={styles.menuitem_style}

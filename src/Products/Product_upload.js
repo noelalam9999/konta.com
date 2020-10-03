@@ -8,20 +8,56 @@ import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import FileUpload from './Fileupload'
 import Axios from 'axios';
+import { useQuery } from "@apollo/react-hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 import { withApollo } from "@apollo/react-hoc";
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const INSERT_PRODUCT = gql
+const INSERT_PRODUCT_MOD = gql
 `
-mutation ($name:String!,$description:String!,$userId:String!) {
-    insert_products(objects:[{Name:$name, Description:$description, user_id:$userId}])
+mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:String!) {
+    insert_products(objects:[{Name:$name, Description:$description, user_id:$userId, moderator_id:$moderator_id}])
     {
       affected_rows
     }
   }
  ` 
+
+
+ const INSERT_PRODUCT = gql
+ `
+ mutation ($name:String!,$description:String!,$userId:String!) {
+     insert_products(objects:[{Name:$name, Description:$description, user_id:$userId}])
+     {
+       affected_rows
+     }
+   }
+  ` 
+
+ const FIND_MOD = gql
+ `
+ query  {
+    user(where: {user_type: {_eq: "moderator"}, product_status: {_eq: true}}) {
+      id
+    }
+  }`
+  ;
+
+
+  const CHANGE_MOD_STATUS = gql
+  `
+  mutation ($id:String!) {
+    update_user(where: {id: {_eq: $id}}, _set: {product_status: false}) {
+      returning {
+        product_status
+      }
+    }
+  }
+   `
+   ;
+
+  
 
 const Continents = [
     { key: 1, value: "Dhaka" },
@@ -36,13 +72,17 @@ export function Product_upload(props){
     const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
     // const [Images, setImages] = useState([])
     const [image, setImage] = useState('')
-    const [loading, setLoading] = useState(false);
+    
     // const {user} = useAuth0();
     const [name, setTitleValue] = useState("");
     const [description, setDescriptionValue] = useState("");
     const [PriceValue, setPriceValue] = useState(0);
     const [ContinentValue, setContinentValue] = useState(1);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+   // const [moderator_id, setModeratorId] = useState(1);
+    
+    
     // const updateImages = (newImages) => {
     //     setImages(newImages)
     // }
@@ -80,9 +120,20 @@ export function Product_upload(props){
     const onContinentsSelectChange = (e) => {
         setContinentValue(e.currentTarget.value)
     }
-    
     const [insert_product] = useMutation(INSERT_PRODUCT);
+    const [insert_product_mod] = useMutation(INSERT_PRODUCT_MOD);
+ 
+    const [change_mod_status] = useMutation(CHANGE_MOD_STATUS);   
+ 
+    const {  data } = useQuery(FIND_MOD);
+
+    if (loading) return <p>Loading ...</p>;
+    if (error) return <p>Error :(</p>;
+
+       
+
     const onSubmit = (e) => {
+       
         e.preventDefault();
         
 
@@ -90,6 +141,7 @@ export function Product_upload(props){
             !ContinentValue || !image) {
             return alert('fill all the fields first!')
         }
+      
         
         // const variables = {
         //     writer: user.sub,
@@ -109,15 +161,48 @@ export function Product_upload(props){
         //             alert('Failed to upload Product')
         //         }
         //     })
+
+        let mod_id = new Array();
+        {data.user.map(({id},index) => (
+            mod_id[index]=id
+          ))}
+console.log(typeof mod_id[1]);
+        const unassigned = "unassigned"; 
+        if(data==null)
+        {
+           
             insert_product({
+            
                 variables : {name, description, userId:props.match.params.id }
+                
+            }).catch(function(error){
+                console.log(error);
+                setError(error.toString());
+            });
+            
+            
+        }
+        else 
+        {
+            insert_product_mod({
+                variables : {name, description, userId:props.match.params.id,moderator_id: mod_id[0] }
+          
     
             }).catch(function(error){
                 console.log(error);
                 setError(error.toString());
             });
-            setDescriptionValue('');
-            setTitleValue('');
+            change_mod_status({
+            
+                variables : {id:mod_id[0] }
+                
+            }).catch(function(error){
+                console.log(error);
+                setError(error.toString());
+            });
+        }
+        setDescriptionValue('');
+        setTitleValue('');   
         }
 
     return (

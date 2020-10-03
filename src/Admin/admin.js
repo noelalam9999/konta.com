@@ -25,6 +25,7 @@ import styles from './admin.modules.css';
 import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
 import {Reviews} from './show_reviews';
+import { useAuth0 } from "@auth0/auth0-react";
 const drawerWidth = 240;
 
 const GET_REVIEWS = gql`
@@ -39,6 +40,15 @@ const GET_REVIEWS = gql`
       name
     }
     product_id
+  }
+}
+`;
+const GET_USER = gql`
+query MyQuery($id: String) {
+  user(where: {id: {_eq: $id}}) {
+    name
+    location
+    user_type
   }
 }
 `;
@@ -83,13 +93,31 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export  function Admin() {
+export  function Admin(props) {
   const classes = useStyles();
-  const { loading, error, data } = useQuery(GET_REVIEWS);
+  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+  //const { loading, error, data } = useQuery(GET_REVIEWS);
+ 
+  const {  loading,error,data } = useQuery(GET_USER, {
+    variables: { id: props.match.params.id}
+  });
+  
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
+
+  let user_type_data
+  {data.user.map((user_type,index)=>(
+    user_type_data = user_type
+         ) )}
+
+      console.log(user_type_data.user_type)
   return (
     <div className={classes.root}>
+      {isAuthenticated && (
+        
+        <>
+        {user_type_data.user_type=="admin" && (
+          <>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -108,38 +136,39 @@ export  function Admin() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-          <Link to="/admin">
-              <ListItem style = {highlighted} button key="Review">
+          <Link to={"/admin/"+user.sub}>
+              <ListItem button key="Review">
                 <ListItemIcon><img src={rate_review}/></ListItemIcon>
                 <ListItemText primary="Review" />
               </ListItem>
-          </Link>     
-          <Link to="/admin_product"> 
-           
-              <ListItem button key="Products">
+           </Link>     
+            
+           <Link to={"/admin_product/"+user.sub}>
+              <ListItem style={highlighted} button key="Products">
                 <ListItemIcon><img style={listItem} src={box}/></ListItemIcon>
                 <ListItemText primary="Products" />
               </ListItem>
-          </Link >    
-          
-          <Link to="/admin_permissions">
+
+            </Link>  
+            <Link to={"/admin_permissions/"+user.sub}>
               <ListItem button key="Permissions">
                 <ListItemIcon><img style={listItem}  src={permission}/></ListItemIcon>
                 <ListItemText primary="Permissions" />
               </ListItem>
-          </Link>
-          <Link to="/admin_moderators">    
+
+            </Link>
+            <Link to={"/admin_moderators/"+user.sub}>
               <ListItem button key="Moderators">
                 <ListItemIcon><img style={listItem}  src={engineer}/></ListItemIcon>
                 <ListItemText primary="Moderators" />
               </ListItem>
-          </Link >
-          <Link to="/admin_users">   
+            </Link>
+            <Link to={"/admin_users/"+user.sub}>
               <ListItem button key="Users">
                 <ListItemIcon><img style={listItem} src={people}/></ListItemIcon>
                 <ListItemText primary="Users" />
               </ListItem>
-          </Link>    
+            </Link>  
           </List>
           <Divider />
           <List>
@@ -166,11 +195,22 @@ export  function Admin() {
       
     </tr>
   </thead>
-  {data.review.map((review,index)=>(
+  {/* {data.review.map((review,index)=>(
   <Reviews review = {review} index = {index}/>
-))} 
+))}  */}
     </Table>
       </main>
+      </>
+      )}
+      </>
+      )}
+
+           
+ {!isAuthenticated && (
+   <>
+   Please sign in to view this page
+   </>
+ )}
     </div>
   );
 }
