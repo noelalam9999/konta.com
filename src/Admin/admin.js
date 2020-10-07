@@ -29,9 +29,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 const drawerWidth = 240;
 
 const GET_REVIEWS = gql`
-{
-  review {
-    id
+query MyQuery($id:String!){
+  review(where: {moderator_id: {_eq: $id}}){
+   id
     body
     status
     type
@@ -41,7 +41,8 @@ const GET_REVIEWS = gql`
     }
     product_id
   }
-}
+  }
+
 `;
 const GET_USER = gql`
 query MyQuery($id: String) {
@@ -98,25 +99,25 @@ export  function Admin(props) {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   //const { loading, error, data } = useQuery(GET_REVIEWS);
  
-  const {  loading,error,data } = useQuery(GET_USER, {
+  const {  loading,error,data } = useQuery(GET_REVIEWS, {
     variables: { id: props.match.params.id}
   });
   
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
-  let user_type_data
-  {data.user.map((user_type,index)=>(
-    user_type_data = user_type
-         ) )}
+  // let user_type_data
+  // {data.user.map((user_type,index)=>(
+  //   user_type_data = user_type
+  //        ) )}
 
-      console.log(user_type_data.user_type)
+    //  console.log(user_type_data.user_type)
   return (
     <div className={classes.root}>
       {isAuthenticated && (
         
         <>
-        {user_type_data.user_type=="admin" && (
+        {data && (
           <>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
@@ -137,14 +138,14 @@ export  function Admin(props) {
         <div className={classes.drawerContainer}>
           <List>
           <Link to={"/admin/"+user.sub}>
-              <ListItem button key="Review">
+              <ListItem style={highlighted} button key="Review">
                 <ListItemIcon><img src={rate_review}/></ListItemIcon>
                 <ListItemText primary="Review" />
               </ListItem>
            </Link>     
             
            <Link to={"/admin_product/"+user.sub}>
-              <ListItem style={highlighted} button key="Products">
+              <ListItem  button key="Products">
                 <ListItemIcon><img style={listItem} src={box}/></ListItemIcon>
                 <ListItemText primary="Products" />
               </ListItem>
@@ -195,9 +196,9 @@ export  function Admin(props) {
       
     </tr>
   </thead>
-  {/* {data.review.map((review,index)=>(
+  {data.review.map((review,index)=>(
   <Reviews review = {review} index = {index}/>
-))}  */}
+))} 
     </Table>
       </main>
       </>

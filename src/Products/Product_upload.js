@@ -11,6 +11,7 @@ import Axios from 'axios';
 import { useQuery } from "@apollo/react-hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 import { withApollo } from "@apollo/react-hoc";
+import { useHistory } from "react-router-dom";
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -38,7 +39,7 @@ mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:Strin
  const FIND_MOD = gql
  `
  query  {
-    user(where: {user_type: {_eq: "moderator"}, product_status: {_eq: true}}) {
+    user(where: {user_type: {_eq: "moderator"}}) {
       id
     }
   }`
@@ -57,7 +58,17 @@ mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:Strin
    `
    ;
 
+const PRODUCT_ID = gql `
+query MyQuery($id: String!) {
+    products(where: {user_id: {_eq: $id}}, order_by: {Product_id: desc}, limit: 1) {
+      Product_id
+    }
+  }
   
+`;
+
+   let current_mod=-1;
+let total_mods = 0;
 
 const Continents = [
     { key: 1, value: "Dhaka" },
@@ -72,7 +83,7 @@ export function Product_upload(props){
     const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
     // const [Images, setImages] = useState([])
     const [image, setImage] = useState('')
-    
+    const history = useHistory();
     // const {user} = useAuth0();
     const [name, setTitleValue] = useState("");
     const [description, setDescriptionValue] = useState("");
@@ -104,9 +115,7 @@ export function Product_upload(props){
         setImage(file.secure_url)
         setLoading(false)
     }
-
-
-
+   
 
     const onTitleChange = (e)=> {
         setTitleValue(e.target.value)
@@ -124,14 +133,27 @@ export function Product_upload(props){
     const [insert_product_mod] = useMutation(INSERT_PRODUCT_MOD);
  
     const [change_mod_status] = useMutation(CHANGE_MOD_STATUS);   
- 
+    
     const {  data } = useQuery(FIND_MOD);
+    const product_id =  useQuery(PRODUCT_ID,{
+        variables:{id:props.match.params.id}
+    })  
+    if (product_id.loading) return "Loading...";
+    if (product_id.error) return `Error! ${error.message}`;
+  const Redirect = ()=> {
+    let product_id_var;
+    product_id.data.products.map(({Product_id})=>(
+       product_id_var = Product_id 
+    ))
+    history.push('/product/'+product_id_var) ;
 
+  }
+    console.log(product_id)
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error :(</p>;
-
-       
-
+        
+        
+  
     const onSubmit = (e) => {
        
         e.preventDefault();
@@ -166,26 +188,20 @@ export function Product_upload(props){
         {data.user.map(({id},index) => (
             mod_id[index]=id
           ))}
-console.log(typeof mod_id[1]);
+          console.log(total_mods);
+          total_mods = mod_id.length;
+        
         const unassigned = "unassigned"; 
-        if(data==null)
-        {
-           
-            insert_product({
-            
-                variables : {name, description, userId:props.match.params.id }
-                
-            }).catch(function(error){
-                console.log(error);
-                setError(error.toString());
-            });
-            
-            
+        if(current_mod<total_mods){
+            current_mod++
         }
-        else 
+        else
         {
+            current_mod=0
+        }
+        
             insert_product_mod({
-                variables : {name, description, userId:props.match.params.id,moderator_id: mod_id[0] }
+                variables : {name, description, userId:props.match.params.id,moderator_id: mod_id[current_mod] }
           
     
             }).catch(function(error){
@@ -194,15 +210,17 @@ console.log(typeof mod_id[1]);
             });
             change_mod_status({
             
-                variables : {id:mod_id[0] }
+                variables : {id:mod_id[current_mod] }
                 
             }).catch(function(error){
                 console.log(error);
                 setError(error.toString());
             });
-        }
+           
+           
         setDescriptionValue('');
-        setTitleValue('');   
+        setTitleValue('');  
+       
         }
 
     return (

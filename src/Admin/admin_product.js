@@ -37,6 +37,7 @@ query MyQuery($id:String) {
     }
     Name
     price
+    moderator_id
     status
     Description
     store_location_link
@@ -55,7 +56,23 @@ query MyQuery($id: String!) {
   }
 }
 `;
-
+const GET_NEW_PRODUCT = gql`
+query MyQuery {
+  products(where: {status: {_is_null: true}}, limit: 1) {
+    Product_id
+    user {
+      name
+    }
+    Name
+    price
+    moderator_id
+    status
+    Description
+    store_location_link
+    Product_picture_link
+  }
+}
+`
 
 const buttonIcon = {
   height:"20px",
@@ -103,7 +120,7 @@ export  function Admin_product(props) {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const classes = useStyles();
   //const { loading, error, data } = useQuery(GET_PRODUCTS);
-  const { loading, error, data } = useQuery(GET_USER, {
+  const { loading, error, data } = useQuery(GET_PRODUCTS, {
     variables: { id: props.match.params.id}
   });
   //console.log(user_type_data)
@@ -111,17 +128,17 @@ export  function Admin_product(props) {
   if (error) return `Error! ${error.message}`;
 
  
-  let user_type_data
-  {data.user.map((user_type,index)=>(
-    user_type_data = user_type
-         ) )}
+  // let user_type_data
+  // {data.user.map((user_type,index)=>(
+  //   user_type_data = user_type
+  //        ) )}
 
   return (
     <div className={classes.root}>
        {isAuthenticated && (
         
          <>
-         {user_type_data.user_type=="admin" && (
+         {data && (
            <>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
@@ -200,15 +217,16 @@ export  function Admin_product(props) {
       
     </tr>
   </thead>
-  {/* {data.products.map((product,index)=>(
- <Products products = {product} index = {index}/>
-))}  */}
+  {data.products.map((products,index)=>(
+ <Products products = {products} key = {index}/>
+))} 
  {/* {data.user.map((id,index)=>(
  <Products id = {id.id} key = {index}/>
 ))}  */}
-{data.user.map((id,index)=>(
- <Products id = {id.id} key = {index}/>
-))} 
+
+
+ {/* <Products id = {props.match.params.id} /> */}
+
 
     </Table>
       </main>

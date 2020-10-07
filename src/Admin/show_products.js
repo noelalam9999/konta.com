@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -25,22 +25,23 @@ import styles from './admin.modules.css';
 import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
 
-
 const GET_PRODUCTS = gql`
-query MyQuery($id:String!) {
-  products(where: {moderator_id: {_eq: $id}}){
+ {
+  products{
     Product_id
     user {
       name
     }
     Name
     price
+    moderator_id
     status
     Description
     store_location_link
     Product_picture_link
   }
 }
+
 
 `
 
@@ -57,6 +58,32 @@ mutation MyMutation($id:Int!,$status:Boolean!) {
   
 `
 
+const CHANGE_PRODUCT_STATUS = gql`
+mutation MyMutation($id: String!, $product_status:Boolean!) {
+  update_user(where: {id: {_eq: $id}}, _set: {product_status: true}) {
+    affected_rows
+  }
+}
+
+`
+const GET_NEW_PRODUCT = gql`
+query MyQuery {
+  products(where: {status: {_is_null: true}}, limit: 1) {
+    Product_id
+    user {
+      name
+    }
+    Name
+    price
+    moderator_id
+    status
+    Description
+    store_location_link
+    Product_picture_link
+  }
+}
+`
+
 
 const buttonIcon = {
     height:"20px",
@@ -65,46 +92,62 @@ const buttonIcon = {
   
   }
 export function Products(props){
-  console.log(typeof props.id)
+  console.log(props.id)
+  
+   
   //let mod_id = props.id;
-  let mod_id = props.id ? props.id : props.match.params.id;
-  console.log(mod_id)
+  //let mod_id = props.id ? props.id : props.match.params.id;
+  // console.log(mod_id)
 
-  const { loading, error, data } = useQuery(GET_PRODUCTS,
-    {
-      variables: { id: mod_id}
-    });
-    
+  // const { loading, error, data } = useQuery(GET_PRODUCTS,{
+  //   variables: { id: mod_id}
+  // });
+
 const [approve_product] = useMutation(APP_DEC,{
-    variables:{id:data.products.Product_id, status:true},
-    refetchQueries:[{query:GET_PRODUCTS}]
-  });
+  variables:{id:props.products.Product_id, status:true},
+  refetchQueries:[{query:GET_NEW_PRODUCT}]
+});
 
   const [decline_product] = useMutation(APP_DEC,{
-    variables:{id:data.products.Product_id, status:false},
-    refetchQueries:[{query:GET_PRODUCTS}]
+    variables:{id:props.products.Product_id, status:false},
+    refetchQueries:[{query:GET_NEW_PRODUCT}]
   });
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
-  
+  const [change_product_status] = useMutation(CHANGE_PRODUCT_STATUS,{
+    variables:{id:props.products.moderator_id, product_status:true}
+    
+  });
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
+  // const [get_new_products, { loading, error, data }] = useLazyQuery(GET_NEW_PRODUCT);
+
+  // if (loading) return <p>Loading ...</p>;
+  //   if (error) return <p>Error :(</p>;
+  //     const [change_moderator_id] = useMutation(CHANGE_MOD_ID,{
+  //       variables:{id:data.products.moderator_id, product_status:true}
+        
+  //     });
+
 return(
   <>
- {data.products.map((product,index)=>(
-    <tbody key={data.index} >
+ 
+    <tbody key={props.index} >
     <tr>
-        <td>{data.products.user.name}</td>
-        <td>{data.products.Name}</td>
-        <td>{data.products.price}</td>
-        <td>{data.products.Description}</td>
-        <td>{data.products.store_location_link}</td>
+        <td>{props.products.user.name}</td>
+        <td>{props.products.Name}</td>
+        <td>{props.products.price}</td>
+        <td>{props.products.Description}</td>
+        <td>{props.products.store_location_link}</td>
         <td><button className={`button `}>View</button></td>
 
 
 
-      {data.products.status==null &&
+      {props.products.status==null &&
       <td>
-        <button onClick = {approve_product} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button>
-        <button onClick = {decline_product} className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button>
+        <button onClick = {()=> {approve_product();change_product_status();refreshPage();}} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button>
+        <button onClick = {()=> {decline_product();change_product_status();refreshPage();}} className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button>
       </td>
       
       }
@@ -121,8 +164,8 @@ return(
     </tr>
     </tbody>
 
-))} 
 </>
+
 )
 
 }

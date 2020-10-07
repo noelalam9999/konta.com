@@ -114,14 +114,18 @@ return (
             </div>
             <ul className={styles1.boxTitle}>Reviews</ul>
             <div className={styles1.reviewPanel}>  {/* start for each loop from here for every individual review */}
+        {data.products.reviews!=null&&(
+            <>
             {data.products.map((product,index)=>(
+                
+                
                 <div key={index} className={styles1.ReviewBox}>
                     <div className={styles1.reviewerDetailBox}>
                         <div className={styles1.reviewerImage}>
                             <img src="" className={styles1.userImageSmall}/>
                         </div>
                         <div className={styles1.reviewerDetail}>
-                            <ul>{product.reviews[index].user.name}</ul>
+                            <ul>{product.reviews.user.name}</ul>
                             <ul>San Fancisco,CA</ul>
                         </div>
                     </div>
@@ -135,8 +139,10 @@ return (
                     </div>
                      ))}
                 </div>
+
             ))}   
-                        
+              </>
+                  )   }
             </div>
         </div>
         <div className={styles1.suggestionContainer}>
