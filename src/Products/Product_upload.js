@@ -12,13 +12,14 @@ import { useQuery } from "@apollo/react-hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 import { withApollo } from "@apollo/react-hoc";
 import { useHistory } from "react-router-dom";
+import { ActionSearch } from "material-ui/svg-icons";
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const INSERT_PRODUCT_MOD = gql
 `
-mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:String!) {
-    insert_products(objects:[{Name:$name, Description:$description, user_id:$userId, moderator_id:$moderator_id}])
+mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:String!,$Link:String!) {
+    insert_products(objects:[{Name:$name, Description:$description, user_id:$userId, moderator_id:$moderator_id,store_location_link:$Link}])
     {
       affected_rows
     }
@@ -28,8 +29,8 @@ mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:Strin
 
  const INSERT_PRODUCT = gql
  `
- mutation ($name:String!,$description:String!,$userId:String!) {
-     insert_products(objects:[{Name:$name, Description:$description, user_id:$userId}])
+ mutation ($name:String!,$description:String!,$userId:String!,$Link:String!) {
+     insert_products(objects:[{Name:$name, Description:$description, user_id:$userId,store_location_link:$Link}])
      {
        affected_rows
      }
@@ -82,15 +83,16 @@ const Continents = [
 export function Product_upload(props){
     const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
     // const [Images, setImages] = useState([])
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState("");
     const history = useHistory();
     // const {user} = useAuth0();
     const [name, setTitleValue] = useState("");
     const [description, setDescriptionValue] = useState("");
+    const [Link, setLinkValue] = useState("");
     const [PriceValue, setPriceValue] = useState(0);
     const [ContinentValue, setContinentValue] = useState(1);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+   const [loading, setLoading] = useState(false);
    // const [moderator_id, setModeratorId] = useState(1);
     
     
@@ -134,24 +136,15 @@ export function Product_upload(props){
  
     const [change_mod_status] = useMutation(CHANGE_MOD_STATUS);   
     
-    const {  data } = useQuery(FIND_MOD);
-    const product_id =  useQuery(PRODUCT_ID,{
-        variables:{id:props.match.params.id}
-    })  
-    if (product_id.loading) return "Loading...";
-    if (product_id.error) return `Error! ${error.message}`;
-  const Redirect = ()=> {
-    let product_id_var;
-    product_id.data.products.map(({Product_id})=>(
-       product_id_var = Product_id 
-    ))
-    history.push('/product/'+product_id_var) ;
-
-  }
-    console.log(product_id)
+    const {data} = useQuery(FIND_MOD);
+    const product_id =  useQuery(PRODUCT_ID,{ variables: { id: props.match.params.id } })  
+    // if (loading1) return "Loading...";
+    // if (error1) return `Error! ${error.message}`;
+  
+   // console.log(product_id)
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error :(</p>;
-        
+           
         
   
     const onSubmit = (e) => {
@@ -201,7 +194,7 @@ export function Product_upload(props){
         }
         
             insert_product_mod({
-                variables : {name, description, userId:props.match.params.id,moderator_id: mod_id[current_mod] }
+                variables : {name, description, userId:props.match.params.id,moderator_id: mod_id[current_mod],Link:Link }
           
     
             }).catch(function(error){
@@ -222,7 +215,15 @@ export function Product_upload(props){
         setTitleValue('');  
        
         }
-
+        const Redirect = ()=> {
+            
+          let product_id_var;
+          product_id.data.products.map(({Product_id})=>(
+             product_id_var = Product_id+1 
+          ))
+          history.push('/product/'+product_id_var) ;
+      
+        }   
     return (
         <>
     <div> <TopNav/></div>
@@ -233,7 +234,7 @@ export function Product_upload(props){
             </div>
 
 
-            <form onSubmit={onSubmit} >
+            <form onSubmit={(e) => {onSubmit(e);Redirect()}} >
 
                 {/* <FileUpload refreshFunction={updateImages} /> */}
                 <div style={{display:'flex', alignItems: 'center' }}>
@@ -259,7 +260,9 @@ export function Product_upload(props){
                 <label  style={{fontSize: "20px" }}>Description</label>
                     <TextArea style={{margin: "1rem 0"}} onChange={e=> setDescriptionValue(e.target.value)}
                     value={description} type='text'/>
-
+                 <label  style={{fontSize: "20px" }}>Google map/Website Link</label>
+                    <TextArea style={{margin: "1rem 0"}} onChange={e=> setLinkValue(e.target.value)}
+                    value={Link} type='text'/>
                 <div className={styles.temp}>
                 <span style={{marginRight: "15rem",fontSize: "20px"}}>Price(Tk)</span>
                 <Input_price onChange={onPriceChange}

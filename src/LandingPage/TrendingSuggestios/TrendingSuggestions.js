@@ -10,6 +10,7 @@ import styles from './TrendingSuggestions.module.css';
 const LATEST_SUGGESTIONS = gql`
 query MyQuery {
     products(distinct_on: category) {
+      Product_picture_link
       category
     }
   }
@@ -26,10 +27,10 @@ export function TrendingSuggestions() {
 
         <div className={styles.suggestions}>
 
-{data.products.slice(0,4).map(({category}) => (
+{data.products.slice(0,4).map((product,index) => (
        
-       <span><img src={pic} className={styles.pic} alt='laundry'/>
-       <h2 className={styles.font}>{category}</h2></span>
+       <span><img src={product.Product_picture_link} className={styles.pic} alt='laundry'/>
+       <h2 className={styles.font}>{product.category}</h2></span>
       ))}
             
                 {/* <span><img src={pic1} className={styles.pic} alt='massage'/>

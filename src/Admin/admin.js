@@ -40,6 +40,7 @@ query MyQuery($id:String!){
       name
     }
     product_id
+    moderator_id
   }
   }
 

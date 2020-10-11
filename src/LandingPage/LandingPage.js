@@ -41,6 +41,7 @@ export function LandingPage(){
             <div className={styles['search-area']}>
             
             <img src={logo} className={styles.logo} alt='logo'/>
+            <div className={styles['subtitle']}>Get Authentic Reviews of Any and All Products in the market</div>
             <SearchBar 
             
             inputVal={inputVal}

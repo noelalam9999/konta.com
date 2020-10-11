@@ -25,6 +25,7 @@ query MyQuery ($name:String){
   products(where: {Name: {_ilike: $name}}) {
     Product_id
     Name
+    Product_picture_link
     Description
     user {
       id
@@ -60,8 +61,8 @@ return(
     {data!=null &&
     <Container className="postlist">
     <ol>
-      {data.products.map(({Product_id,Name, Description,user_id}) => (
-        <SearchResult Product_id={Product_id} Name={Name} Description={Description} user_id ={user_id} />
+      {data.products.map(({Product_id,Name, Description,user_id,Product_picture_link}) => (
+        <SearchResult Product_picture_link={Product_picture_link} Product_id={Product_id} Name={Name} Description={Description} user_id ={user_id} />
       ))}
     </ol>
   </Container>

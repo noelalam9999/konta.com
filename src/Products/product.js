@@ -8,17 +8,23 @@ import {ReviewPostButton,TextArea} from './Form';
 import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import LikeButtonDemo from "./reactButton";  
-import StarRatingDemo from "./starRating";       
+import StarRatingDemo from "./starRating";    
+import { Link } from "react-router-dom";
+
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { useAuth0 } from "@auth0/auth0-react";
+import {Reviews} from "./Reviews"
 
 const GET_PRODUCT = gql`
 query MyQuery($id: Int) {
   products(where: {Product_id: {_eq: $id}}) {
     Name
     Description
+    Product_picture_link
+    store_location_link
+    status
     user {
         id
         name
@@ -36,14 +42,36 @@ query MyQuery($id: Int) {
 
 const INSERT_REVIEW = gql
 `
-mutation MyMutation($body: String!, $product_id: Int, $user_id: String!) {
-    insert_review(objects: {body: $body, product_id: $product_id, user_id: $user_id}) {
+mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $moderator_id: String!) {
+    insert_review(objects: {body: $body, product_id: $product_id, user_id: $user_id,moderator_id: $moderator_id}) {
       affected_rows
     }
   }
   
  ` 
 
+ const FIND_MOD = gql
+ `
+ query  {
+    user(where: {user_type: {_eq: "moderator"}}) {
+      id
+    }
+  }`
+  ;
+  const CHANGE_MOD_STATUS = gql
+  `
+  mutation ($id:String!) {
+    update_user(where: {id: {_eq: $id}}, _set: {review_status: false}) {
+      returning {
+        product_status
+      }
+    }
+  }
+   `
+
+
+let current_mod=-1;
+let total_mods = 0;
 
 export function Product(props) {
     const [body, setReviewBody] = useState("");
@@ -52,24 +80,45 @@ export function Product(props) {
     const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
     const [insert_review] = useMutation(INSERT_REVIEW);
     const [error2, setError] = useState("");
+   
     const { loading, error, data } = useQuery(GET_PRODUCT, {
         variables: { id: props.match.params.Product_id}
       });
+      
        if (loading) return "Loading...";
        if (error) return `Error! ${error.message}`;  
-    const onSubmit = (e) => {
-        e.preventDefault();
-        insert_review({
-            variables : {body, product_id:props.match.params.Product_id, user_id:user.sub },
-            refetchQueries:[{query:GET_PRODUCT}]
-        }).catch(function(error){
-            console.log(error);
-            setError(error.toString());
-        });
-        setReviewBody('');
+    // const onSubmit = (e) => {
+    //     e.preventDefault();
+
+
+    //     // let mod_id = new Array();
+    //     // {data1.user.map(({id},index) => (
+    //     //     mod_id[index]=id
+    //     //   ))}
+    //     //   console.log(total_mods);
+    //     //   total_mods = mod_id.length;
+        
+    //     // const unassigned = "unassigned"; 
+    //     // if(current_mod<total_mods){
+    //     //     current_mod++
+    //     // }
+    //     // else
+    //     // {
+    //     //     current_mod=0
+    //     // }
+
+
+    //     insert_review({
+    //         variables : {body, product_id:props.match.params.Product_id, user_id:user.sub,moderator_id: mod_id[current_mod] },
+    //         refetchQueries:[{query:GET_PRODUCT}]
+    //     }).catch(function(error){
+    //         console.log(error);
+    //         setError(error.toString());
+    //     });
+    //     setReviewBody('');
        
-    }
-   
+    // }
+   console.log(data.products.reviews)
 return (
 <>
 
@@ -80,16 +129,34 @@ return (
     <div className={styles1.productInfoContainer}>
         <div style={{display: 'flex', flexDirection: 'row', maxWidth: '1800px', paddingLeft: '300px'}}>
 
-            <img src="" className={styles1.userImage}/>
-
-            <div className={styles1.styleinfo_productinfo}>
+          
             {data.products.map((product,index)=>(
+                <>
+                  <img src={product.Product_picture_link} className={styles1.userImage}/>
+
+<div className={styles1.styleinfo_productinfo}>
                 <ul className={styles1.styleinfo_productname}>{product.Name} </ul>
-                ))} 
-                <ul className={styles1.styleinfo_productlocation}>205/1 Manhattan, New York, NY </ul>
+                <a href={product.store_location_link} className={styles1.styleinfo_productlocation}>See Location/Visit Site</a>
+                {product.status==true &&(
+                    <ul> Approved</ul>
+                )
+
+                }
+                {product.status==null &&(
+                    <ul> Pending Approval</ul>
+                )
+                }
+                {product.status==false &&(
+                    <ul> Declined</ul>
+                )
+
+                }
+                </div> 
+                </>
+                ))}
                 <ul><StarRatingDemo/></ul> 
                
-            </div> 
+            
             <div className={styles1.styleinfo_productinfo2}>
                 <ul className={styles1.menu_itemlist}>
                 {data.products.map((product,index)=>(
@@ -106,43 +173,62 @@ return (
         </div>
     </div>
     <div className={styles1.productInfoContainer2}>
+        
         <div className={styles1.reviewPostBox}>
+        {isAuthenticated && (
             <div className={styles1.PostBox}>
                 <ul className={styles1.boxTitle}>Write a Review </ul>
-                <TextArea onChange={e=> setReviewBody(e.target.value)} type='text' placeholder='Share your experience with us.'/>
-                <ReviewPostButton onClick = {onSubmit}> Post Review </ReviewPostButton>
+                {/* <TextArea onChange={e=> setReviewBody(e.target.value)} type='text' placeholder='Share your experience with us.'/>
+                <ReviewPostButton onClick = {onSubmit}> Post Review </ReviewPostButton> */}
+                <Reviews product_id={props.match.params.Product_id} user_id={user.sub}/>
+                 
             </div>
+        )}
             <ul className={styles1.boxTitle}>Reviews</ul>
             <div className={styles1.reviewPanel}>  {/* start for each loop from here for every individual review */}
-        {data.products.reviews!=null&&(
-            <>
+        
+        
             {data.products.map((product,index)=>(
-                
-                
+             
+                <>  
+                 {product.reviews!=null&&(
                 <div key={index} className={styles1.ReviewBox}>
+                     {product.reviews.map((review,index)=>(
+                         <>
                     <div className={styles1.reviewerDetailBox}>
+                        
                         <div className={styles1.reviewerImage}>
                             <img src="" className={styles1.userImageSmall}/>
                         </div>
+                        
                         <div className={styles1.reviewerDetail}>
-                            <ul>{product.reviews.user.name}</ul>
-                            <ul>San Fancisco,CA</ul>
-                        </div>
-                    </div>
-                    {data.products.map((product,index1)=>(
-                    <div key ={index1} className={styles1.userReviewBox}>
+                       
+                            
+                            <div key={index}>
+                            <ul>{review.user.name}</ul>
+                            
+                        <div  className={styles1.userReviewBox}>
                         <ul><StarRatingDemo/></ul>
                         <ul className={styles1.reviewDate}>7/7/2020</ul>
-                        <ul>{product.reviews.body}
+                        <ul>{review.body}
                         </ul>
                         <div><LikeButtonDemo/></div>
                     </div>
-                     ))}
-                </div>
+                    </div>
+                         
 
+                        
+                        </div>
+                    </div>
+                    </>
+                        ))}
+                </div>
+                    
+  )   }
+  </>
+  
             ))}   
-              </>
-                  )   }
+            
             </div>
         </div>
         <div className={styles1.suggestionContainer}>

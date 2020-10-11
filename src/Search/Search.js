@@ -7,6 +7,7 @@ import { SearchResults } from './SearchResults/SearchResults';
 import useReactRouter from 'use-react-router';
 import { SearchBar } from '../SearchBar/SearchBar';
 import styles from './Search.module.css'
+import { TopNav } from '../LandingPage/TopNav/TopNav';
 const SEARCH = gql`
 query Search($match: String) {
     products(order_by:{Name:asc}, where : {Name:{_ilike: $match}}) {
@@ -37,7 +38,9 @@ export function Search(props) {
 console.log(typeof inputVal)
     return (
         <div>
+          <TopNav/>
           <div className={styles['nav-bar']}>
+            
              <SearchBar 
             
             inputVal={inputVal}

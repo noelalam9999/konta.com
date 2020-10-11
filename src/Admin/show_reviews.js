@@ -34,7 +34,7 @@ const GET_REVIEWS = gql`
     body
     type
     status
-   
+   moderator_id
     user {
       id
       name
@@ -43,6 +43,14 @@ const GET_REVIEWS = gql`
   }
 }
 `;
+const CHANGE_REVIEW_STATUS = gql`
+mutation MyMutation($id: String!, $review_status:Boolean!) {
+  update_user(where: {id: {_eq: $id}}, _set: {review_status: true}) {
+    affected_rows
+  }
+}
+
+`
 const POS_NEG = gql`
 mutation MyMutation($id:uuid!,$type:Boolean!) {
   update_review(where: {id: {_eq: $id}}, _set: {type: $type}) {
@@ -96,6 +104,10 @@ const [approve_review] = useMutation(APP_DEC,{
     variables:{id:props.review.id, type:false},
     refetchQueries:[{query:GET_REVIEWS}]
   });
+  const [change_review_status] = useMutation(CHANGE_REVIEW_STATUS,{
+    variables:{id:props.review.moderator_id, review_status:true}
+    
+  });
 return(
     <tbody key={props.index} >
     <tr>
@@ -124,8 +136,8 @@ return(
 
       {props.review.status==null &&
       <td>
-        <button onClick = {approve_review} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button>
-        <button onClick = {decline_review} className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button>
+        <button onClick = {() => {approve_review();change_review_status();}} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button>
+        <button onClick = {() => {decline_review();change_review_status();}} className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button>
       </td>
       
       }
