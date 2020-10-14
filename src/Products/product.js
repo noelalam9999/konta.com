@@ -16,7 +16,10 @@ import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 import {Reviews} from "./Reviews"
+import { RichText, Date} from 'prismic-reactjs';
 
+import {Timestamp} from "react-timestamp";
+import {moment} from "moment"
 const GET_PRODUCT = gql`
 query MyQuery($id: Int) {
   products(where: {Product_id: {_eq: $id}}) {
@@ -25,6 +28,7 @@ query MyQuery($id: Int) {
     Product_picture_link
     store_location_link
     status
+    created_at
     user {
         id
         name
@@ -75,13 +79,13 @@ let total_mods = 0;
 
 export function Product(props) {
     const [body, setReviewBody] = useState("");
-    
+   
     
     const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
     const [insert_review] = useMutation(INSERT_REVIEW);
     const [error2, setError] = useState("");
    
-    const { loading, error, data } = useQuery(GET_PRODUCT, {
+    const {  loading,error, data } = useQuery(GET_PRODUCT, {
         variables: { id: props.match.params.Product_id}
       });
       
@@ -118,7 +122,29 @@ export function Product(props) {
     //     setReviewBody('');
        
     // }
-   console.log(data.products.reviews)
+    let timestamp
+    {data.products.map((product,index)=>(
+     timestamp = product.created_at
+    
+        ))}
+        timestamp = Date(timestamp)
+        	
+ timestamp = Intl.DateTimeFormat('en-US',{
+	
+    year: "numeric",
+      
+    month: "short",
+      
+    day: "2-digit",
+      
+    hour: "numeric",
+      
+    minute: "2-digit",
+      
+    second: "2-digit"
+      
+  }).format(timestamp);
+        console.log(timestamp)
 return (
 <>
 
@@ -152,9 +178,11 @@ return (
 
                 }
                 </div> 
+                <ul>Published at {timestamp}</ul>
                 </>
+               
                 ))}
-                <ul><StarRatingDemo/></ul> 
+               
                
             
             <div className={styles1.styleinfo_productinfo2}>

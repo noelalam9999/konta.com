@@ -35,6 +35,7 @@ query MyQuery($id:String!){
     body
     status
     type
+    receipt_image_link
     user {
       id
       name

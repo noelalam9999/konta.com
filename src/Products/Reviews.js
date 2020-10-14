@@ -42,8 +42,8 @@ query MyQuery($id: Int) {
 
 const INSERT_REVIEW = gql
 `
-mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $moderator_id: String!) {
-    insert_review(objects: {body: $body, product_id: $product_id, user_id: $user_id,moderator_id: $moderator_id}) {
+mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $moderator_id: String!,$receipt_image_link:String!) {
+    insert_review(objects: {body: $body, product_id: $product_id, user_id: $user_id,moderator_id: $moderator_id,receipt_image_link:$receipt_image_link}) {
       affected_rows
     }
   }
@@ -74,11 +74,41 @@ mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $modera
    let total_mods = 0;
 
    export function Reviews(props){
+
+
+    const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState("");
+    const uploadImage = async e => {
+        const files = e.target.files
+        const data = new FormData()
+        data.append('file', files[0])
+        data.append('upload_preset', 'konta-productimg')
+        setLoading(true)
+        const res = await fetch(
+          '	https://api.cloudinary.com/v1_1/dr1xdii7w/image/upload',
+          {
+            method: 'POST',
+            body: data
+          }
+        )
+        const file = await res.json()
+    
+        setImage(file.secure_url)
+        setLoading(false)
+    }
+
     const history = useHistory();
     const [body, setReviewBody] = useState("");
     const [insert_review] = useMutation(INSERT_REVIEW);
-    const {loading,error, data} = useQuery(FIND_MOD);
+    const {error, data} = useQuery(FIND_MOD);
     const [error2, setError] = useState("");
+
+    const [rating, setRating] = useState(0);
+
+    const handleChange = (value) => {
+      setRating(value);
+    }
+
     if (loading) return "Loading...";
        if (error) return `Error! ${error.message}`;  
 console.log(props.product_id)
@@ -88,7 +118,9 @@ const Refresh =() => {
 }
     const onSubmit = (e) => {
         e.preventDefault();
-
+        if (!body|| !image) {
+          return alert('fill all the fields first!')
+      }
 
         let mod_id = new Array();
         {data.user.map(({id},index) => (
@@ -108,7 +140,7 @@ const Refresh =() => {
 
 
         insert_review({
-            variables : {body, product_id:props.product_id, user_id:props.user_id,moderator_id: mod_id[current_mod] },
+            variables : {body, product_id:props.product_id, user_id:props.user_id,moderator_id: mod_id[current_mod],receipt_image_link:image,},
             refetchQueries:[{query:GET_PRODUCT,
                 variables: { id: props.product_id }
             }]
@@ -119,12 +151,24 @@ const Refresh =() => {
         setReviewBody('');
        //
     }
-
+   
 
 
 return(
     <>
     <TextArea onChange={e=> setReviewBody(e.target.value)} type='text' placeholder='Share your experience with us.'/>
+    <span> Insert receipt photo<input style={{}}
+                    type="file"
+                    name="file"
+                    placeholder="Upload an image"
+                    onChange={uploadImage}
+                /></span>
+                {loading ? (
+                    <h3>Loading...</h3>
+                ) : (
+                    <img src={image} style={{ width: '250px', height:'320px'}} />
+                )}
+                 {/* <ul><StarRatingDemo handleChange={handleChange} rating={rating}/></ul>  */}
     <ReviewPostButton onClick = {(e)=>{onSubmit(e);Refresh()}}> Post Review </ReviewPostButton>
 </>
 )

@@ -68,7 +68,7 @@ const UPVOTE_POST = gql`
 // export default Post;
 //-------------------mine----------------------
 
-export const SearchResult = ({Product_picture_link,Product_id,Name, Description, user_id}) => {
+export const SearchResult = ({Product_picture_link,Product_id,Name, Description, user_id,store_location_link}) => {
     return (
         <div className={styles['search-result']}>
             <img src={Product_picture_link} alt='business' className={styles['business-image']}/>
@@ -80,9 +80,10 @@ export const SearchResult = ({Product_picture_link,Product_id,Name, Description,
                 <p>$$ <span className="tag">{Description}</span> <span className="tag">{user_id}</span></p>
             </div>
             <div className={styles['contact-info']}>
-                <p>+8801760767693</p>
-                <p>Bashundhara Gate-01</p>
-                <p>12/A Dhaka</p>
+    <p><Link to={store_location_link}>
+                <h2  className="subtitle">Visit Store</h2>
+                </Link></p>
+              
             </div>
         </div>
     );

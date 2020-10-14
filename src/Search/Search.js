@@ -8,11 +8,14 @@ import useReactRouter from 'use-react-router';
 import { SearchBar } from '../SearchBar/SearchBar';
 import styles from './Search.module.css'
 import { TopNav } from '../LandingPage/TopNav/TopNav';
+
+
 const SEARCH = gql`
 query Search($match: String) {
     products(order_by:{Name:asc}, where : {Name:{_ilike: $match}}) {
       Product_id
       Name
+      store_location_link
       Description
       user {
         id
@@ -21,6 +24,22 @@ query Search($match: String) {
   }
   
 `;
+const FILTERED_SEARCH_RESULT = gql `
+query MyQuery($name: String, $price:Int) {
+  products(where: {Name: {_ilike: $name}, price: {_lte: $price}}) {
+    Product_id
+    Name
+    Product_picture_link
+    Description
+    price
+    user {
+      id
+    }
+  }
+}
+
+
+`
 
 
 export function Search(props) {
@@ -34,7 +53,7 @@ export function Search(props) {
 
 
     if (loading) return <p>Loading ...</p>;
-    if (error) return <p>Error :(</p>;
+if (error) return <p>{error.message}</p>;
 console.log(typeof inputVal)
     return (
         <div>
@@ -47,8 +66,8 @@ console.log(typeof inputVal)
             onChange = {(e) => setInputVal(e.target.value)}
             onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
             </div>
-            <SubNav/>
-            <SearchResultsSummary />
+           
+            {/* <SearchResultsSummary product={props.match.params.products}/> */}
             
           
            <SearchResults newProducts={props.match.params.products ? props.match.params.products : null} />

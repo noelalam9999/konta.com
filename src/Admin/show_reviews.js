@@ -24,7 +24,8 @@ import { useQuery,useMutation } from "@apollo/react-hooks";
 import styles from './admin.modules.css';
 import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
-
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 
 const GET_REVIEWS = gql`
@@ -35,6 +36,7 @@ const GET_REVIEWS = gql`
     type
     status
    moderator_id
+   receipt_image_link
     user {
       id
       name
@@ -108,15 +110,22 @@ const [approve_review] = useMutation(APP_DEC,{
     variables:{id:props.review.moderator_id, review_status:true}
     
   });
+  let isOpen = false;
+
+  const onClick = () => {
+  isOpen=true;  
+  }
+  console.log(props.review.receipt_image_link)
 return(
     <tbody key={props.index} >
     <tr>
       <td>{props.review.user.name}</td>
   <td>{props.review.product_id}</td>
   <td>{props.review.body}</td>
-      <td><button className={`button ${styles['nav-button']}`}>View</button></td>
-
-
+      <td> <Popup trigger={<button className={`button ${styles['nav-button']}`}>View</button>} position="right center"> 
+      <img src={props.review.receipt_image_link} />
+  </Popup></td>
+      
       {props.review.type==null &&
       <td>
         <button onClick = {make_positive} className={`button ${styles['nav-button']}`}>+</button>

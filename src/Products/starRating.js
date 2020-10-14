@@ -29,12 +29,12 @@ function StarRating({count, value,
     </div>
   )
 }
-function StarRatingDemo() {
-    const [rating, setRating] = useState(3);
+const StarRatingDemo = ({rating,handleChange}) => {
+    // const [rating, setRating] = useState(0);
 
-    const handleChange = (value) => {
-      setRating(value);
-    }
+    // const handleChange = (value) => {
+    //   setRating(value);
+    // }
     return (
       <div>
        <StarRating 
@@ -49,3 +49,4 @@ function StarRatingDemo() {
 }
 
 export default StarRatingDemo;
+

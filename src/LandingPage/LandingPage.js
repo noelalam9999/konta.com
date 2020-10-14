@@ -25,6 +25,22 @@ query Search($match: String) {
   }
   
 `;
+const FILTERED_SEARCH_RESULT = gql `
+query MyQuery($name: String, $price:Int) {
+  products(where: {Name: {_ilike: $name}, price: {_lte: $price}}) {
+    Product_id
+    Name
+    Product_picture_link
+    Description
+    price
+    user {
+      id
+    }
+  }
+}
+
+
+`
 
 
 export function LandingPage(){

@@ -18,8 +18,8 @@ import { ActionSearch } from "material-ui/svg-icons";
 
 const INSERT_PRODUCT_MOD = gql
 `
-mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:String!,$Link:String!) {
-    insert_products(objects:[{Name:$name, Description:$description, user_id:$userId, moderator_id:$moderator_id,store_location_link:$Link}])
+mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:String!,$Link:String!,$Link1:String!) {
+    insert_products(objects:[{Name:$name, Description:$description, user_id:$userId, moderator_id:$moderator_id,store_location_link:$Link,Product_picture_link:$Link1}])
     {
       affected_rows
     }
@@ -60,8 +60,8 @@ mutation ($name:String!,$description:String!,$userId:String!,$moderator_id:Strin
    ;
 
 const PRODUCT_ID = gql `
-query MyQuery($id: String!) {
-    products(where: {user_id: {_eq: $id}}, order_by: {Product_id: desc}, limit: 1) {
+query MyQuery {
+    products( order_by: {Product_id: desc}, limit: 1) {
       Product_id
     }
   }
@@ -137,7 +137,7 @@ export function Product_upload(props){
     const [change_mod_status] = useMutation(CHANGE_MOD_STATUS);   
     
     const {data} = useQuery(FIND_MOD);
-    const product_id =  useQuery(PRODUCT_ID,{ variables: { id: props.match.params.id } })  
+    const product_id =  useQuery(PRODUCT_ID)  
     // if (loading1) return "Loading...";
     // if (error1) return `Error! ${error.message}`;
   
@@ -194,7 +194,7 @@ export function Product_upload(props){
         }
         
             insert_product_mod({
-                variables : {name, description, userId:props.match.params.id,moderator_id: mod_id[current_mod],Link:Link }
+                variables : {name, description, userId:props.match.params.id,moderator_id: mod_id[current_mod],Link:Link,Link1:image }
           
     
             }).catch(function(error){
