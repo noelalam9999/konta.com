@@ -8,21 +8,23 @@ import useReactRouter from 'use-react-router';
 import { SearchBar } from '../SearchBar/SearchBar';
 import styles from './Search.module.css'
 import { TopNav } from '../LandingPage/TopNav/TopNav';
+import { TrendingSuggestions } from '../LandingPage/TrendingSuggestios/TrendingSuggestions';
 
 
 const SEARCH = gql`
-query Search($match: String) {
-    products(order_by:{Name:asc}, where : {Name:{_ilike: $match}}) {
-      Product_id
-      Name
-      store_location_link
-      Description
-      user {
-        id
-      }
+query MyQuery($match: String) {
+  products(where: {Name: {_ilike: $match}}, order_by: {price: desc}) {
+    Product_id
+    Name
+    Product_picture_link
+    Description
+    price
+    user {
+      id
     }
+    
   }
-  
+}
 `;
 const FILTERED_SEARCH_RESULT = gql `
 query MyQuery($name: String, $price:Int) {
@@ -65,14 +67,15 @@ console.log(typeof inputVal)
             inputVal={inputVal}
             onChange = {(e) => setInputVal(e.target.value)}
             onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
-            </div>
            
+           </div>
             {/* <SearchResultsSummary product={props.match.params.products}/> */}
-            
           
            <SearchResults newProducts={props.match.params.products ? props.match.params.products : null} />
-            
-           
+           <div className={styles['search-results']}>
+             You may also like
+            <TrendingSuggestions/>
+           </div>
            
            {/* {data!=null && 
            <SearchResults newProducts={data ? data.products : null} />

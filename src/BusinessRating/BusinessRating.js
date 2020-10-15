@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './BusinessRating.module.css';
 import Rating from 'react-rating';
 
-export function BusinessRating() {
+export const BusinessRating = () =>{
     return(
         <div className={styles.rating}>
             <Rating
@@ -12,7 +12,7 @@ export function BusinessRating() {
                 readonly
                 initialRating={3}
             />
-            <p>724  Reviews</p>
+              
         </div>
     );
 }

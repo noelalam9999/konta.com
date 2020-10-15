@@ -30,6 +30,7 @@ query MyQuery($id: Int) {
       }
       reviews {
         body
+        created_at
         user {
           id
           name
@@ -113,8 +114,8 @@ mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $modera
        if (error) return `Error! ${error.message}`;  
 console.log(props.product_id)
 
-const Refresh =() => {
-    history.push('/product/'+props.product_id) ;
+const Refresh =(e) => {
+  window.location.reload(false);
 }
     const onSubmit = (e) => {
         e.preventDefault();
@@ -148,7 +149,7 @@ const Refresh =() => {
             console.log(error);
             setError(error.toString());
         });
-        setReviewBody('');
+       // setReviewBody('');
        //
     }
    
@@ -169,7 +170,7 @@ return(
                     <img src={image} style={{ width: '250px', height:'320px'}} />
                 )}
                  {/* <ul><StarRatingDemo handleChange={handleChange} rating={rating}/></ul>  */}
-    <ReviewPostButton onClick = {(e)=>{onSubmit(e);Refresh()}}> Post Review </ReviewPostButton>
+    <ReviewPostButton onClick = {(e)=>{onSubmit(e);Refresh(e)}}> Post Review </ReviewPostButton>
 </>
 )
 

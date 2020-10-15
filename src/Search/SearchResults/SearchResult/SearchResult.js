@@ -68,16 +68,26 @@ const UPVOTE_POST = gql`
 // export default Post;
 //-------------------mine----------------------
 
-export const SearchResult = ({Product_picture_link,Product_id,Name, Description, user_id,store_location_link}) => {
-    return (
+export const SearchResult = ({reviews,Product_picture_link,Product_id,Name, Description, user,store_location_link,price,count}) => {
+    let number_of_reviews = new Array()
+  {reviews.map((review,index) => (
+    number_of_reviews[index]=review
+  ))}
+  // let user_name = new Array()
+  // {user.map((user,index) => (
+  //   user_name[index]=user.name
+  // ))}
+  // console.log(user_name)
+  return (
         <div className={styles['search-result']}>
             <img src={Product_picture_link} alt='business' className={styles['business-image']}/>
             <div className={styles['business-info']}>
                 <Link to={"/product/" + Product_id}>
                 <h2  className="subtitle">{Name}</h2>
                 </Link>
-                <BusinessRating/>
-                <p>$$ <span className="tag">{Description}</span> <span className="tag">{user_id}</span></p>
+                <BusinessRating number_of_reviews = {number_of_reviews}/>
+                {number_of_reviews.length} Reviews
+                <p>{price}Tk <span className="tag">{Description}</span> {user.name}<span className="tag"></span></p>
             </div>
             <div className={styles['contact-info']}>
     <p><Link to={store_location_link}>

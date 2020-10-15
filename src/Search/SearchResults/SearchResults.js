@@ -39,8 +39,8 @@ query MyQuery($name: String, $price:Int) {
 
 `
 const SEARCH_RESULT = gql`
-query MyQuery($name: String) {
-  products(where: {Name: {_ilike: $name}}, order_by: {price: desc}) {
+query MyQuery($match: String) {
+  products(where: {Name: {_ilike: $match}}, order_by: {price: desc}) {
     Product_id
     Name
     Product_picture_link
@@ -48,9 +48,15 @@ query MyQuery($name: String) {
     price
     user {
       id
+      name
+      
     }
+    reviews {
+        id
+      }
   }
 }
+
 
 `
 
@@ -61,7 +67,7 @@ export const SearchResults = ({newProducts}) => {
     // if (error) return `Error! ${error.message}`;
 
     const { loading, error, data } = useQuery(SEARCH_RESULT,{
-      variables : {name: `%${newProducts}%`}
+      variables : {match: `%${newProducts}%`}
     });
     if (loading) return "Loading...";
     if (error) return `Error! ${error.message}`;
@@ -79,7 +85,8 @@ let max_price
  let number_of_products = new Array()
  {data.products.map(({price},index) => (
   number_of_products[index]=price
- ))}   
+ ))}
+
 // const low_price = useQuery(
 //   FILTERED_SEARCH_RESULT,{
 //     variables : {name: `%${newProducts}%`,price:max_price*0.33}
@@ -121,9 +128,7 @@ return(
     {data==null &&
       <Container className="postlist">
       <ol>
-        {newProducts.map(({Product_id,Name, Description,user_id}) => (
-          <SearchResult Product_id={Product_id} Name={Name} Description={Description} user_id ={user_id} />
-        ))}
+       Sorry Nothing relates to your search 
       </ol>
     </Container>
       
@@ -131,8 +136,20 @@ return(
     {data!=null &&
     <Container className="postlist">
     <ol>
-      {data.products.map(({Product_id,Name, Description,user_id,Product_picture_link,store_location_link}) => (
-        <SearchResult store_location_link={store_location_link} Product_picture_link={Product_picture_link} Product_id={Product_id} Name={Name} Description={Description} user_id ={user_id} />
+      {data.products.map(({Product_id,Name, Description,user,Product_picture_link,store_location_link,price,reviews}) => (
+
+  //       <>
+  //     {reviews_aggregate.aggregate.map((aggregate) => (
+  //  <> 
+  //  {aggregate.count.map((count) => (
+
+        <SearchResult reviews={reviews} store_location_link={store_location_link} Product_picture_link={Product_picture_link} Product_id={Product_id} price={price} Name={Name} Description={Description} user ={user}  />
+  //       ))}
+  
+  //  </>
+  //         ))}
+  //       </>
+        
       ))}
     </ol>
   </Container>

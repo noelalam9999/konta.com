@@ -16,8 +16,9 @@ import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 import {Reviews} from "./Reviews"
+import {Product_suggestions} from "./product_suggestion"
 import { RichText, Date} from 'prismic-reactjs';
-
+import {product_suggestions} from "./product_suggestion"
 import {Timestamp} from "react-timestamp";
 import {moment} from "moment"
 const GET_PRODUCT = gql`
@@ -35,6 +36,8 @@ query MyQuery($id: Int) {
       }
       reviews {
         body
+        created_at
+        status
         user {
           id
           name
@@ -144,6 +147,7 @@ export function Product(props) {
     second: "2-digit"
       
   }).format(timestamp);
+
         console.log(timestamp)
 return (
 <>
@@ -236,8 +240,36 @@ return (
                             <ul>{review.user.name}</ul>
                             
                         <div  className={styles1.userReviewBox}>
+                        {review.status==true &&(
+                    <ul> Approved</ul>
+                )
+
+                }
+                {review.status==null &&(
+                    <ul> Pending Approval</ul>
+                )
+                }
+                {review.status==false &&(
+                    <ul> Declined</ul>
+                )
+
+                }
                         <ul><StarRatingDemo/></ul>
-                        <ul className={styles1.reviewDate}>7/7/2020</ul>
+            <ul className={styles1.reviewDate}>{Intl.DateTimeFormat('en-US',{
+	
+    year: "numeric",
+      
+    month: "short",
+      
+    day: "2-digit",
+      
+    hour: "numeric",
+      
+    minute: "2-digit",
+      
+    second: "2-digit"
+      
+  }).format(review.created_at)}</ul>
                         <ul>{review.body}
                         </ul>
                         <div><LikeButtonDemo/></div>
@@ -261,34 +293,9 @@ return (
         </div>
         <div className={styles1.suggestionContainer}>
             <ul className={styles1.boxTitle}>You May Also Consider</ul>
-            <div className={styles1.suggestionPanel}></div>
-
-            <div className={styles1.productSuggestionBox}>
-                    <div className={styles1.SuggestionDetailBox}>
-                        <div className={styles1.reviewerImage}>
-                            <img src="" className={styles1.userImageSmall}/>
-                        </div>
-                        <div className={styles1.reviewerDetail}>
-                            <ul>White Canary</ul>
-                            <div>
-                                <ul><StarRatingDemo/></ul>
-                            </div>
-                        </div>        
-                    </div>
-                
-                <div className={styles1.productSuggestionBox}>
-                    <div className={styles1.SuggestionDetailBox}>
-                        <div className={styles1.reviewerImage}>
-                            <img src="" className={styles1.userImageSmall}/>
-                        </div>
-                        <div className={styles1.reviewerDetail}>
-                            <ul>Cheese Cake Factory</ul>
-                            <div>
-                                <ul><StarRatingDemo/></ul>
-                            </div>
-                        </div>        
-                    </div>
-                </div>
+            <div className={styles1.suggestionPanel}>
+<Product_suggestions props={props.match.params.Product_id}/>
+<Product_suggestions props={props.match.params.Product_id}/>
             </div>
         </div>
     </div>

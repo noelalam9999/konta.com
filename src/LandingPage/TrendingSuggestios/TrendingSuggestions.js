@@ -5,6 +5,7 @@ import pic2 from './locksmith.png';
 import pic3 from './gym.png';
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
 
 import styles from './TrendingSuggestions.module.css';
 const LATEST_SUGGESTIONS = gql`
@@ -28,9 +29,11 @@ export function TrendingSuggestions() {
         <div className={styles.suggestions}>
 
 {data.products.slice(0,4).map((product,index) => (
-       
-       <span><img src={product.Product_picture_link} className={styles.pic} alt='laundry'/>
+         <Link to={"/category_search/" + product.category}>
+         <span><img src={product.Product_picture_link} className={styles.pic} alt='laundry'/>
        <h2 className={styles.font}>{product.category}</h2></span>
+         </Link>
+      
       ))}
             
                 {/* <span><img src={pic1} className={styles.pic} alt='massage'/>

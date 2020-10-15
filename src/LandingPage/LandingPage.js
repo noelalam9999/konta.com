@@ -65,8 +65,8 @@ export function LandingPage(){
             onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
             <SearchSuggestions/>
             
-            <span className={styles.font1} >Find the Best Businesses in Town</span>
-            <TrendingSuggestions/>
+              <span className={styles.font1} >Find the Best Businesses in Town</span>
+              <TrendingSuggestions/>
            
 
             
