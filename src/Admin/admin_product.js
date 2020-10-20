@@ -26,6 +26,7 @@ import remove from '../assets/remove.svg';
 import styles from './admin.modules.css';
 import {Products} from './show_products';
 import { useAuth0 } from "@auth0/auth0-react";
+
 const drawerWidth = 240;
 
 const GET_PRODUCTS = gql`

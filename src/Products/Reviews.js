@@ -8,13 +8,14 @@ import {ReviewPostButton,TextArea} from './Form';
 import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import LikeButtonDemo from "./reactButton";  
-import StarRatingDemo from "./starRating";    
+import StarRating from "./starRating";    
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { useAuth0 } from "@auth0/auth0-react";
+import { SelectPanel } from 'react-multi-select-component';
 
 
 const GET_PRODUCT = gql`
@@ -43,8 +44,8 @@ query MyQuery($id: Int) {
 
 const INSERT_REVIEW = gql
 `
-mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $moderator_id: String!,$receipt_image_link:String!) {
-    insert_review(objects: {body: $body, product_id: $product_id, user_id: $user_id,moderator_id: $moderator_id,receipt_image_link:$receipt_image_link}) {
+mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $moderator_id: String!,$receipt_image_link:String!,$rating:Int) {
+    insert_review(objects: {body: $body, product_id: $product_id, user_id: $user_id,moderator_id: $moderator_id,receipt_image_link:$receipt_image_link,rating:$rating}) {
       affected_rows
     }
   }
@@ -114,7 +115,7 @@ mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $modera
        if (error) return `Error! ${error.message}`;  
 console.log(props.product_id)
 
-const Refresh =(e) => {
+const Refresh =() => {
   window.location.reload(false);
 }
     const onSubmit = (e) => {
@@ -141,7 +142,7 @@ const Refresh =(e) => {
 
 
         insert_review({
-            variables : {body, product_id:props.product_id, user_id:props.user_id,moderator_id: mod_id[current_mod],receipt_image_link:image,},
+            variables : {body, product_id:props.product_id, user_id:props.user_id,moderator_id: mod_id[current_mod],receipt_image_link:image,rating:rating},
             refetchQueries:[{query:GET_PRODUCT,
                 variables: { id: props.product_id }
             }]
@@ -149,6 +150,7 @@ const Refresh =(e) => {
             console.log(error);
             setError(error.toString());
         });
+     
        // setReviewBody('');
        //
     }
@@ -169,8 +171,17 @@ return(
                 ) : (
                     <img src={image} style={{ width: '250px', height:'320px'}} />
                 )}
+                <div>
+       <StarRating 
+         count={5}
+         size={26}
+         value={rating}
+         activeColor ={'#FFA500'}
+         inactiveColor={'#ddd'}
+         onChange={handleChange} />
+      </div>
                  {/* <ul><StarRatingDemo handleChange={handleChange} rating={rating}/></ul>  */}
-    <ReviewPostButton onClick = {(e)=>{onSubmit(e);Refresh(e)}}> Post Review </ReviewPostButton>
+    <ReviewPostButton onClick = {(e)=>{onSubmit(e);Refresh()}}> Post Review </ReviewPostButton>
 </>
 )
 

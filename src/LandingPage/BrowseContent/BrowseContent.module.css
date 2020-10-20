@@ -1,25 +1,26 @@
 .browseContent {
-    padding: .35rem;
+    padding: 0.35rem;
     display: flex;
-    align-items: center;
+    justify-content: center;
     border-left: 1px solid rgb(230, 230, 230);
     border-right: 1px solid rgb(230, 230, 230);
-}
-
-.browseContent > * {
+  }
+  
+  .browseContent > * {
     margin-right: 4px;
-}
-
-.right-border {
+  }
+  
+  .right-border {
     border-right: 1px solid rgb(230, 230, 230);
-}
-
-:global(.button).browseContect-button {
+  }
+  
+  :global(.button).browseContect-button {
     border-radius: 0;
     border-bottom: 0;
     border-top: 0;
-}
-
-:global(.button).omit-right-border {
+  }
+  
+  :global(.button).omit-right-border {
     border-right: none;
-}
+  }
+  

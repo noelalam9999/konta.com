@@ -25,7 +25,7 @@ import styles from './admin.modules.css';
 import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
 import Popup from 'reactjs-popup';
-
+import 'reactjs-popup/dist/index.css';
 
 
 const GET_REVIEWS = gql`

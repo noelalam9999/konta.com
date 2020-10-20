@@ -48,5 +48,5 @@ const StarRatingDemo = ({rating,handleChange}) => {
     )
 }
 
-export default StarRatingDemo;
+export default StarRating;
 

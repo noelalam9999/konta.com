@@ -18,6 +18,8 @@ import {Admin_product} from "./Admin/admin_product"
 import {Admin_users} from "./Admin/admin_users"
 import {Admin_permissions} from "./Admin/admin_permissions"
 import {Category_search} from './Search/Category_search';
+import {Moderator} from "./Moderator/admin"
+import {Moderator_product} from "./Moderator/admin_product"
 
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
               <Route path={'/admin/moderators/:id'} component={Admin_moderators}/>
               <Route path={'/admin_product/:id'} component={Admin_product}/>
               <Route path={'/admin_users/:id'} component={Admin_users}/>
+              <Route path={'/mod_product/:id'} component={Moderator_product}/>
+              <Route path={'/mod_reviews/:id'} component={Moderator}/>
               <Route path={'/admin_permissions/:id'} component={Admin_permissions}/>
               <Route path={'/category_search/:category'} component={Category_search}/>
               

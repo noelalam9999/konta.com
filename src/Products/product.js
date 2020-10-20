@@ -8,7 +8,7 @@ import {ReviewPostButton,TextArea} from './Form';
 import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import LikeButtonDemo from "./reactButton";  
-import StarRatingDemo from "./starRating";    
+import {BusinessRating} from "../BusinessRating/BusinessRating";    
 import { Link } from "react-router-dom";
 
 import { useLazyQuery, gql } from "@apollo/client";
@@ -254,22 +254,8 @@ return (
                 )
 
                 }
-                        <ul><StarRatingDemo/></ul>
-            <ul className={styles1.reviewDate}>{Intl.DateTimeFormat('en-US',{
-	
-    year: "numeric",
-      
-    month: "short",
-      
-    day: "2-digit",
-      
-    hour: "numeric",
-      
-    minute: "2-digit",
-      
-    second: "2-digit"
-      
-  }).format(review.created_at)}</ul>
+                        <ul><BusinessRating/></ul>
+            <ul className={styles1.reviewDate}></ul>
                         <ul>{review.body}
                         </ul>
                         <div><LikeButtonDemo/></div>

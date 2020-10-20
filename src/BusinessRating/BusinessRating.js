@@ -10,7 +10,7 @@ export const BusinessRating = () =>{
                 fullSymbol="fas fa-star"
                 fractions={2}
                 readonly
-                initialRating={3}
+                initialRating={4}
             />
               
         </div>

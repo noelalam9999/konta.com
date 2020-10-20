@@ -104,12 +104,15 @@ user_type = user.user_type
                 </Link>
                 </div>
                 )}
-            {user_type=="moderator"  &&(
-                <Link to={"/admin/" + user.sub}>
+                 {user_type=="moderator"  &&(
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                <Link to={"/mod_reviews/" + user.sub}>
                   <SubNavItem icon='fas fa-camera'></SubNavItem>
-                  <ul>Enter Moderator Panel</ul>
+                  <ul>Enter Moderator Panel </ul>
                 </Link>
+                </div>
                 )}
+           
              
               <div style={{display: 'flex', flexDirection: 'row'}}>
                 <Link>

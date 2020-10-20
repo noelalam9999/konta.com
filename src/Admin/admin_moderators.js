@@ -26,6 +26,7 @@ import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
 import Button from 'react-bootstrap/Button'
 import {Users} from "./show_mods";
+import { useAuth0 } from "@auth0/auth0-react";
 const drawerWidth = 240;
 
 const GET_MODS = gql`
@@ -79,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export  function Admin_moderators() {
+  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const classes = useStyles();
   
 
@@ -88,6 +90,10 @@ export  function Admin_moderators() {
   if (error) return `Error! ${error.message}`;
   return (
     <div className={classes.root}>
+
+{isAuthenticated && (
+        
+        <>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -172,6 +178,10 @@ export  function Admin_moderators() {
 ))} 
     </Table>
       </main>
+
+</>
+)}
     </div>
+
   );
 }

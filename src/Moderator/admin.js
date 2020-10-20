@@ -20,11 +20,48 @@ import permission from '../assets/permission.svg';
 import Table from 'react-bootstrap/Table'
 import {Link} from 'react-router-dom';
 import { useLazyQuery, gql } from "@apollo/client";
+import { useQuery,useMutation } from "@apollo/react-hooks";
+import styles from './admin.modules.css';
+import check from '../assets/check.svg';
+import remove from '../assets/remove.svg';
+import {Reviews} from './show_reviews';
 import { useAuth0 } from "@auth0/auth0-react";
-
 const drawerWidth = 240;
 
+const GET_REVIEWS = gql`
+query MyQuery($id:String!){
+  review(where: {moderator_id: {_eq: $id}}){
+   id
+    body
+    status
+    type
+    receipt_image_link
+    user {
+      id
+      name
+    }
+    product_id
+    moderator_id
+  }
+  }
 
+`;
+const GET_USER = gql`
+query MyQuery($id: String) {
+  user(where: {id: {_eq: $id}}) {
+    name
+    location
+    user_type
+  }
+}
+`;
+
+const buttonIcon = {
+  height:"20px",
+  width:"20px"
+
+
+}
 
 const listItem = {
     height:"30px",
@@ -59,18 +96,31 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export  function Admin_permissions() {
+export  function Moderator(props) {
   const classes = useStyles();
-
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+  //const { loading, error, data } = useQuery(GET_REVIEWS);
+ 
+  const {  loading,error,data } = useQuery(GET_REVIEWS, {
+    variables: { id: props.match.params.id}
+  });
+  
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
 
+  // let user_type_data
+  // {data.user.map((user_type,index)=>(
+  //   user_type_data = user_type
+  //        ) )}
+
+    //  console.log(user_type_data.user_type)
   return (
     <div className={classes.root}>
-
-
-{isAuthenticated && (
+      {isAuthenticated && (
         
         <>
+        {data && (
+          <>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -89,38 +139,22 @@ export  function Admin_permissions() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-          <Link to="/admin">
-              <ListItem  button key="Review">
+          <Link to={"/mod_reviews/"+user.sub}>
+              <ListItem style={highlighted} button key="Review">
                 <ListItemIcon><img src={rate_review}/></ListItemIcon>
                 <ListItemText primary="Review" />
               </ListItem>
-          </Link>     
-          <Link to="/admin_product"> 
-           
-              <ListItem button key="Products">
+           </Link>     
+            
+           <Link to={"/mod_product/"+user.sub}>
+              <ListItem  button key="Products">
                 <ListItemIcon><img style={listItem} src={box}/></ListItemIcon>
                 <ListItemText primary="Products" />
               </ListItem>
-          </Link >    
-          
-          <Link to="/admin_permissions">
-              <ListItem style = {highlighted} button key="Permissions">
-                <ListItemIcon><img style={listItem}  src={permission}/></ListItemIcon>
-                <ListItemText primary="Permissions" />
-              </ListItem>
-          </Link>
-          <Link to="/admin_moderators">    
-              <ListItem button key="Moderators">
-                <ListItemIcon><img style={listItem}  src={engineer}/></ListItemIcon>
-                <ListItemText primary="Moderators" />
-              </ListItem>
-          </Link >
-          <Link to="/admin_users">   
-              <ListItem button key="Users">
-                <ListItemIcon><img style={listItem} src={people}/></ListItemIcon>
-                <ListItemText primary="Users" />
-              </ListItem>
-          </Link>    
+
+            </Link>  
+            
+              
           </List>
           <Divider />
           <List>
@@ -138,28 +172,31 @@ export  function Admin_permissions() {
         <Table striped bordered hover size="sm">
   <thead>
     <tr>
-      <th>User ID</th>
-      <th>Username</th>
-      <th>User type</th>
-      <th>Make</th>
+      <th>User</th>
+      <th>Product ID</th>
+      <th>Review</th>
+      <th>Receipt</th>
+      <th>+/-</th>
+      <th>Approve/Decline</th>
       
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td>Number</td>
-      <td>text</td>
-      <td>Text</td>
-      <td>Moderator/user</td>
-      
-    </tr>
-    </tbody>
+  {data.review.map((review,index)=>(
+  <Reviews review = {review} index = {index}/>
+))} 
     </Table>
       </main>
+      </>
+      )}
+      </>
+      )}
 
-
-</>
-)}
+           
+ {!isAuthenticated && (
+   <>
+   Please sign in to view this page
+   </>
+ )}
     </div>
   );
 }

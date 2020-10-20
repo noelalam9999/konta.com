@@ -22,6 +22,8 @@ import {Link} from 'react-router-dom';
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery,useMutation } from "@apollo/react-hooks";
 import {Users} from "./show_users";
+import { useAuth0 } from "@auth0/auth0-react";
+
 const drawerWidth = 240;
 
 
@@ -81,12 +83,17 @@ const useStyles = makeStyles((theme) => ({
 
 export  function Admin_users() {
   const classes = useStyles();
+
+  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const { loading, error, data } = useQuery(GET_USERS);
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
   return (
     <div className={classes.root}>
+      {isAuthenticated && (
+        
+        <>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -173,6 +180,9 @@ export  function Admin_users() {
 ))} 
     </Table>
       </main>
+
+      </>
+      )}
     </div>
   );
 }
