@@ -140,13 +140,13 @@ user_type = user.user_type
         >
           <Tab label="Profile" {...a11yProps(0)} />
           <Tab label="My Review History" {...a11yProps(1)} />
-
+          <Tab label="My Product History" {...a11yProps(2)} />
           {user_type=="admin"  &&(
-          <Tab label="Admin Panel" {...a11yProps(2)} />
+          <Tab label="Admin Panel" {...a11yProps(3)} />
           )}
           {user_type=="moderator"  &&(
           <Link to={"/mod_reviews/" + user.sub}>
-          <Tab label="Moderator Panel" {...a11yProps(3)} />
+          <Tab label="Moderator Panel" {...a11yProps(4)} />
           </Link>
           )}
           </Tabs>
@@ -184,8 +184,24 @@ user_type = user.user_type
 <>
 {user.reviews.map((reviews,index)=>(
 <>
-<div className={styles.ReviewHistoryPanel}></div>
+<div className={styles.ReviewHistoryPanel}>
 <div  key={index}>{reviews.body}</div>
+</div>
+
+</>
+     ) )}
+</>
+) )}
+        
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+      {data.user.map((user,index)=>(
+<>
+{user.products.map((products,index)=>(
+<>
+
+<div  key={index}>{products.Name}</div>
+
 
 </>
      ) )}
@@ -196,7 +212,7 @@ user_type = user.user_type
     </div>          
     </div>   
     )}
-        <div className={styles.landing3}>
+        {/* <div className={styles.landing3}>
                         <div className={styles['font']}>
                             <p>Browse By Content</p>
                         </div>
@@ -204,7 +220,7 @@ user_type = user.user_type
                         <div className={styles.landing1}>
                             <BrowseContent/>
                         </div>
-        </div>
+        </div> */}
 
         <div className={styles.landing4}>
                         <div className={styles['font']}>

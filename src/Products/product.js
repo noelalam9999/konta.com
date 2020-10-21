@@ -16,6 +16,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 import {Reviews} from "./Reviews"
+import Typography from "@material-ui/core/Typography";
 import {Product_suggestions} from "./product_suggestion"
 import { RichText, Date} from 'prismic-reactjs';
 import {product_suggestions} from "./product_suggestion"
@@ -240,10 +241,17 @@ return (
             </div>
 
             )}
+            
+           
          </>
 
                         ))}    
         </>
+        )}
+         {isAuthenticated && (
+            <>
+            
+            </>
         )}
             <ul className={styles1.boxTitle}>Reviews</ul>
             <div className={styles1.reviewPanel}>  {/* start for each loop from here for every individual review */}
@@ -333,4 +341,6 @@ return (
 </>
 );
 }
+
+
 export default Product;
