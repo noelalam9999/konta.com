@@ -5,7 +5,11 @@
     align-items: center;
     justify-content: center;
 }
-
+.text{
+    font-size: 30px!important; 
+    color: #d32323;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
 .logo {
     width: 75px;
     margin-right: 1rem;

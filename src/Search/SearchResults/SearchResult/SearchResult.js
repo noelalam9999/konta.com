@@ -73,11 +73,12 @@ export const SearchResult = ({reviews,Product_picture_link,Product_id,Name, Desc
   {reviews.map((review,index) => (
     number_of_reviews[index]=review
   ))}
+
   // let user_name = new Array()
   // {user.map((user,index) => (
   //   user_name[index]=user.name
   // ))}
-  // console.log(user_name)
+   console.log({store_location_link})
   return (
         <div className={styles['search-result']}>
             <img src={Product_picture_link} alt='business' className={styles['business-image']}/>
@@ -90,9 +91,9 @@ export const SearchResult = ({reviews,Product_picture_link,Product_id,Name, Desc
                 <p>{price}Tk <span className="tag">{Description}</span> {user.name}<span className="tag"></span></p>
             </div>
             <div className={styles['contact-info']}>
-    <p><Link to={store_location_link}>
+    <p><a href={store_location_link}>
                 <h2  className="subtitle">Visit Store</h2>
-                </Link></p>
+                </a></p>
               
             </div>
         </div>

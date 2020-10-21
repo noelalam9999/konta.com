@@ -12,6 +12,13 @@ import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import { SubNavItem } from '../NavBar/SubNav/SubNavItem/SubNavItem';
 import { Container, Row, Col, Button } from "react-bootstrap";
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 const GET_USER = gql`
 query MyQuery($id: String) {
@@ -19,14 +26,70 @@ query MyQuery($id: String) {
     name
     location
     user_type
+    reviews {
+      product_id
+      body
+      product {
+        Name
+      }
+    }
+    products {
+      Product_id
+      Name
+    }
   }
 }
 `;
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 
 function Userprofile(props){
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
      const { isAuthenticated, user } = useAuth0();
      const isLoggedUser = () => {
       if (user.sub === props.match.params.id) {
@@ -63,122 +126,76 @@ user_type = user.user_type
             )}
 
 {isAuthenticated && (  
- 
+        <div className={stylos.layout}>
+        <div className={classes.root}>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="scrollable"
+          scrollButtons="auto"
+          aria-label="scrollable auto tabs example"
+        >
+          <Tab label="Profile" {...a11yProps(0)} />
+          <Tab label="My Review History" {...a11yProps(1)} />
 
-<>
+          {user_type=="admin"  &&(
+          <Tab label="Admin Panel" {...a11yProps(2)} />
+          )}
+          {user_type=="moderator"  &&(
+          <Link to={"/mod_reviews/" + user.sub}>
+          <Tab label="Moderator Panel" {...a11yProps(3)} />
+          </Link>
+          )}
+          </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0}>
+          <div style={{display: 'flex', displayDirection: 'row',paddingBottom: '40px', paddingTop:'40px', paddingLeft: '40px'}}>
+                  <div style={{display: 'flex', flexDirection: 'row'}}>
+                    <Link to='/upload_profile_pic'>
+                      <SubNavItem icon='fas fa-edit' title='upload picture'></SubNavItem>
+                    </Link>
+                  </div>
+                <img src={user.User_Picture_link} className={stylos.userImage}/>
+                
+                <div className={stylos.styleinfo_userinfo}>
+              
 
-        <div style={{backgroundColor: '#F5F5F5', height: '250px'}}>
-       
-          <div style={{display: 'flex', displayDirection: 'row', maxWidth: '1800px', paddingLeft: '300px'}}>
-
-            <img src="" className={stylos.userImage}/>
-            
-            <div className={stylos.styleinfo_userinfo}>
-           
-
-            <div >
-      <ul    className={stylos.styleinfo_username}>{user.nickname}</ul>
-      
-      {data.user.map((user,index)=>(
-      
-<ul key={index}  className={stylos.styleinfo_userlocation}>{user.location}</ul>
-        ))} 
-             <ul className={stylos.styleinfo_usercred}>20 Review 10 Photo </ul>
-             </div>
-            
-            </div>
-         
-            <div className={stylos.info_update}>
-              <div style={{display: 'flex', flexDirection: 'row'}}>
-                <Link>
-                  <SubNavItem icon='fas fa-camera'></SubNavItem>
-                  <ul>Update Profile Photo </ul>
-                </Link>
+                <div style={{marginLeft: '80px'}}>
+          <ul    className={stylos.styleinfo_username}>{user.nickname}</ul>
+          
+          {data.user.map((user,index)=>(
+          
+                <ul key={index}  className={stylos.styleinfo_userlocation}>{user.location}</ul>
+            ))} 
+                <div style={{display: "flex", flexDirection:"column", justifyContent: 'space-evenly'}}>
+                <ul className={stylos.styleinfo_usercred}> Review </ul>
+                <ul className={stylos.styleinfo_usercred}>10 Photo </ul>
                 </div>
-      
-                  {user_type=="admin"  &&(
-                    <div style={{display: 'flex', flexDirection: 'row'}}>
-                <Link to={"/admin/" + user.sub}>
-                  <SubNavItem icon='fas fa-camera'></SubNavItem>
-                  <ul>Enter Admin Panel </ul>
-                </Link>
                 </div>
-                )}
-                 {user_type=="moderator"  &&(
-                    <div style={{display: 'flex', flexDirection: 'row'}}>
-                <Link to={"/mod_reviews/" + user.sub}>
-                  <SubNavItem icon='fas fa-camera'></SubNavItem>
-                  <ul>Enter Moderator Panel </ul>
-                </Link>
+                
                 </div>
-                )}
-           
-             
-              <div style={{display: 'flex', flexDirection: 'row'}}>
-                <Link>
-                  <SubNavItem icon='fas fa-edit'></SubNavItem>
-                  <ul>Update Your Profile </ul>
-                </Link>
               </div>
-            </div>
-           
-          </div>
-           
-        </div>
-     
-        <div className={stylos.super_container}>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+      {data.user.map((user,index)=>(
+<>
+{user.reviews.map((reviews,index)=>(
+<>
+<div className={styles.ReviewHistoryPanel}></div>
+<div  key={index}>{reviews.body}</div>
 
-          <div className={stylos.nav_menu_sidebar}>
-            <div className={stylos.menu_header}>Noel's Profile</div>
-          <ul className={stylos.menu_itemlist}>
-            <li className={stylos.menuitem}>Profile Overview</li>
-            <li className={stylos.menuitem}>Reviews</li>
-            <li className={stylos.menuitem}>Uploads</li>
-            <li className={stylos.menuitem}>Events</li>
-            <li className={stylos.menuitem}>Order History</li>
-          </ul>
-          </div>
-
-          <div className={stylos.NotAct_panel}>
-            <div className={stylos.notification_panel}>
-              <div className={stylos.notification_header}>Notifications</div>
-            </div>
-            <div className={stylos.activity_panel}>
-              <div className={stylos.activity_header}>Recent Activity</div>
-            </div>
-          </div>
-
-          <div className={stylos.aboutuser_panel}>
-            
-            <div className={stylos.aboutuser_container}>
-              <div className={stylos.about_header}>About Noel Alam</div>
-              <ul className={stylos.aboutdetail_header}> Location
-              {data.user.map((user,index)=>(
-      <li className={stylos.aboutdetail_style}>{user.location}</li>
-      ))} 
-              </ul>  
-              <ul className={stylos.aboutdetail_header}> User Since
-                <li className={stylos.aboutdetail_style}>September, 2019</li>
-              </ul> 
-              <ul className={stylos.aboutdetail_header}> About Yourself
-                <li className={stylos.aboutdetail_style}>
-                    A hundred days have made me older
-                    Since the last time that
-                    I saw your pretty face.
-                    A thousand lies have made me colder
-                    And I don't think I can 
-                    look at this the same.
-                    All the miles that separate
-                    Disappear now when 
-                    I'm dreamin' of your face.</li>
-              </ul>   
-            </div>
-
-          </div>
-         
-        </div>
+</>
+     ) )}
+</>
+) )}
         
-        </>)}
+      </TabPanel>
+    </div>          
+    </div>   
+    )}
         <div className={styles.landing3}>
                         <div className={styles['font']}>
                             <p>Browse By Content</p>

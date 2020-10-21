@@ -63,7 +63,7 @@ export function LandingPage(){
             inputVal={inputVal}
             onChange = {(e) => setInputVal(e.target.value)}
             onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
-            <SearchSuggestions/>
+            {/* <SearchSuggestions/> */}
             
               <span className={styles.font1} >Find the Best Businesses in Town</span>
               <TrendingSuggestions/>
@@ -94,12 +94,12 @@ export function LandingPage(){
                             <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Jessore</span>
                         </div>
 
-                        <div className={styles['font']}>
+                        {/* <div className={styles['font']}>
                             <p>Hot & New Businesses</p>
-                        </div>
+                        </div> */}
 
                         <div className={styles.landing1}>
-                            <LatestSuggestions/>
+                            {/* <LatestSuggestions/> */}
                         </div>
                 </div>
 

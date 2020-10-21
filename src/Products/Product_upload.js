@@ -152,9 +152,8 @@ export function Product_upload(props){
         e.preventDefault();
         
 
-        if (!name || !description || !PriceValue ||
-            !ContinentValue || !image) {
-            return alert('fill all the fields first!')
+        if (!name || !description  || !image) {
+            return alert('fill all the mandatory fields first!')
         }
       
         
@@ -253,11 +252,11 @@ export function Product_upload(props){
                 </div>
                 
                 <br />
-                <label style={{fontSize: "20px" }}>Title of your post</label>
+                <label style={{fontSize: "20px" }}>Name of your Product *</label>
                     <Input_title onChange={e=> setTitleValue(e.target.value)}
                     value={name} type='text' />
 
-                <label  style={{fontSize: "20px" }}>Description</label>
+                <label  style={{fontSize: "20px" }}>Description *</label>
                     <TextArea style={{margin: "1rem 0"}} onChange={e=> setDescriptionValue(e.target.value)}
                     value={description} type='text'/>
                  <label  style={{fontSize: "20px" }}>Google map/Website Link</label>

@@ -127,6 +127,11 @@ export  function Admin(props) {
           <Typography variant="h6" noWrap>
             Admin Panel
           </Typography>
+          <Link to="/">
+          <Typography className={styles.item_style} variant="primary">
+            Home
+          </Typography>
+        </Link>
         </Toolbar>
       </AppBar>
       <Drawer

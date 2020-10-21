@@ -125,8 +125,13 @@ export  function Moderator(props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            Admin Panel
+            Moderator Panel
           </Typography>
+          <Link to="/">
+          <Typography className={styles.item_style} variant="primary">
+            Home
+          </Typography>
+        </Link>
         </Toolbar>
       </AppBar>
       <Drawer

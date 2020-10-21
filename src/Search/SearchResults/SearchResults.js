@@ -44,6 +44,7 @@ query MyQuery($match: String) {
     Product_id
     Name
     Product_picture_link
+    store_location_link
     Description
     price
     user {
@@ -109,7 +110,7 @@ return(
   </div>
 <p>Showing results {number_of_products.length}</p>
   <div className={styles1.filters}>
-      <button className="button">
+      {/* <button className="button">
           <span className="icon"><i className="fas fa-sliders-h"></i></span>
           <span>All Filters</span>
       </button>
@@ -120,7 +121,7 @@ return(
         
           </div>
       
-     
+      */}
   </div>
 </div>
 

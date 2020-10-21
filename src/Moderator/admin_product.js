@@ -21,6 +21,7 @@ import Table from 'react-bootstrap/Table'
 import {Link} from 'react-router-dom';
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
+
 import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
 import styles from './admin.modules.css';
@@ -146,6 +147,11 @@ export  function Moderator_product(props) {
           <Typography variant="h6" noWrap>
             Admin Panel
           </Typography>
+          <Link to="/">
+          <Typography className={styles.item_style} variant="primary">
+            Home
+          </Typography>
+        </Link>
         </Toolbar>
       </AppBar>
       <Drawer

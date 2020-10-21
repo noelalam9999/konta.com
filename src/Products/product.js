@@ -75,7 +75,18 @@ mutation MyMutation($body: String!, $product_id: Int, $user_id: String!, $modera
     }
   }
    `
-
+   const SEARCH = gql`
+   query Search($match: String) {
+       products(order_by:{Name:asc}, where : {Name:{_ilike: $match}}) {
+         Name
+         Description
+         user {
+           id
+         }
+       }
+     }
+     
+   `;
 
 let current_mod=-1;
 let total_mods = 0;
@@ -87,7 +98,10 @@ export function Product(props) {
     const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
     const [insert_review] = useMutation(INSERT_REVIEW);
     const [error2, setError] = useState("");
-   
+    const [inputVal, setInputVal] = useState("");
+    const [Search, { data1 }] = useLazyQuery(SEARCH);
+
+
     const {  loading,error, data } = useQuery(GET_PRODUCT, {
         variables: { id: props.match.params.Product_id}
       });
@@ -153,8 +167,12 @@ return (
 <>
 
    <TopNav/>
-
-   
+<div className={styles1.searchBar}>
+   <SearchBar 
+            
+            inputVal={inputVal}
+            onChange = {(e) => setInputVal(e.target.value)}
+            onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            /></div>
 <br/>
     <div className={styles1.productInfoContainer}>
         <div style={{display: 'flex', flexDirection: 'row', maxWidth: '1800px', paddingLeft: '300px'}}>
@@ -208,13 +226,24 @@ return (
         
         <div className={styles1.reviewPostBox}>
         {isAuthenticated && (
-            <div className={styles1.PostBox}>
+            <>
+{data.products.map((product,index)=>(
+             
+    <>  
+            {product.status==true && (
+                <div className={styles1.PostBox}>
                 <ul className={styles1.boxTitle}>Write a Review </ul>
                 {/* <TextArea onChange={e=> setReviewBody(e.target.value)} type='text' placeholder='Share your experience with us.'/>
                 <ReviewPostButton onClick = {onSubmit}> Post Review </ReviewPostButton> */}
                 <Reviews product_id={props.match.params.Product_id} user_id={user.sub}/>
                  
             </div>
+
+            )}
+         </>
+
+                        ))}    
+        </>
         )}
             <ul className={styles1.boxTitle}>Reviews</ul>
             <div className={styles1.reviewPanel}>  {/* start for each loop from here for every individual review */}

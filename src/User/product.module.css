@@ -1,0 +1,190 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #ffffff;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+  .header {
+    justify-self: center;
+  }
+  .userImage {
+    width: 400px;
+    height: 300px;
+    border-radius: 0.3rem;
+  }
+  .productInfoContainer {
+    padding-top: 40px;
+    height: 380px;
+    background-color: white;
+  }
+  .styleinfo_productinfo {
+    margin-top: 20px;
+    margin-left: 40px;
+    width: 30%;
+  }
+  .styleinfo_productname {
+    font-size: 50px;
+    color: #000000;
+    font-weight: bold;
+  }
+  .styleinfo_productlocation {
+    font-size: larger;
+    color: rgb(0, 0, 0);
+  }
+  .styleinfo_productrating {
+    font-size: larger;
+    width: 20%;
+    height: 20%;
+    color: rgb(0, 0, 0);
+  }
+  .styleinfo_producttime {
+    font-size: large;
+    color: black;
+  }
+  .styleinfo_productinfo2 {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    margin-left: 40px;
+    border-left-style: ridge;
+    border-left-width: 0.01rem;
+    border-left-color: rgb(207, 202, 202);
+  }
+  .menu_itemlist {
+    padding-left: 40px;
+  }
+  .menuitem {
+    font-family: sans-serif;
+    font-size: 15px;
+    color: black;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+  }
+  .menuitem:hover {
+    color: grey;
+    text-decoration: underline;
+  }
+  .productInfoContainer2 {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 1300px;
+  }
+  .reviewPostBox {
+    margin-left: 300px;
+    padding-top: 40px;
+    padding-right: 40px;
+    height: 100%;
+    width: 100%;
+  }
+  .boxTitle {
+    font-weight: bold;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+  }
+  .PostBox {
+    padding-bottom: 80px;
+    margin-bottom: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 680px;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+    background-color: white;
+    border-radius: 0.5em;
+  }
+  .reviewPanel {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .ReviewBox {
+    padding-bottom: 50px;
+    padding-right: 20px;
+    display: block;
+    flex-direction: row;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+    overflow-y: auto;
+    height: 500px;
+    background-color: white;
+    border-radius: 0.5em;
+  }
+  .reviewerDetailBox {
+    width: 80%;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .userReviewBox {
+    width: 420px;
+  }
+  .reviewerDetailBox {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: row;
+  }
+  .reviewerImage {
+    width: 60px;
+  }
+  .userImageSmall {
+    width: 60px;
+    height: 60px;
+    border-radius: 0.3rem;
+  }
+  .reviewerDetail {
+    width: auto;
+    padding-left: 15px;
+  }
+  .suggestionContainer {
+    padding-top: 40px;
+    padding-left: 60px;
+    height: auto;
+    width: 100%;
+  }
+  .suggestionPanel {
+    padding: 10px 10px 10px 10px;
+    border-radius: 0.5em;
+    width: 350px;
+    height: 500px;
+    overflow-y: auto;
+    background-color: white;
+  }
+  .productSuggestionBox {
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-bottom-style: ridge;
+    border-bottom-width: 0.01rem;
+    border-bottom-color: rgb(207, 202, 202);
+  }
+  .SuggestionDetailBox {
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+  }
+  .sugg_starRatingbox {
+    width: 50%;
+    height: 10%;
+  }
+  

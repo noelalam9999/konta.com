@@ -14,6 +14,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import rate_review from '../assets/rate_review.svg';
 import box from '../assets/box.svg';
+import styles from './admin.modules.css';
 import engineer from '../assets/engineer.svg';
 import people from '../assets/people.svg';
 import permission from '../assets/permission.svg';
@@ -77,6 +78,11 @@ export  function Admin_permissions() {
           <Typography variant="h6" noWrap>
             Admin Panel
           </Typography>
+          <Link to="/">
+          <Typography className={styles.item_style} variant="primary">
+            Home
+          </Typography>
+        </Link>
         </Toolbar>
       </AppBar>
       <Drawer

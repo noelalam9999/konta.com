@@ -21,17 +21,12 @@ const useStyles = makeStyles({
     paddingRight: '140px',
     backgroundColor: 'inherit',
   },
-  root: {
-    maxWidth: 290,
-    transition: "0.3s",
-    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
-    "&:hover": {
-      boxShadow: "0 20px 90px -12.125px rgba(0,0,0,0.3)"
-    }
-  },
   media: {
-    height: 200,
-    paddingTop: "10px"
+    height: '200',
+    paddingTop: "250px",
+    "&:hover": {
+      filter: 'blur(2px)',
+    },
   },
 })
 
@@ -55,35 +50,24 @@ export function TrendingSuggestions() {
     return(
       <>
       <Grid container className={classes.gridContainer} spacing={2}>
-          {data.products.slice(0,12).map((product,index) => (
+          {data.products.slice(0,8).map((product,index) => (
             <Grid item xs={12} sm={6} md={3} style={{width: '290px'}}>
               <Link to={"/category_search/" + product.category}>
-                <Card className={classes.root}>
+                <Card className={styles.root}>
                   <CardActionArea>
                     <CardMedia
                       className={classes.media}
-                      image={product.Product_picture_link}
-                      title={product.category}
+                       image={product.Product_picture_link}
+                       title={product.category}
                     />
-                    <CardContent>
-                      <Typography align="center" gutterBottom variant="h5" component="h2">
+                      <div className={styles.overlay}>
                         {product.category}
-                      </Typography>
-                    </CardContent>
+                      </div>
                   </CardActionArea>
                 </Card>
               </Link>
             </Grid> 
       ))}
-            
-                {/* <span><img src={pic1} className={styles.pic} alt='massage'/>
-                <h2 className={styles.font}>MASSAGE</h2></span>
-           
-                <span><img src={pic2} className={styles.pic} alt='locksmith'/>
-                <h2 className={styles.font}>LOCKSMITH</h2></span>
-            
-                <span><img src={pic3} className={styles.pic} alt='gym'/>
-                <h2 className={styles.font}>GYM</h2></span> */}  
       </Grid>
         </>
     );

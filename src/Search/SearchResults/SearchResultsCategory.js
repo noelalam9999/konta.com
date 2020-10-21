@@ -109,7 +109,7 @@ return(
   </div>
 <p>Showing results {number_of_products.length}</p>
   <div className={styles1.filters}>
-      <button className="button">
+      {/* <button className="button">
           <span className="icon"><i className="fas fa-sliders-h"></i></span>
           <span>All Filters</span>
       </button>
@@ -118,7 +118,7 @@ return(
           <button onClick={change_price_range(2)} className="button">$$</button>
           <button onClick={change_price_range(3)} className="button">$$$</button>
         
-          </div>
+          </div> */}
       
      
   </div>

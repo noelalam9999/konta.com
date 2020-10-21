@@ -11,4 +11,12 @@
 .nav-button{
     padding-left: 0%;
     padding-right: 0%;
-}
+} 
+.item_style {
+    display: flex;
+    padding: 8px 20px 8px 20px;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    border-radius: 0.5rem;
+  }

@@ -72,8 +72,9 @@ console.log(typeof inputVal)
             {/* <SearchResultsSummary product={props.match.params.products}/> */}
           
            <SearchResultsCategory newProducts={props.match.params.category ? props.match.params.category : null} />
+       
            <div className={styles['search-results']}>
-             You may also like
+           <div className={styles['text']}>You may also like</div>
             <TrendingSuggestions/>
            </div>
            

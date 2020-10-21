@@ -19,6 +19,7 @@ import people from '../assets/people.svg';
 import permission from '../assets/permission.svg';
 import Table from 'react-bootstrap/Table'
 import {Link} from 'react-router-dom';
+
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
 import check from '../assets/check.svg';
@@ -147,6 +148,11 @@ export  function Admin_product(props) {
           <Typography variant="h6" noWrap>
             Admin Panel
           </Typography>
+          <Link to="/">
+          <Typography className={styles.item_style} variant="primary">
+            Home
+          </Typography>
+        </Link>
         </Toolbar>
       </AppBar>
       <Drawer

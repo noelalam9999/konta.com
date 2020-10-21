@@ -17,6 +17,7 @@ query MyQuery($match: String) {
     Product_id
     Name
     Product_picture_link
+    store_location_link
     Description
     price
     user {
@@ -72,8 +73,9 @@ console.log(typeof inputVal)
             {/* <SearchResultsSummary product={props.match.params.products}/> */}
           
            <SearchResults newProducts={props.match.params.products ? props.match.params.products : null} />
+          
            <div className={styles['search-results']}>
-             You may also like
+           <div className={styles['text']}>You may also like</div>
             <TrendingSuggestions/>
            </div>
            
