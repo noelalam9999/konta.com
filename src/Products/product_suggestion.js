@@ -83,21 +83,15 @@ return (
 <>
 
 {data.products.map((product,index)=>(
-    
-    
-        
-           
-            <div className={styles1.suggestionPanel}>
-
             <div className={styles1.productSuggestionBox}>
                     <div className={styles1.SuggestionDetailBox}>
                         <div className={styles1.reviewerImage}>
                             <img src={product.Product_picture_link} className={styles1.userImageSmall}/>
                         </div>
                         <div className={styles1.reviewerDetail}>
-<ul>{product.Name}</ul>
+                          <ul className={styles1.productNametitle}>{product.Name}</ul>
                             <div>
-<ul>{number_of_reviews.length}</ul>
+                              <ul>{number_of_reviews.length}</ul>
                                 {/* <ul><StarRatingDemo/></ul> */}
                             </div>
                         </div>        
@@ -105,9 +99,7 @@ return (
                 
                 
                 
-                </div>
-            </div>
-    
+                </div>    
     ))}
    
 

@@ -46,7 +46,7 @@ function App() {
               <Route path={'/user/:id'} component={Userprofile}/>
               <Route path={'/product/:Product_id'} component={Product}/>
               <Route path={'/admin/:id'} component={Admin}/>
-              <Route path={'/admin/moderators/:id'} component={Admin_moderators}/>
+              <Route path={'/admin_moderators/:id'} component={Admin_moderators}/>
               <Route path={'/admin_product/:id'} component={Admin_product}/>
               <Route path={'/admin_users/:id'} component={Admin_users}/>
               <Route path={'/mod_product/:id'} component={Moderator_product}/>

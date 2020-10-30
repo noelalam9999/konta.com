@@ -57,7 +57,7 @@
     font-weight: bold;
     margin-top: 2rem;
     margin-bottom: 0.02rem;
-    color: #fff;
+    color:black;
     text-align: center;
   }
   .blinking {
@@ -88,7 +88,7 @@
     display: flex;
     justify-content: center;
     font-size: 0.75rem;
-    color: white;
+    color: black;
   }
   
   .font3 {

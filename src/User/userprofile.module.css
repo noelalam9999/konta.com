@@ -139,3 +139,12 @@ code {
   overflow-y: auto;
   background-color: white;
 }
+.card {
+  margin-bottom: 20px;
+  position: relative;
+  box-shadow: 4px 8px 40px -12px rgba(0, 0, 0, 0.3);
+}
+.card:hover {
+  transition: 0.3s;
+  box-shadow: 8px 25px 100px -12.125px rgba(0, 0, 0, 0.3);
+}

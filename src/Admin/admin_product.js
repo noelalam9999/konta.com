@@ -117,7 +117,11 @@ const useStyles = makeStyles((theme) => ({
   },
   
 }));
-
+const home = {
+  marginLeft: "50px", 
+  padding:"20px",
+  backgroundColor:"#E0E0E0"
+};
 export  function Admin_product(props) {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const classes = useStyles();
@@ -149,7 +153,7 @@ export  function Admin_product(props) {
             Admin Panel
           </Typography>
           <Link to="/">
-          <Typography className={styles.item_style} variant="primary">
+          <Typography style={home} variant="primary">
             Home
           </Typography>
         </Link>
@@ -164,16 +168,16 @@ export  function Admin_product(props) {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-          <List>
+        <List>
           <Link to={"/admin/"+user.sub}>
-              <ListItem button key="Review">
+              <ListItem style={highlighted} button key="Review">
                 <ListItemIcon><img src={rate_review}/></ListItemIcon>
                 <ListItemText primary="Review" />
               </ListItem>
            </Link>     
             
            <Link to={"/admin_product/"+user.sub}>
-              <ListItem style={highlighted} button key="Products">
+              <ListItem  button key="Products">
                 <ListItemIcon><img style={listItem} src={box}/></ListItemIcon>
                 <ListItemText primary="Products" />
               </ListItem>
@@ -198,6 +202,15 @@ export  function Admin_product(props) {
                 <ListItemText primary="Users" />
               </ListItem>
             </Link>  
+          </List>
+          <Divider />
+          <List>
+            {['Approved', 'Pending', 'Cancel'].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
           </List>
           <Divider />
           <List>

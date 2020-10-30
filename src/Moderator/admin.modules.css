@@ -18,5 +18,6 @@
     align-items: center!important;
     font-weight: bold!important;
     color: white!important;
+    background-color: white;
     border-radius: 0.5rem!important;
   }

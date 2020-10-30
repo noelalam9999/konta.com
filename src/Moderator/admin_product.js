@@ -40,6 +40,7 @@ query MyQuery($id:String) {
     price
     moderator_id
     status
+    category
     Description
     store_location_link
     Product_picture_link
@@ -91,6 +92,11 @@ paddingLeft:"50px",
 };
 
 const highlighted = {
+  backgroundColor:"#E0E0E0"
+};
+const home = {
+  marginLeft: "50px", 
+  padding:"20px",
   backgroundColor:"#E0E0E0"
 };
 const useStyles = makeStyles((theme) => ({
@@ -145,10 +151,10 @@ export  function Moderator_product(props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            Admin Panel
+            Moderator Panel
           </Typography>
           <Link to="/">
-          <Typography className={styles.item_style} variant="primary">
+          <Typography style={home} variant="h5">
             Home
           </Typography>
         </Link>
@@ -202,6 +208,8 @@ export  function Moderator_product(props) {
       <th>Product price</th>
       <th>Description</th>
       <th >Retailer</th>
+      <th>Set Category</th>
+     
       <th>Approve/Decline</th>
       
     </tr>

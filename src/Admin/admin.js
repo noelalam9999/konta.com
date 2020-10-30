@@ -104,7 +104,11 @@ export  function Admin(props) {
   const {  loading,error,data } = useQuery(GET_REVIEWS, {
     variables: { id: props.match.params.id}
   });
-  
+  const home = {
+    marginLeft: "50px", 
+    padding:"20px",
+    backgroundColor:"#E0E0E0"
+  };
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
@@ -128,7 +132,7 @@ export  function Admin(props) {
             Admin Panel
           </Typography>
           <Link to="/">
-          <Typography className={styles.item_style} variant="primary">
+          <Typography style={home} variant="primary">
             Home
           </Typography>
         </Link>

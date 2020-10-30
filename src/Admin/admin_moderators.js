@@ -27,6 +27,7 @@ import remove from '../assets/remove.svg';
 import Button from 'react-bootstrap/Button'
 import {Users} from "./show_mods";
 import { useAuth0 } from "@auth0/auth0-react";
+import { printIntrospectionSchema } from 'graphql';
 const drawerWidth = 240;
 
 const GET_MODS = gql`
@@ -41,13 +42,30 @@ const GET_MODS = gql`
     }
     status
   }
+
 }
 `;
+const GET_USER = gql`
+query MyQuery($id: String) {
+  user(where: {id: {_eq: $id}, user_type: {_eq: "admin"}}) {
+    name
+    location
+    user_type
+  }
+}
+
+`;
+
 const listItem = {
     height:"30px",
     width:"30px",
    
 
+};
+const home = {
+  marginLeft: "50px", 
+  padding:"20px",
+  backgroundColor:"#E0E0E0"
 };
 const highlighted = {
     backgroundColor:"#E0E0E0"
@@ -79,21 +97,26 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export  function Admin_moderators() {
+export  function Admin_moderators(props) {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const classes = useStyles();
   
 
-
   const { loading, error, data } = useQuery(GET_MODS);
+  console.log(props.match.params.id)
+  const admin = useQuery(GET_USER, {
+    variables: { id: props.match.params.id }
+  });
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
+console.log(admin)
   return (
     <div className={classes.root}>
 
 {isAuthenticated && (
         
         <>
+        {/* {admin.user.id == user.sub &&(<> */}
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -101,7 +124,7 @@ export  function Admin_moderators() {
             Admin Panel
           </Typography>
           <Link to="/">
-          <Typography className={styles.item_style} variant="primary">
+          <Typography style={home} variant="primary">
             Home
           </Typography>
         </Link>
@@ -116,42 +139,49 @@ export  function Admin_moderators() {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-          <List>
-           <Link to="/admin">
-              <ListItem button key="Review">
+        <List>
+          <Link to={"/admin/"+user.sub}>
+              <ListItem style={highlighted} button key="Review">
                 <ListItemIcon><img src={rate_review}/></ListItemIcon>
                 <ListItemText primary="Review" />
               </ListItem>
-                
-            </Link>
-
-            <Link to="/admin_product">
-              <ListItem button key="Products">
+           </Link>     
+            
+           <Link to={"/admin_product/"+user.sub}>
+              <ListItem  button key="Products">
                 <ListItemIcon><img style={listItem} src={box}/></ListItemIcon>
                 <ListItemText primary="Products" />
               </ListItem>
 
-            </Link>
-            
-            <Link to="/admin_permissions">
+            </Link>  
+            <Link to={"/admin_permissions/"+user.sub}>
               <ListItem button key="Permissions">
                 <ListItemIcon><img style={listItem}  src={permission}/></ListItemIcon>
                 <ListItemText primary="Permissions" />
               </ListItem>
+
             </Link>
-            <Link to="/admin_moderators">
-              <ListItem style={highlighted} button key="Moderators">
+            <Link to={"/admin_moderators/"+user.sub}>
+              <ListItem button key="Moderators">
                 <ListItemIcon><img style={listItem}  src={engineer}/></ListItemIcon>
                 <ListItemText primary="Moderators" />
               </ListItem>
-            </Link> 
-            
-            <Link to="/admin_users" >
-              <ListItem  button key="Users">
+            </Link>
+            <Link to={"/admin_users/"+user.sub}>
+              <ListItem button key="Users">
                 <ListItemIcon><img style={listItem} src={people}/></ListItemIcon>
                 <ListItemText primary="Users" />
               </ListItem>
             </Link>  
+          </List>
+          <Divider />
+          <List>
+            {['Approved', 'Pending', 'Cancel'].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
           </List>
           <Divider />
           <List>
@@ -183,9 +213,10 @@ export  function Admin_moderators() {
 ))} 
     </Table>
       </main>
-
+      {/* </>)}   */}
 </>
 )}
+
     </div>
 
   );

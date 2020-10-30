@@ -62,6 +62,11 @@ const buttonIcon = {
 
 
 }
+const home = {
+  marginLeft: "50px", 
+  padding:"20px",
+  backgroundColor:"#E0E0E0"
+};
 
 const listItem = {
     height:"30px",
@@ -128,7 +133,7 @@ export  function Moderator(props) {
             Moderator Panel
           </Typography>
           <Link to="/">
-          <Typography className={styles.item_style} variant="primary">
+          <Typography style={home} variant="primary">
             Home
           </Typography>
         </Link>

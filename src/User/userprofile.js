@@ -19,6 +19,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import MuiButton from '@material-ui/core/Button';
 
 const GET_USER = gql`
 query MyQuery($id: String) {
@@ -29,6 +33,7 @@ query MyQuery($id: String) {
     reviews {
       product_id
       body
+      rating
       product {
         Name
       }
@@ -36,6 +41,7 @@ query MyQuery($id: String) {
     products {
       Product_id
       Name
+      Description
     }
   }
 }
@@ -106,6 +112,15 @@ function Userprofile(props){
      if (error) return `Error! ${error.message}`;
     console.log(data.user.user_type)
 let user_type 
+let reviews_count = new Array()
+{data.user.map((user,index)=>(
+  <>
+  {user.reviews.map((reviews,index)=>(
+    reviews_count[index] = reviews
+         ) )}
+         </>
+       ) )}
+       
     {data.user.map((user,index)=>(
 user_type = user.user_type
      ) )}
@@ -142,7 +157,9 @@ user_type = user.user_type
           <Tab label="My Review History" {...a11yProps(1)} />
           <Tab label="My Product History" {...a11yProps(2)} />
           {user_type=="admin"  &&(
+             <Link to={"/admin/" + user.sub}>
           <Tab label="Admin Panel" {...a11yProps(3)} />
+          </Link>
           )}
           {user_type=="moderator"  &&(
           <Link to={"/mod_reviews/" + user.sub}>
@@ -171,7 +188,7 @@ user_type = user.user_type
                 <ul key={index}  className={stylos.styleinfo_userlocation}>{user.location}</ul>
             ))} 
                 <div style={{display: "flex", flexDirection:"column", justifyContent: 'space-evenly'}}>
-                <ul className={stylos.styleinfo_usercred}> Review </ul>
+          <ul className={stylos.styleinfo_usercred}>{reviews_count.length} Reviews</ul>
                 <ul className={stylos.styleinfo_usercred}>10 Photo </ul>
                 </div>
                 </div>
@@ -180,54 +197,69 @@ user_type = user.user_type
               </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-      {data.user.map((user,index)=>(
-<>
-{user.reviews.map((reviews,index)=>(
-<>
-<div className={styles.ReviewHistoryPanel}>
-<div  key={index}>{reviews.body}</div>
-</div>
+          {data.user.map((user,index)=>(
+          <>
+          {user.reviews.map((reviews,index)=>(
+          <>
+          <Card className={stylos.card}>
+              <CardContent>
+              {/* {reviews.product.map((product,index)=>( */}
+          <span style={{fontSize: '20px', fontStyle: 'bold'}}></span>
+          {/* ) )}    */}
+          <Typography>"{reviews.body}"</Typography>
+              </CardContent>
+              <CardActions>
+                <MuiButton>See Review</MuiButton>
+              </CardActions>
+          </Card>
 
-</>
-     ) )}
-</>
-) )}
-        
+          </>
+              ) )}
+          </>
+              )
+            )
+          }
       </TabPanel>
       <TabPanel value={value} index={2}>
       {data.user.map((user,index)=>(
-<>
-{user.products.map((products,index)=>(
-<>
-
-<div  key={index}>{products.Name}</div>
-
-
-</>
-     ) )}
-</>
-) )}
+      <>
+      {user.products.map((products,index)=>(
+      <>
+      <Card className={stylos.card}>
+              <CardContent>
+                <span style={{fontSize: '20px', fontStyle: 'bold'}}>{products.Name}</span>
+                <Typography>{products.Description}</Typography>
+              </CardContent>
+              <CardActions>
+                <MuiButton><Link to={"/product/" + products.Product_id}>
+                See Product
+                </Link></MuiButton>
+              </CardActions>
+          </Card>
+        </>
+        ) )}
+        </>
+      ) )}
         
       </TabPanel>
-    </div>          
-    </div>   
-    )}
+      </div>          
+      </div>   
+      )}
         {/* <div className={styles.landing3}>
                         <div className={styles['font']}>
                             <p>Browse By Content</p>
                         </div>
-
                         <div className={styles.landing1}>
                             <BrowseContent/>
                         </div>
         </div> */}
 
-        <div className={styles.landing4}>
+        {/* <div className={styles.landing4}>
                         <div className={styles['font']}>
                             <p>Footer</p>
                         </div>
         </div>
-        
+         */}
         
         </>
         

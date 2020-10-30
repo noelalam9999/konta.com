@@ -14,15 +14,23 @@ import { BrowseContent } from './BrowseContent/BrowseContent';
 
 
 const SEARCH = gql`
-query Search($match: String) {
-    products(order_by:{Name:asc}, where : {Name:{_ilike: $match}}) {
-      Name
-      Description
-      user {
-        id
-      }
+query MyQuery($match: String) {
+  products(where: {Name: {_ilike: $match}, status: {_eq: true}}, order_by: {price: desc}) {
+    Product_id
+    Name
+    Product_picture_link
+    store_location_link
+    Description
+    price
+    user {
+      id
+      name
+    }
+    reviews {
+      id
     }
   }
+}
   
 `;
 const FILTERED_SEARCH_RESULT = gql `

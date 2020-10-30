@@ -13,7 +13,7 @@ import { TrendingSuggestions } from '../LandingPage/TrendingSuggestios/TrendingS
 
 const SEARCH = gql`
 query MyQuery($match: String) {
-  products(where: {Name: {_ilike: $match}}, order_by: {price: desc}) {
+  products(where: {Name: {_ilike: $match}, status: {_eq: true}}, order_by: {price: desc}) {
     Product_id
     Name
     Product_picture_link
@@ -22,10 +22,14 @@ query MyQuery($match: String) {
     price
     user {
       id
+      name
     }
-    
+    reviews {
+      id
+    }
   }
 }
+
 `;
 const FILTERED_SEARCH_RESULT = gql `
 query MyQuery($name: String, $price:Int) {

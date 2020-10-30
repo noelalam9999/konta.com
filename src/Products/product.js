@@ -3,14 +3,12 @@ import { TopNav } from '../LandingPage/TopNav/TopNav';
 import { SubNav } from '../NavBar/SubNav/SubNav';
 import { SearchBar } from '../SearchBar/SearchBar';
 import styles1 from './product.module.css';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {ReviewPostButton,TextArea} from './Form';
 import { BrowseContent } from "../LandingPage/BrowseContent/BrowseContent";
 import styles from '../LandingPage/LandingPage.module.css';
 import LikeButtonDemo from "./reactButton";  
 import {BusinessRating} from "../BusinessRating/BusinessRating";    
 import { Link } from "react-router-dom";
-
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
@@ -21,7 +19,8 @@ import {Product_suggestions} from "./product_suggestion"
 import { RichText, Date} from 'prismic-reactjs';
 import {product_suggestions} from "./product_suggestion"
 import {Timestamp} from "react-timestamp";
-import {moment} from "moment"
+import {moment} from "moment";
+
 const GET_PRODUCT = gql`
 query MyQuery($id: Int) {
   products(where: {Product_id: {_eq: $id}}) {
@@ -30,22 +29,22 @@ query MyQuery($id: Int) {
     Product_picture_link
     store_location_link
     status
-    created_at
     user {
+      id
+      name
+    }
+    reviews(where: {status: {_eq: true}}) {
+      body
+      status
+      created_at
+      user {
         id
         name
       }
-      reviews {
-        body
-        created_at
-        status
-        user {
-          id
-          name
-        }
-      }
     }
+  }
 }
+
 `;
 
 const INSERT_REVIEW = gql
@@ -168,22 +167,24 @@ return (
 <>
 
    <TopNav/>
-<div className={styles1.searchBar}>
-   <SearchBar 
+    <div className={styles1.searchBar}>
+   <SearchBar
             
             inputVal={inputVal}
             onChange = {(e) => setInputVal(e.target.value)}
-            onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            /></div>
-<br/>
+            onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}/>
+            </div>
+    <br/>
     <div className={styles1.productInfoContainer}>
-        <div style={{display: 'flex', flexDirection: 'row', maxWidth: '1800px', paddingLeft: '300px'}}>
+        <div style={{display: 'flex', flexDirection: 'row', paddingTop: '20px',paddingLeft: '200px'}}>
 
           
             {data.products.map((product,index)=>(
                 <>
-                  <img src={product.Product_picture_link} className={styles1.userImage}/>
+                <img src={product.Product_picture_link} className={styles1.userImage}/>
 
-<div className={styles1.styleinfo_productinfo}>
+                <div className={styles1.styleinfo_productinfo}>
+                <ul>Published on {timestamp}</ul>
                 <ul className={styles1.styleinfo_productname}>{product.Name} </ul>
                 <a href={product.store_location_link} className={styles1.styleinfo_productlocation}>See Location/Visit Site</a>
                 {product.status==true &&(
@@ -201,7 +202,6 @@ return (
 
                 }
                 </div> 
-                <ul>Published at {timestamp}</ul>
                 </>
                
                 ))}
@@ -214,12 +214,8 @@ return (
             <li className={styles1.menuitem}>Posted By {product.user.name} </li>
             ))} 
                 </ul>
-                <ul className={styles1.menu_itemlist}>
-                    <li className={styles1.menuitem}>+01770347361</li>
-                </ul>
-                <ul className={styles1.menu_itemlist}>
-                    <li className={styles1.menuitem}>Get Directions</li>
-                </ul>
+                
+             
             </div>           
         </div>
     </div>
@@ -228,7 +224,7 @@ return (
         <div className={styles1.reviewPostBox}>
         {isAuthenticated && (
             <>
-{data.products.map((product,index)=>(
+        {data.products.map((product,index)=>(
              
     <>  
             {product.status==true && (
@@ -248,9 +244,19 @@ return (
                         ))}    
         </>
         )}
-         {isAuthenticated && (
+         {!isAuthenticated && (
             <>
-            
+            <ul className={styles1.sign_in_prompt}>Please Login/Sign-up to post a Review</ul>
+            <Link>
+              <Typography
+                className={styles1.item_style}
+                variant="primary"
+                onClick={() => loginWithRedirect({})}
+              >
+                {" "}
+                Log In / Sign Up
+              </Typography>
+            </Link>
             </>
         )}
             <ul className={styles1.boxTitle}>Reviews</ul>
@@ -274,7 +280,7 @@ return (
                        
                             
                             <div key={index}>
-                            <ul>{review.user.name}</ul>
+                            <ul className={styles1.reviewerName}>{review.user.name}</ul>
                             
                         <div  className={styles1.userReviewBox}>
                         {review.status==true &&(
@@ -317,8 +323,8 @@ return (
         <div className={styles1.suggestionContainer}>
             <ul className={styles1.boxTitle}>You May Also Consider</ul>
             <div className={styles1.suggestionPanel}>
-<Product_suggestions props={props.match.params.Product_id}/>
-<Product_suggestions props={props.match.params.Product_id}/>
+                <Product_suggestions props={props.match.params.Product_id}/>
+                <Product_suggestions props={props.match.params.Product_id}/>
             </div>
         </div>
     </div>

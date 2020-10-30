@@ -36,6 +36,7 @@
     "react-rating": "^2.0.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-select": "^3.1.0",
     "react-timestamp": "^5.1.0",
     "reactjs-popup": "^2.0.4",
     "use-react-router": "^1.0.7"

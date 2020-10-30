@@ -40,7 +40,7 @@ query MyQuery($name: String, $price:Int) {
 `
 const SEARCH_RESULT = gql`
 query MyQuery($match: String) {
-  products(where: {Name: {_ilike: $match}}, order_by: {price: desc}) {
+  products(where: {Name: {_ilike: $match}, status: {_eq: true}}, order_by: {price: desc}) {
     Product_id
     Name
     Product_picture_link
@@ -50,14 +50,12 @@ query MyQuery($match: String) {
     user {
       id
       name
-      
     }
     reviews {
-        id
-      }
+      id
+    }
   }
 }
-
 
 `
 

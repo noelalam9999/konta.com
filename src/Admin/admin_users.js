@@ -81,8 +81,12 @@ const useStyles = makeStyles((theme) => ({
   },
   
 }));
-
-export  function Admin_users() {
+const home = {
+  marginLeft: "50px", 
+  padding:"20px",
+  backgroundColor:"#E0E0E0"
+};
+export  function Admin_users(props) {
   const classes = useStyles();
 
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
@@ -102,7 +106,7 @@ export  function Admin_users() {
             Admin Panel
           </Typography>
           <Link to="/">
-          <Typography className={styles.item_style} variant="primary">
+          <Typography style={home} variant="primary">
             Home
           </Typography>
         </Link>
@@ -117,43 +121,49 @@ export  function Admin_users() {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-          <List>
-          <Link to="/admin">
-              <ListItem button key="Review">
+        <List>
+          <Link to={"/admin/"+user.sub}>
+              <ListItem style={highlighted} button key="Review">
                 <ListItemIcon><img src={rate_review}/></ListItemIcon>
                 <ListItemText primary="Review" />
               </ListItem>
-           </Link>
-
-           <Link to="/admin_product">    
-              <ListItem button key="Products">
+           </Link>     
+            
+           <Link to={"/admin_product/"+user.sub}>
+              <ListItem  button key="Products">
                 <ListItemIcon><img style={listItem} src={box}/></ListItemIcon>
                 <ListItemText primary="Products" />
               </ListItem>
 
-            </Link>
-
-            <Link to="/admin_permissions">  
+            </Link>  
+            <Link to={"/admin_permissions/"+user.sub}>
               <ListItem button key="Permissions">
                 <ListItemIcon><img style={listItem}  src={permission}/></ListItemIcon>
                 <ListItemText primary="Permissions" />
               </ListItem>
-            </Link>
 
-            <Link to="/admin_moderators">  
+            </Link>
+            <Link to={"/admin_moderators/"+user.sub}>
               <ListItem button key="Moderators">
                 <ListItemIcon><img style={listItem}  src={engineer}/></ListItemIcon>
                 <ListItemText primary="Moderators" />
               </ListItem>
             </Link>
-
-            <Link to="/admin_users">  
-              <ListItem style={highlighted} button key="Users">
+            <Link to={"/admin_users/"+user.sub}>
+              <ListItem button key="Users">
                 <ListItemIcon><img style={listItem} src={people}/></ListItemIcon>
                 <ListItemText primary="Users" />
               </ListItem>
-
             </Link>  
+          </List>
+          <Divider />
+          <List>
+            {['Approved', 'Pending', 'Cancel'].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
           </List>
           <Divider />
           <List>

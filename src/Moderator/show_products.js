@@ -24,38 +24,38 @@ import { useQuery,useMutation } from "@apollo/react-hooks";
 import styles from './admin.modules.css';
 import check from '../assets/check.svg';
 import remove from '../assets/remove.svg';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from 'react-select';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
-const GET_PRODUCTS = gql`
- {
-  products{
-    Product_id
-    user {
-      name
-    }
-    Name
-    price
-    moderator_id
-    status
-    Description
-    store_location_link
+
+
+const LATEST_SUGGESTIONS = gql`
+query MyQuery {
+  products(distinct_on: category, where: {category: {_neq: "null"}}) {
     Product_picture_link
+    category
   }
 }
 
-
 `
-
 const APP_DEC = gql`
-mutation MyMutation($id:Int!,$status:Boolean!) {
-    update_products(where: {Product_id: {_eq: $id}}, _set: {status: $status}) {
-      returning {
-        Product_id
-        status
-      }
-      affected_rows
+mutation MyMutation($id: Int!, $status: Boolean!,$category:String!) {
+  update_products(where: {Product_id: {_eq: $id}}, _set: {status: $status, category: $category}) {
+    returning {
+      Product_id
+      status
+      category
     }
+    affected_rows
   }
-  
+}
+
 `
 
 const CHANGE_PRODUCT_STATUS = gql`
@@ -66,9 +66,17 @@ mutation MyMutation($id: String!, $product_status:Boolean!) {
 }
 
 `
-const GET_NEW_PRODUCT = gql`
+const CHANGE_CATEGORY = gql`
+mutation MyMutation($id: String!, $category:String!) {
+  update_products(where: {id: {_eq: $id}}, _set: {category: $category}) {
+    affected_rows
+  }
+}
+
+`
+const GET_PRODUCTS = gql`
 query MyQuery {
-  products(where: {status: {_is_null: true}}, limit: 1) {
+  products{
     Product_id
     user {
       name
@@ -77,11 +85,13 @@ query MyQuery {
     price
     moderator_id
     status
+    category
     Description
     store_location_link
     Product_picture_link
   }
 }
+
 `
 
 
@@ -91,35 +101,62 @@ const buttonIcon = {
   
   
   }
+  const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));  
+
 export function Products(props){
   console.log(props.id)
-  
+  const classes = useStyles();
+  let [category1, setAge] = useState("");
+  // const handleChange = (event) => {
+  //   setAge(event.target.value);
+  //   change_category()
+  // };
+
    
   //let mod_id = props.id;
   //let mod_id = props.id ? props.id : props.match.params.id;
   // console.log(mod_id)
-
-  // const { loading, error, data } = useQuery(GET_PRODUCTS,{
-  //   variables: { id: mod_id}
-  // });
+  const { loading, error, data } = useQuery(LATEST_SUGGESTIONS);
 
 const [approve_product] = useMutation(APP_DEC,{
-  variables:{id:props.products.Product_id, status:true},
-  refetchQueries:[{query:GET_NEW_PRODUCT}]
+  variables:{id:props.products.Product_id, status:true,category:category1},
+  refetchQueries:[{query:GET_PRODUCTS}]
+});
+const [change_category] = useMutation(CHANGE_CATEGORY,{
+  variables:{id:props.products.Product_id, category:category1},
+  refetchQueries:[{query:GET_PRODUCTS}]
 });
 
+
   const [decline_product] = useMutation(APP_DEC,{
-    variables:{id:props.products.Product_id, status:false},
-    refetchQueries:[{query:GET_NEW_PRODUCT}]
+    variables:{id:props.products.Product_id, status:false, category:category1},
+    refetchQueries:[{query:GET_PRODUCTS}]
   });
   const [change_product_status] = useMutation(CHANGE_PRODUCT_STATUS,{
     variables:{id:props.products.moderator_id, product_status:true}
     
   });
-
+  // const {  loading, error, data } = useQuery(GET_PRODUCTS, {
+  //   variables: { id: props.products.Product_id}
+  // });
+  
   function refreshPage() {
     window.location.reload(false);
   }
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+  const handleChange = (event) => {
+    setAge(event.target.value);
+   
+  };
 
   // const [get_new_products, { loading, error, data }] = useLazyQuery(GET_NEW_PRODUCT);
 
@@ -129,7 +166,13 @@ const [approve_product] = useMutation(APP_DEC,{
   //       variables:{id:data.products.moderator_id, product_status:true}
         
   //     });
-
+  let category = new Array()
+  {data.products.map((product,index) => (  
+  category[index] = 
+    {value:product.category,label:product.category}
+  
+    ))}
+    console.log(category1)
 return(
   <>
  
@@ -140,14 +183,74 @@ return(
         <td>{props.products.price}</td>
         <td>{props.products.Description}</td>
         <td>{props.products.store_location_link}</td>
-        <td><button className={`button `}>View</button></td>
+        <td>
+        <FormControl className={classes.formControl}>
+        {/* <InputLabel id="demo-simple-select-label">Categories</InputLabel> */}
+        
+        {/* <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={category1}
+          onChange={handleChange}
+        >
+           
+          <>
+          { category.map((category,index) => (
+           <>
+           <MenuItem key ={index} value={category}>{category}</MenuItem>
+        </>
+))
 
+          }
+          
+          </>
+     
+       
+        </Select> */}
+         {/* <DropdownButton
+      alignRight
+      title="Dropdown right"
+      id="dropdown-menu-align-right"
+    
+        >
+              <>
+          { category.map((category,index) => (
+          <>
+           <Dropdown.Item key ={index} value={category}>{category}</Dropdown.Item>
+          </>
+            ))
+          }
+          
+          </>
+      </DropdownButton>
+           */}
+
+           {/* <Select   options={category}/> */}
+           <select value={category1}
+          onChange={handleChange}>
+           <>
+           { 
+           category.map((category,index) => (
+           <>
+           <option value= {category.value}>{category.label}</option>
+        </>
+))
+          }
+           
+           </>
+
+           </select>
+      </FormControl>
+
+        </td>
+       
+       
 
 
       {props.products.status==null &&
       <td>
-        <button onClick = {()=> {approve_product();change_product_status();refreshPage();}} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button>
-        <button onClick = {()=> {decline_product();change_product_status();refreshPage();}} className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button>
+        <button onClick = {approve_product} className={`button ${styles['nav-button']}`}><img style={buttonIcon}  src={check}/></button>
+        <button onClick = {decline_product} className={`button ${styles['nav-button']}`}><img style={buttonIcon} src={remove}/></button>
       </td>
       
       }

@@ -33,7 +33,7 @@ export const SearchBar = ({inputVal, onChange, onSubmit}) => {
                             onChange={onChange}
                             type="text" 
                             value={inputVal}
-                            placeholder="search"
+                            placeholder="Jeans, burgers, bags etc"
                         />
                     </p>
                     {/* <div className="control">
