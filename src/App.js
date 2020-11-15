@@ -20,6 +20,7 @@ import {Admin_permissions} from "./Admin/admin_permissions"
 import {Category_search} from './Search/Category_search';
 import {Moderator} from "./Moderator/admin"
 import {Moderator_product} from "./Moderator/admin_product"
+import { SimilarProductPage } from './Moderator/similar_products_page';
 
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
               <Route path={'/mod_reviews/:id'} component={Moderator}/>
               <Route path={'/admin_permissions/:id'} component={Admin_permissions}/>
               <Route path={'/category_search/:category'} component={Category_search}/>
-              
+              <Route path={'/similar_product/:Name/:id'} component={SimilarProductPage}/>
           </Switch>
            
     </ApolloProvider>

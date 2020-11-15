@@ -1,21 +1,20 @@
 import React from 'react';
 import { TopNav } from './TopNav/TopNav';
-import logo from '../assets/logo.png';
 import styles from './LandingPage.module.css';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { SearchSuggestions } from './SearchSuggestions/SearchSuggestions';
 import { TrendingSuggestions } from './TrendingSuggestios/TrendingSuggestions';
 import  { useState } from 'react';
 import { useLazyQuery, gql } from "@apollo/client";
-import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
+//import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 import Icon from './icons'
 import Footer from './footer'
-import { LatestSuggestions } from './LatestSuggestions/LatestSuggestions';
-import { BrowseContent } from './BrowseContent/BrowseContent';
+import CatagoryView from './categoryBar';
 import {SuggestedProductsOne} from './suggested_products1'
 import {SuggestedProductsTwo} from './suggested_products2'
 import {SuggestedProductsThree} from './suggested_products3'
-import CatagoryView from './categoryBar';
+
+
 
 const SEARCH = gql`
 query MyQuery($match: String) {
@@ -35,7 +34,7 @@ query MyQuery($match: String) {
     }
   }
 }
-  
+
 `;
 const FILTERED_SEARCH_RESULT = gql `
 query MyQuery($name: String, $price:Int) {
@@ -64,43 +63,38 @@ export function LandingPage(){
     if (error) return <p>Error :(</p>;
     return(
         <div className={styles.landing1}>
-            
+
             <TopNav/>
-            <CatagoryView/>
             <div className={styles['search-area']}>
-            
-            <img src={logo} className={styles.logo} alt='logo'/>
-            <div className={styles['subtitle']}>Get Authentic Reviews of Any and All Products in the market</div>
-            <SearchBar 
-            
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <SearchBar
+
             inputVal={inputVal}
             onChange = {(e) => setInputVal(e.target.value)}
             onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
+            <br></br>
+            <div className={styles['subtitle']}>Get Authentic Reviews of Any and All Products in the Market</div>
             {/* <SearchSuggestions/> */}
+            <CatagoryView/>
+            <br></br>
+            <br></br>
             
-              <span className={styles.font1} >Find the Best Businesses in Town</span>
-              {/* <TrendingSuggestions/>
-            */}
-            
-            Household
+           
+Household
 <SuggestedProductsOne/>
 fast food
 <SuggestedProductsTwo/>
 daily needs            
 <SuggestedProductsThree/>
-           
-
-            
             </div>
-
-
-
             
             <div>
                         <div className={styles['font']}>
                             <p>KONTA in Bangladesh</p>
                         </div>
-
                         <div className={styles.suggestions}>
                             <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Dhaka</span>
                             <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Chattogram</span>
@@ -122,21 +116,21 @@ daily needs
                 </div>
 
                 <div className={styles.landing3}>
-                     
-                        
+
+
                 </div>
 
-            
+
                 <Footer>
             <Footer.Wrapper>
             <Footer.Row>
                 <Footer.Column>
-                <Footer.Title>Categories</Footer.Title>
-                    <Footer.Link href="http://localhost:3000/category_search/bags">Household</Footer.Link>
-                    <Footer.Link href="http://localhost:3000/category_search/fast%20food">Fast Food</Footer.Link>
-                    <Footer.Link href="http://localhost:3000/category_search/clothing">Clothes</Footer.Link>
+                <Footer.Title>About Us</Footer.Title>
+                    <Footer.Link href="#">Story</Footer.Link>
+                    <Footer.Link href="#">Clients</Footer.Link>
+                    <Footer.Link href="#">Testimonials</Footer.Link>
                 </Footer.Column>
-                {/* <Footer.Column>
+                <Footer.Column>
                 <Footer.Title>Services</Footer.Title>
                     <Footer.Link href="#">Marketing</Footer.Link>
                     <Footer.Link href="#">Consulting</Footer.Link>
@@ -149,7 +143,7 @@ daily needs
                     <Footer.Link href="#">United Kingdom</Footer.Link>
                     <Footer.Link href="#">Australia</Footer.Link>
                     <Footer.Link href="#">Support</Footer.Link>
-                </Footer.Column> */}
+                </Footer.Column>
                 <Footer.Column>
                 <Footer.Title>Social</Footer.Title>
                     <Footer.Link href="#"><Icon className="fab fa-facebook-f" />Facebook</Footer.Link>
@@ -160,7 +154,7 @@ daily needs
             </Footer.Row>
             </Footer.Wrapper>
         </Footer>
-    </div>    
-        
+    </div>
+
     );
 }
