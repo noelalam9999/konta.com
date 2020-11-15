@@ -7,11 +7,15 @@ import { SearchSuggestions } from './SearchSuggestions/SearchSuggestions';
 import { TrendingSuggestions } from './TrendingSuggestios/TrendingSuggestions';
 import  { useState } from 'react';
 import { useLazyQuery, gql } from "@apollo/client";
-
-
+import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
+import Icon from './icons'
+import Footer from './footer'
 import { LatestSuggestions } from './LatestSuggestions/LatestSuggestions';
 import { BrowseContent } from './BrowseContent/BrowseContent';
-
+import {SuggestedProductsOne} from './suggested_products1'
+import {SuggestedProductsTwo} from './suggested_products2'
+import {SuggestedProductsThree} from './suggested_products3'
+import CatagoryView from './categoryBar';
 
 const SEARCH = gql`
 query MyQuery($match: String) {
@@ -62,6 +66,7 @@ export function LandingPage(){
         <div className={styles.landing1}>
             
             <TopNav/>
+            <CatagoryView/>
             <div className={styles['search-area']}>
             
             <img src={logo} className={styles.logo} alt='logo'/>
@@ -74,10 +79,15 @@ export function LandingPage(){
             {/* <SearchSuggestions/> */}
             
               <span className={styles.font1} >Find the Best Businesses in Town</span>
-              <TrendingSuggestions/>
-           
-
+              {/* <TrendingSuggestions/>
+            */}
             
+            Household
+<SuggestedProductsOne/>
+fast food
+<SuggestedProductsTwo/>
+daily needs            
+<SuggestedProductsThree/>
            
 
             
@@ -116,15 +126,41 @@ export function LandingPage(){
                         
                 </div>
 
-                <div className={styles.landing4}>
-                        <div className={styles['font']}>
-                            <p>Footer</p>
-                        </div>
-                </div>
-
-
-        </div>
-        
+            
+                <Footer>
+            <Footer.Wrapper>
+            <Footer.Row>
+                <Footer.Column>
+                <Footer.Title>Categories</Footer.Title>
+                    <Footer.Link href="http://localhost:3000/category_search/bags">Household</Footer.Link>
+                    <Footer.Link href="http://localhost:3000/category_search/fast%20food">Fast Food</Footer.Link>
+                    <Footer.Link href="http://localhost:3000/category_search/clothing">Clothes</Footer.Link>
+                </Footer.Column>
+                {/* <Footer.Column>
+                <Footer.Title>Services</Footer.Title>
+                    <Footer.Link href="#">Marketing</Footer.Link>
+                    <Footer.Link href="#">Consulting</Footer.Link>
+                    <Footer.Link href="#">Development</Footer.Link>
+                    <Footer.Link href="#">Design</Footer.Link>
+                </Footer.Column>
+                <Footer.Column>
+                <Footer.Title>Contact Us</Footer.Title>
+                    <Footer.Link href="#">United States</Footer.Link>
+                    <Footer.Link href="#">United Kingdom</Footer.Link>
+                    <Footer.Link href="#">Australia</Footer.Link>
+                    <Footer.Link href="#">Support</Footer.Link>
+                </Footer.Column> */}
+                <Footer.Column>
+                <Footer.Title>Social</Footer.Title>
+                    <Footer.Link href="#"><Icon className="fab fa-facebook-f" />Facebook</Footer.Link>
+                    <Footer.Link href="#"><Icon className="fab fa-instagram" />Instagram</Footer.Link>
+                    <Footer.Link href="#"><Icon className="fab fa-youtube" />Youtube</Footer.Link>
+                    <Footer.Link href="#"><Icon className="fab fa-twitter" />Twitter</Footer.Link>
+                </Footer.Column>
+            </Footer.Row>
+            </Footer.Wrapper>
+        </Footer>
+    </div>    
         
     );
 }

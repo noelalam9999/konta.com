@@ -50,7 +50,7 @@ export function TrendingSuggestions() {
     return(
       <>
       <Grid container className={classes.gridContainer} spacing={2}>
-          {data.products.slice(0,8).map((product,index) => (
+          {data.products.slice(0,4).map((product,index) => (
             <Grid item xs={12} sm={6} md={3} style={{width: '290px'}}>
               <Link to={"/category_search/" + product.category}>
                 <Card className={styles.root}>

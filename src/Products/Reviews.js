@@ -212,7 +212,7 @@ return(
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
           Your Review has been posted and is under review

@@ -170,14 +170,14 @@ export  function Admin_product(props) {
         <div className={classes.drawerContainer}>
         <List>
           <Link to={"/admin/"+user.sub}>
-              <ListItem style={highlighted} button key="Review">
+              <ListItem  button key="Review">
                 <ListItemIcon><img src={rate_review}/></ListItemIcon>
                 <ListItemText primary="Review" />
               </ListItem>
            </Link>     
             
            <Link to={"/admin_product/"+user.sub}>
-              <ListItem  button key="Products">
+              <ListItem  style={highlighted}button key="Products">
                 <ListItemIcon><img style={listItem} src={box}/></ListItemIcon>
                 <ListItemText primary="Products" />
               </ListItem>

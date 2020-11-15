@@ -34,6 +34,7 @@ query MyQuery($id: String) {
       product_id
       body
       rating
+      status
       product {
         Name
       }
@@ -209,7 +210,10 @@ user_type = user.user_type
           <Typography>"{reviews.body}"</Typography>
               </CardContent>
               <CardActions>
-                <MuiButton>See Review</MuiButton>
+                {/* <Link to={"/product/" + reviews.product_id} >
+                <MuiButton >See Review</MuiButton>
+                </Link> */}
+                    <Typography>"{reviews.status}"</Typography>
               </CardActions>
           </Card>
 

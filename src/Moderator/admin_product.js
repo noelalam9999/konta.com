@@ -208,6 +208,8 @@ export  function Moderator_product(props) {
       <th>Product price</th>
       <th>Description</th>
       <th >Retailer</th>
+      <th>Similar Product</th>
+     
       <th>Set Category</th>
      
       <th>Approve/Decline</th>

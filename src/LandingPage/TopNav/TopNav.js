@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import logo from '../../assets/logo.png';
 import styles from "./TopNav.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
@@ -27,6 +28,7 @@ export function TopNav() {
 
     <AppBar position="static" style={{ background: "Black" }}>
       <Toolbar style={{ justifyContent: "center" }}>
+      <img src={logo} className={styles.logo} alt='logo'/>
         <Link to="/">
           <Typography className={styles.item_style} variant="primary">
             Home

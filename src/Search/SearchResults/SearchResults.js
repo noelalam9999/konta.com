@@ -8,6 +8,8 @@ import Post from "./SearchResult/SearchResult";
 import { SearchResult } from './SearchResult/SearchResult';
 import styles1 from '../SearchResultsSummary/SearchResultsSummary.module.css';
 import  { useState } from 'react';
+import Icon from '../../LandingPage/icons'
+import Footer from '../../LandingPage/footer'
 
 export const POSTS_LIST = gql`
   {
@@ -102,11 +104,14 @@ let max_price
 return(
   <>
   <div className={styles1.container}>
-  <div className={styles1['search-summary']}>
-  
-
+  <div className={styles.searchSummary}>
+    <span className={styles.searchResultText}>Found {number_of_products.length} result(s).</span>
   </div>
-<p>Showing results {number_of_products.length}</p>
+  {/* {number_of_products.length==0 &&
+      <span className={styles.searchResultText}>
+       Sorry...! Nothing related to your search was found. :(
+      </span>    
+  } */}
   <div className={styles1.filters}>
       {/* <button className="button">
           <span className="icon"><i className="fas fa-sliders-h"></i></span>
@@ -131,6 +136,13 @@ return(
       </ol>
     </Container>
       
+    }
+    {number_of_products.length==0 &&
+      <div className={styles.noResultBox}>
+        <span className={styles.noResultText}>
+        Sorry! Nothing related to your search was found. :(
+        </span>  
+      </div>  
     }
     {data!=null &&
     <Container className="postlist">

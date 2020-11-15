@@ -32,7 +32,7 @@ import Select from 'react-select';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-
+import {SimilarProduct} from './similar_product'
 
 
 const LATEST_SUGGESTIONS = gql`
@@ -183,49 +183,11 @@ return(
         <td>{props.products.price}</td>
         <td>{props.products.Description}</td>
         <td>{props.products.store_location_link}</td>
+        <td><SimilarProduct Name={props.products.Name} id={props.products.Product_id}/></td>
+     
         <td>
         <FormControl className={classes.formControl}>
-        {/* <InputLabel id="demo-simple-select-label">Categories</InputLabel> */}
-        
-        {/* <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={category1}
-          onChange={handleChange}
-        >
-           
-          <>
-          { category.map((category,index) => (
-           <>
-           <MenuItem key ={index} value={category}>{category}</MenuItem>
-        </>
-))
-
-          }
-          
-          </>
-     
-       
-        </Select> */}
-         {/* <DropdownButton
-      alignRight
-      title="Dropdown right"
-      id="dropdown-menu-align-right"
     
-        >
-              <>
-          { category.map((category,index) => (
-          <>
-           <Dropdown.Item key ={index} value={category}>{category}</Dropdown.Item>
-          </>
-            ))
-          }
-          
-          </>
-      </DropdownButton>
-           */}
-
-           {/* <Select   options={category}/> */}
            <select value={category1}
           onChange={handleChange}>
            <>
