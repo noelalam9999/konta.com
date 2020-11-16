@@ -10,15 +10,15 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { auto } from '@popperjs/core';
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
-import SubCatagoryView from './subcategorybar';
 
 const LATEST_SUGGESTIONS = gql`
-query MyQuery {
-    products(distinct_on: category) {
-      Product_picture_link
-      category
+query MyQuery($match:String){
+    products(distinct_on: subcategories, where: {category: {_eq: $match}}) {
+    
+      subcategories
     }
   }
+  
   
 `
 
@@ -118,32 +118,26 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CatagoryView() {
+export default function SubCatagoryView(props) {
   const classes = useStyles();
-  const { loading, error, data } = useQuery(LATEST_SUGGESTIONS);
+  const { loading, error, data } = useQuery(LATEST_SUGGESTIONS,{
+    variables: { match: props.category}
+  });
     if (loading) return "Loading...";
     if (error) return `Error! ${error.message}`;
   return (
-    <AppBar position='static' color='inherit' style={{ maxWidth: '1800px'  }}>    
-        <TreeView
-        className={classes.root}
-        defaultSelected={['1']}
-        defaultCollapseIcon={<ArrowDropDownIcon />}
-        defaultExpandIcon={<ArrowRightIcon/>}
-        defaultEndIcon={<div style={{ width: 24 }} />}
-        >
-
-{data.products.slice(0,8).map((product,index) => (
-<>
-<StyledTreeItem nodeId="1" labelText={product.category} >
-         <SubCatagoryView category={product.category}/>
-         </StyledTreeItem>
-</>
-
+      <>
+    
+{data.products.slice(0,4).map((product,index) => (
+    
+    <StyledTreeItem
+    nodeId="5"
+    labelText={product.subcategories}
+    color="#1a73e8"
+    bgColor="#e8f0fe"
+    />  
 ))}
-       
-      
-        </TreeView>
-    </AppBar>
+      </>
+    
   );
 }

@@ -24,6 +24,7 @@ const GET_PRODUCT = gql`
 query MyQuery($id: Int) {
   products(where: {Product_id: {_eq: $id}}) {
     Name
+    Product_id
     Description
     Product_picture_link
     store_location_link
@@ -84,6 +85,7 @@ return (
 
 {data.products.map((product,index)=>(
             <div className={styles1.productSuggestionBox}>
+              <Link to={"/product/"+product.Product_id}>
                     <div className={styles1.SuggestionDetailBox}>
                         <div className={styles1.reviewerImage}>
                             <img src={product.Product_picture_link} className={styles1.userImageSmall}/>
@@ -97,7 +99,7 @@ return (
                         </div>        
                     </div>
                 
-                
+                    </Link>
                 
                 </div>    
     ))}

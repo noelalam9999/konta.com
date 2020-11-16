@@ -13,7 +13,8 @@ import CatagoryView from './categoryBar';
 import {SuggestedProductsOne} from './suggested_products1'
 import {SuggestedProductsTwo} from './suggested_products2'
 import {SuggestedProductsThree} from './suggested_products3'
-
+import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 
 
 const SEARCH = gql`
@@ -81,14 +82,27 @@ export function LandingPage(){
             <CatagoryView/>
             <br></br>
             <br></br>
-            
-           
-Household
-<SuggestedProductsOne/>
-fast food
-<SuggestedProductsTwo/>
-daily needs            
-<SuggestedProductsThree/>
+            <div className={styles.suggProd_container}> 
+              <div className={styles.SuggCatTitle}>
+                <span className={styles.title_decor}>Household </span>
+              </div>
+              <hr className={styles.dividingline}></hr>
+              <SuggestedProductsOne/>
+              <br></br>
+              <div className={styles.SuggCatTitle}>
+                <span className={styles.title_decor}>Fast Food </span>
+              </div>
+              <hr className={styles.dividingline}></hr>
+              <SuggestedProductsTwo/>
+              <br></br>
+              <div className={styles.SuggCatTitle}>
+                <span className={styles.title_decor}>Daily Needs</span>
+              </div>
+              <hr className={styles.dividingline}></hr>          
+              <SuggestedProductsThree/>
+              <br></br>
+              <hr className={styles.dividingline}></hr>
+            </div>
             </div>
             
             <div>

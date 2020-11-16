@@ -31,22 +31,26 @@ export const SearchResult = ({reviews,Product_picture_link,Product_id,Name, Desc
   // ))}
    console.log({store_location_link})
   return (
-        <div className={styles['search-result']}>
+    <>
+        <div className={styles.searchResult}>
             <img src={Product_picture_link} alt='business' className={styles['business-image']}/>
-            <div className={styles['business-info']}>
+            <div className={styles.businessInfo}>
                 <Link to={"/product/" + Product_id}>
-                <h2  className="subtitle">{Name}</h2>
+                <h2  className={styles.productTitle}>{Name}</h2>
                 </Link>
                 <BusinessRating number_of_reviews = {number_of_reviews}/>
                 {number_of_reviews.length} Reviews
-                <p>{price}Tk <span className="tag">{Description}</span> {user.name}<span className="tag"></span></p>
+                <p>{price}Tk </p>
+                <span className={styles.description}>''{Description}''</span>
+                <span>---{user.name}</span>
             </div>
             <div className={styles['contact-info']}>
-    <p><a href={store_location_link}>
-                <h2  className="subtitle">Visit Store</h2>
-                </a></p>
-              
+                <p><a href={store_location_link}>
+                <h2  className={styles.visitStoreTitle}>Visit Store</h2>
+                </a></p>              
             </div>
         </div>
+        <br></br>
+    </>
     );
 }

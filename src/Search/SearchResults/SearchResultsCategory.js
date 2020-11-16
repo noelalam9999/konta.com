@@ -102,12 +102,10 @@ let max_price
     // if (medium_price.error) return `Error! ${error.message}`;
 return(
   <>
-  <div className={styles1.container}>
-  <div className={styles1['search-summary']}>
-  
-
+ <div className={styles1.container}>
+  <div className={styles.searchSummary}>
+    <span className={styles.searchResultText}>Found {number_of_products.length} result(s).</span>
   </div>
-<p>Showing results {number_of_products.length}</p>
   <div className={styles1.filters}>
       {/* <button className="button">
           <span className="icon"><i className="fas fa-sliders-h"></i></span>
@@ -134,7 +132,7 @@ return(
       
     }
     {data!=null &&
-    <Container className="postlist">
+    <Container className="postlist" style={{backgroundColor: 'inherit', marginTop: '40px', marginBottom: '40px'}}>
     <ol>
       {data.products.map(({Product_id,Name, Description,user,Product_picture_link,store_location_link,price,reviews}) => (
 

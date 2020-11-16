@@ -145,7 +145,7 @@ return(
       </div>  
     }
     {data!=null &&
-    <Container className="postlist">
+    <Container className="postlist" style={{backgroundColor: 'inherit', marginTop: '40px', marginBottom: '40px'}}>
     <ol>
       {data.products.map(({Product_id,Name, Description,user,Product_picture_link,store_location_link,price,reviews}) => (
 
