@@ -280,15 +280,7 @@ export function Product_upload(props){
             </form>
         </div>)
 }
-        <div className={styles.landing3}>
-                        <div className={styles['font']}>
-                            <p>Browse By Content</p>
-                        </div>
-
-                        <div className={styles.landing1}>
-                            <BrowseContent/>
-                        </div>
-                </div>
+     
 
                 <div className={styles.landing4}>
                         <div className={styles['font']}>
