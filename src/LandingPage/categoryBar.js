@@ -11,7 +11,7 @@ import { auto } from '@popperjs/core';
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
 import SubCatagoryView from './subcategorybar';
-
+import { Link } from "react-router-dom";
 const LATEST_SUGGESTIONS = gql`
 query MyQuery {
     products(distinct_on: category) {
@@ -136,6 +136,7 @@ export default function CatagoryView() {
 {data.products.slice(0,8).map((product,index) => (
 <>
 <StyledTreeItem nodeId="1" labelText={product.category} >
+          {/* <Link to={"/category_search/" + product.category}><SubCatagoryView category={product.category}/></Link> */}
          <SubCatagoryView category={product.category}/>
          </StyledTreeItem>
 </>

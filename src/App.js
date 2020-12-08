@@ -18,6 +18,7 @@ import {Admin_product} from "./Admin/admin_product"
 import {Admin_users} from "./Admin/admin_users"
 import {Admin_permissions} from "./Admin/admin_permissions"
 import {Category_search} from './Search/Category_search';
+import {SubCategory_search} from './Search/SubCategorySearch';
 import {Moderator} from "./Moderator/admin"
 import {Moderator_product} from "./Moderator/admin_product"
 import { SimilarProductPage } from './Moderator/similar_products_page';
@@ -54,6 +55,7 @@ function App() {
               <Route path={'/mod_reviews/:id'} component={Moderator}/>
               <Route path={'/admin_permissions/:id'} component={Admin_permissions}/>
               <Route path={'/category_search/:category'} component={Category_search}/>
+              <Route path={'/subcategory_search/:category'} component={SubCategory_search}/>
               <Route path={'/similar_product/:Name/:id'} component={SimilarProductPage}/>
           </Switch>
            

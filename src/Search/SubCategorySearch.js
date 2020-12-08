@@ -3,7 +3,7 @@ import { useLazyQuery, gql } from "@apollo/client";
 import { NavBar } from '../NavBar/NavBar';
 import { SubNav } from '../NavBar/SubNav/SubNav';
 import { SearchResultsSummary } from './SearchResultsSummary/SearchResultsSummary';
-import { SearchResultsCategory } from './SearchResults/SearchResultsCategory';
+import { SearchResultsSubCategory } from './SearchResults/SearchResultsSubCategory';
 import useReactRouter from 'use-react-router';
 import { SearchBar } from '../SearchBar/SearchBar';
 import styles from './Search.module.css'
@@ -15,7 +15,7 @@ import Footer from '../LandingPage/footer'
 
 const SEARCH = gql`
 query MyQuery($match: String) {
-  products(where: {category: {_ilike: $match}}, order_by: {price: desc}) {
+  products(where: {subcategories: {_ilike: $match}}, order_by: {price: desc}) {
     Product_id
     Name
     Product_picture_link
@@ -46,7 +46,7 @@ query MyQuery($name: String, $price:Int) {
 `
 
 
-export function Category_search(props) {
+export function SubCategory_search(props) {
 
     // const {location} = useReactRouter();
     // const params = new URLSearchParams(location.search);
@@ -56,7 +56,7 @@ export function Category_search(props) {
     const [Search, { loading, error, data }] = useLazyQuery(SEARCH);
 
 
-if (loading) return <p>Loading ...</p>;
+    if (loading) return <p>Loading ...</p>;
 if (error) return <p>{error.message}</p>;
 console.log(typeof inputVal)
     return (
@@ -73,7 +73,7 @@ console.log(typeof inputVal)
            </div>
             {/* <SearchResultsSummary product={props.match.params.products}/> */}
           
-           <SearchResultsCategory newProducts={props.match.params.category ? props.match.params.category : null} />
+           <SearchResultsSubCategory newProducts={props.match.params.category ? props.match.params.category : null} />
        
            <div className={styles['search-results']}>
            <div className={styles['text']}>You may also like</div>

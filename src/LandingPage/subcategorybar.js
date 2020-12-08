@@ -10,7 +10,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { auto } from '@popperjs/core';
 import { useLazyQuery, gql } from "@apollo/client";
 import { useQuery } from "@apollo/react-hooks";
-
+import { Link } from "react-router-dom";
 const LATEST_SUGGESTIONS = gql`
 query MyQuery($match:String){
     products(distinct_on: subcategories, where: {category: {_eq: $match}}) {
@@ -129,13 +129,16 @@ export default function SubCatagoryView(props) {
       <>
     
 {data.products.slice(0,4).map((product,index) => (
-    
+  <>
+    <Link to={"/subcategory_search/" + product.subcategories}>
     <StyledTreeItem
     nodeId="5"
     labelText={product.subcategories}
     color="#1a73e8"
     bgColor="#e8f0fe"
     />  
+    </Link>
+    </>
 ))}
       </>
     

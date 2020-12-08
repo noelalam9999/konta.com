@@ -71,11 +71,14 @@ export function LandingPage(){
             <br></br>
             <br></br>
             <br></br>
+            <div className={styles['search-area-sub']}>
+            
             <SearchBar
 
             inputVal={inputVal}
             onChange = {(e) => setInputVal(e.target.value)}
-            onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
+            onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })} />
+            </div>
             <br></br>
             <div className={styles['subtitle']}>Get Authentic Reviews of Any and All Products in the Market</div>
             {/* <SearchSuggestions/> */}

@@ -30,6 +30,7 @@ query MyQuery($id: String) {
     name
     location
     user_type
+    User_Picture_link
     reviews {
       product_id
       body
@@ -176,8 +177,9 @@ user_type = user.user_type
                       <SubNavItem icon='fas fa-edit' title='upload picture'></SubNavItem>
                     </Link>
                   </div>
+                  {data.user.map((user,index)=>(
                 <img src={user.User_Picture_link} className={stylos.userImage}/>
-                
+                ))} 
                 <div className={stylos.styleinfo_userinfo}>
               
 
