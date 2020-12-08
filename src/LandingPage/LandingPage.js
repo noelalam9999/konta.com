@@ -62,7 +62,7 @@ export function LandingPage(){
 
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error :(</p>;
-    return(
+      return(
         <div className={styles.landing1}>
 
             <TopNav/>
@@ -171,4 +171,113 @@ export function LandingPage(){
     </div>
 
     );
+    //   return(
+    //     <div className={styles.landing1}>
+
+    //         <TopNav/>
+    //         <div className={styles['search-area']}>
+    //         <br></br>
+    //         <br></br>
+    //         <br></br>
+    //         <br></br>
+    //         <SearchBar
+
+    //         inputVal={inputVal}
+    //         onChange = {(e) => setInputVal(e.target.value)}
+    //         onSubmit={() => Search({ variables: { match: `%${inputVal}%` } })}            />
+    //         <br></br>
+    //         <div className={styles['subtitle']}>Get Authentic Reviews of Any and All Products in the Market</div>
+    //         {/* <SearchSuggestions/> */}
+    //         <CatagoryView/>
+    //         <br></br>
+    //         <br></br>
+    //         <div className={styles.suggProd_container}> 
+    //           <div className={styles.SuggCatTitle}>
+    //             <span className={styles.title_decor}>Household </span>
+    //           </div>
+    //           <hr className={styles.dividingline}></hr>
+    //           <SuggestedProductsOne/>
+    //           <br></br>
+    //           <div className={styles.SuggCatTitle}>
+    //             <span className={styles.title_decor}>Fast Food </span>
+    //           </div>
+    //           <hr className={styles.dividingline}></hr>
+    //           <SuggestedProductsTwo/>
+    //           <br></br>
+    //           <div className={styles.SuggCatTitle}>
+    //             <span className={styles.title_decor}>Daily Needs</span>
+    //           </div>
+    //           <hr className={styles.dividingline}></hr>          
+    //           <SuggestedProductsThree/>
+    //           <br></br>
+    //           <hr className={styles.dividingline}></hr>
+    //         </div>
+    //         </div>
+            
+    //         <div>
+    //                     <div className={styles['font']}>
+    //                         <p>KONTA in Bangladesh</p>
+    //                     </div>
+    //                     <div className={styles.suggestions}>
+    //                         <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Dhaka</span>
+    //                         <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Chattogram</span>
+    //                         <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Sylhet</span>
+    //                         <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Khulna</span>
+    //                         <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Rajshahi</span>
+    //                         <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Barishal</span>
+    //                         <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Rangpur</span>
+    //                         <span className="icon is-small"><i className="fas fa-city" color="black"></i></span><span className={styles.suggestion}>Jessore</span>
+    //                     </div>
+
+    //                     {/* <div className={styles['font']}>
+    //                         <p>Hot & New Businesses</p>
+    //                     </div> */}
+
+    //                     <div className={styles.landing1}>
+    //                         {/* <LatestSuggestions/> */}
+    //                     </div>
+    //             </div>
+
+    //             <div className={styles.landing3}>
+
+
+    //             </div>
+
+
+    //             <Footer>
+    //         <Footer.Wrapper>
+    //         <Footer.Row>
+    //             <Footer.Column>
+    //             <Footer.Title>About Us</Footer.Title>
+    //                 <Footer.Link href="#">Story</Footer.Link>
+    //                 <Footer.Link href="#">Clients</Footer.Link>
+    //                 <Footer.Link href="#">Testimonials</Footer.Link>
+    //             </Footer.Column>
+    //             <Footer.Column>
+    //             <Footer.Title>Services</Footer.Title>
+    //                 <Footer.Link href="#">Marketing</Footer.Link>
+    //                 <Footer.Link href="#">Consulting</Footer.Link>
+    //                 <Footer.Link href="#">Development</Footer.Link>
+    //                 <Footer.Link href="#">Design</Footer.Link>
+    //             </Footer.Column>
+    //             <Footer.Column>
+    //             <Footer.Title>Contact Us</Footer.Title>
+    //                 <Footer.Link href="#">United States</Footer.Link>
+    //                 <Footer.Link href="#">United Kingdom</Footer.Link>
+    //                 <Footer.Link href="#">Australia</Footer.Link>
+    //                 <Footer.Link href="#">Support</Footer.Link>
+    //             </Footer.Column>
+    //             <Footer.Column>
+    //             <Footer.Title>Social</Footer.Title>
+    //                 <Footer.Link href="#"><Icon className="fab fa-facebook-f" />Facebook</Footer.Link>
+    //                 <Footer.Link href="#"><Icon className="fab fa-instagram" />Instagram</Footer.Link>
+    //                 <Footer.Link href="#"><Icon className="fab fa-youtube" />Youtube</Footer.Link>
+    //                 <Footer.Link href="#"><Icon className="fab fa-twitter" />Twitter</Footer.Link>
+    //             </Footer.Column>
+    //         </Footer.Row>
+    //         </Footer.Wrapper>
+    //     </Footer>
+    // </div>
+
+    // );
 }
