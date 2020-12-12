@@ -203,6 +203,8 @@ return (
                 )
 
                 }
+                <ul className={styles1.styleinfo_productDescription}>{product.Description}</ul>
+                
                 </div> 
                 </>
                

@@ -45,7 +45,7 @@ export const SearchResult = ({reviews,Product_picture_link,Product_id,Name, Desc
                 <span>---{user.name}</span>
             </div>
             <div className={styles['contact-info']}>
-                <p><a href={store_location_link}>
+                <p><a href={JSON.stringify({store_location_link})}>
                 <h2  className={styles.visitStoreTitle}>Visit Store</h2>
                 </a></p>              
             </div>

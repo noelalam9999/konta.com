@@ -146,7 +146,9 @@ export function Product_upload(props){
     if (error) return <p>Error :(</p>;
            
         
-  
+        const sleep = (milliseconds) => {
+            return new Promise(resolve => setTimeout(resolve, milliseconds))
+          }
     const onSubmit = (e) => {
        
         e.preventDefault();
@@ -175,7 +177,7 @@ export function Product_upload(props){
         //             alert('Failed to upload Product')
         //         }
         //     })
-
+        
         let mod_id = new Array();
         {data.user.map(({id},index) => (
             mod_id[index]=id
@@ -214,8 +216,8 @@ export function Product_upload(props){
         setTitleValue('');  
        
         }
-        const Redirect = ()=> {
-            
+        async function Redirect() {
+            await sleep(5000)
           let product_id_var;
           product_id.data.products.map(({Product_id})=>(
              product_id_var = Product_id+1 

@@ -46,6 +46,11 @@ code {
   color: #000000;
   font-weight: bold;
 }
+.styleinfo_productDescription {
+  font-size: 20px;
+  color: #000000;
+  font-weight: bold;
+}
 .styleinfo_productlocation {
   font-size: larger;
   color: rgb(0, 0, 0);
